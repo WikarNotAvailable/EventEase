@@ -27,4 +27,12 @@ const express_1 = require("express");
 const controller = __importStar(require("./userTypeController"));
 const userTypeRoutes = (0, express_1.Router)();
 userTypeRoutes.post("/", controller.postUserType);
-exports.default = userTypeRoutes;
+/*
+Body for Post
+
+{
+    "name": string,
+}
+
+
+export default userTypeRoutes; 
