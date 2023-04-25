@@ -35,7 +35,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateUser = exports.deleteUser = exports.getUserById = exports.getUsers = exports.postUser = void 0;
+exports.loginUser = exports.updateUser = exports.deleteUser = exports.getUserById = exports.getUsers = exports.postUser = void 0;
 const db_1 = __importDefault(require("../../db"));
 const queries = __importStar(require("./userQueries"));
 const postUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -133,3 +133,29 @@ const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.updateUser = updateUser;
+const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        console.log("xd");
+        const { email, password } = req.body;
+        console.log(email);
+        const emailInDatabase = yield db_1.default.query(queries.checkEmailExists, [email]);
+        console.log(emailInDatabase);
+        if (!emailInDatabase.rows.length) {
+            return res.json({ message: "Email does not exist." });
+        }
+        else {
+            db_1.default.query(queries.loginUser, [email, password], (error, results) => {
+                if (results.rows.length) {
+                    return res.status(200).json({ login: "Succeeded" });
+                }
+                else {
+                    return res.status(200).json({ login: "Failed" });
+                }
+            });
+        }
+    }
+    catch (err) {
+        return res.json(err);
+    }
+});
+exports.loginUser = loginUser;

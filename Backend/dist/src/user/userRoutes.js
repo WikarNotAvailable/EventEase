@@ -31,6 +31,7 @@ userRoutes.get("/", controller.getUsers);
 userRoutes.get("/:id", controller.getUserById);
 userRoutes.delete("/:id", controller.deleteUser);
 userRoutes.put("/:id", controller.updateUser);
+userRoutes.post("/login", controller.loginUser);
 exports.default = userRoutes;
 /*
 Body for Post
@@ -57,4 +58,9 @@ Body for Update
     "password": string
 }
 
+Body for Login
+{
+    "email": string,
+    "password": string
+}
 */ 

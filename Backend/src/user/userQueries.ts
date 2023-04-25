@@ -5,4 +5,5 @@ export const checkPhoneNumberExists = "SELECT * from users WHERE phone_number = 
 export const getUsers = "Select * FROM users";
 export const getUserById = "Select * FROM users WHERE user_id = $1";
 export const deleteUser = "Delete FROM users WHERE user_id = $1";
-export const updateUser = "Update users SET name = $1, surname = $2, email = $3, phone_number = $4, birthday = $5, password = $6 WHERE user_id = $7 RETURNING *"
+export const updateUser = "Update users SET name = $1, surname = $2, email = $3, phone_number = $4, birthday = $5, password = $6 WHERE user_id = $7 RETURNING *";
+export const loginUser = "SELECT * from users WHERE email = $1 and password = $2";

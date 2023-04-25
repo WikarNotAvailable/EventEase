@@ -13,20 +13,20 @@ export const postUser = async (req: any, res: any) => {
         const userTypeInDatabase: QueryResult<any> = await pool.query(queries.checkUserTypeExists, [userTypeID]);
 
         if (emailInDatabase.rows.length){
-            return res.json({message: "Email already exists."});
+            return res.status(400).json({message: "Email already exists."});
         }
         else if (phoneNumberInDatabase.rows.length){
-            return res.json({message: "Phone number already exists."});
+            return res.status(400).json({message: "Phone number already exists."});
         }
         else if (userTypeInDatabase.rows.length == 0){
-            return res.json({message: "User type does not exist."});
+            return res.status(400).json({message: "User type does not exist."});
         }
         else {
             const newUser: QueryResult<any> = await pool.query(queries.addUser, [userTypeID, name, surname, email, phoneNumber, birthday, password]);
             return res.status(201).json(newUser.rows);
         }
     }catch(err: any){
-        return res.json(err);
+        return res.status(400).json(err);
     }
 }
 
@@ -38,7 +38,7 @@ export const getUsers = async (req: any,res: any) => {
             res.status(200).json(results.rows);
         })
     }catch(err: any){
-        return res.json(err);
+        return res.status(400).json(err);
     }
 }
 
@@ -53,11 +53,11 @@ export const getUserById = async (req: any,res: any) => {
                 res.status(200).json(results.rows);
             }
             else{
-                res.json({message: "User does not exist. (Non existent id)"})
+                res.status(400).json({message: "User does not exist. (Non existent id)"})
             }  
         })
     }catch(err: any){
-        return res.json(err);
+        return res.status(400).json(err);
     }
 }
 
@@ -67,7 +67,7 @@ export const deleteUser = async (req: any,res: any) => {
         const user: QueryResult<any> = await pool.query(queries.getUserById, [id]);
 
         if(!user.rows.length){
-            res.json({message: "User does not exist. (Non existent id)"})
+            res.status(400).json({message: "User does not exist. (Non existent id)"})
         }
         else {
             pool.query(queries.deleteUser, [id], (error, results) => {
@@ -77,7 +77,7 @@ export const deleteUser = async (req: any,res: any) => {
             })
         }
     }catch(err: any){
-        return res.json(err);
+        return res.status(400).json(err);
     }
 }
 
@@ -88,13 +88,40 @@ export const updateUser = async (req: any,res: any) => {
         const user: QueryResult<any> = await pool.query(queries.getUserById, [id]);
         
         if(!user.rows.length){
-            res.json({message: "User does not exist. (Non existent id)"})
+            res.status(400).json({message: "User does not exist. (Non existent id)"})
         }
         else {
             const newUser: QueryResult<any>  = await pool.query(queries.updateUser, [name, surname, email, phoneNumber, birthday, password, id]);
             res.json(newUser.rows);
         }
     }catch(err: any){
-        return res.json(err);
+        return res.status(400).json(err);
+    }
+}
+
+export const loginUser = async (req: any, res: any) => {
+    try{ 
+        console.log("xd");
+        const {email, password} = req.body;
+        console.log(email);
+        const emailInDatabase: QueryResult<any> = await pool.query(queries.checkEmailExists, [email]); 
+        console.log(emailInDatabase);
+
+        if (!emailInDatabase.rows.length){
+            return res.json({message: "Email does not exist."});
+        }
+        else {
+            pool.query(queries.loginUser, [email,  password], (error, results) => {
+                if(results.rows.length){
+                    return res.status(200).json({login: "Succeeded"});
+                }
+                else{
+                    return res.status(400).json({login: "Failed"});
+                }
+            })
+            
+        }
+    }catch(err: any){
+        return res.status(400).json(err);
     }
 }
