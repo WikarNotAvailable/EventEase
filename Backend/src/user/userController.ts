@@ -113,7 +113,7 @@ export const loginUser = async (req: any, res: any) => {
         else {
             pool.query(queries.loginUser, [email,  password], (error, results) => {
                 if(results.rows.length){
-                    return res.status(200).json({login: "Succeeded"});
+                    return res.status(200).json({login: "Succeeded", userData: results.rows});
                 }
                 else{
                     return res.status(400).json({login: "Failed"});

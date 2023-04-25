@@ -146,7 +146,7 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         else {
             db_1.default.query(queries.loginUser, [email, password], (error, results) => {
                 if (results.rows.length) {
-                    return res.status(200).json({ login: "Succeeded" });
+                    return res.status(200).json({ login: "Succeeded", userData: results.rows });
                 }
                 else {
                     return res.status(400).json({ login: "Failed" });
