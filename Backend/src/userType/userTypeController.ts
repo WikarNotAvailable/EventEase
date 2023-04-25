@@ -7,7 +7,7 @@ export const postUserType = async (req: any,res: any) => {
       const {userTypeName} : Record<string, any> = req.body;
       const newUserType : QueryResult<any> = await pool.query(queries.addUserType, [userTypeName]);
   
-      res.json(newUserType);
+      res.json(newUserType.rows);
     }catch(err: any){
       res.status(500).json(err);
     }

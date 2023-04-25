@@ -12,6 +12,6 @@ export const NavSearch = () => {
                 <AiOutlineSearch color="white"/>
             </Button>
         </InputRightElement>
-  </InputGroup>
+    </InputGroup>
     )
 }

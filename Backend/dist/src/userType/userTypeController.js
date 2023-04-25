@@ -42,7 +42,7 @@ const postUserType = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     try {
         const { userTypeName } = req.body;
         const newUserType = yield db_1.default.query(queries.addUserType, [userTypeName]);
-        res.json(newUserType);
+        res.json(newUserType.rows);
     }
     catch (err) {
         res.status(500).json(err);
