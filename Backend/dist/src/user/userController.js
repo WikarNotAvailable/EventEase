@@ -45,13 +45,13 @@ const postUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const phoneNumberInDatabase = yield db_1.default.query(queries.checkPhoneNumberExists, [phoneNumber]);
         const userTypeInDatabase = yield db_1.default.query(queries.checkUserTypeExists, [userTypeID]);
         if (emailInDatabase.rows.length) {
-            return res.json({ message: "Email already exists." });
+            return res.status(400).json({ message: "Email already exists." });
         }
         else if (phoneNumberInDatabase.rows.length) {
-            return res.json({ message: "Phone number already exists." });
+            return res.status(400).json({ message: "Phone number already exists." });
         }
         else if (userTypeInDatabase.rows.length == 0) {
-            return res.json({ message: "User type does not exist." });
+            return res.status(400).json({ message: "User type does not exist." });
         }
         else {
             const newUser = yield db_1.default.query(queries.addUser, [userTypeID, name, surname, email, phoneNumber, birthday, password]);
@@ -59,7 +59,7 @@ const postUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         }
     }
     catch (err) {
-        return res.json(err);
+        return res.status(400).json(err);
     }
 });
 exports.postUser = postUser;
@@ -72,7 +72,7 @@ const getUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
     }
     catch (err) {
-        return res.json(err);
+        return res.status(400).json(err);
     }
 });
 exports.getUsers = getUsers;
@@ -86,12 +86,12 @@ const getUserById = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
                 res.status(200).json(results.rows);
             }
             else {
-                res.json({ message: "User does not exist. (Non existent id)" });
+                res.status(400).json({ message: "User does not exist. (Non existent id)" });
             }
         });
     }
     catch (err) {
-        return res.json(err);
+        return res.status(400).json(err);
     }
 });
 exports.getUserById = getUserById;
@@ -100,7 +100,7 @@ const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         const id = parseInt(req.params.id);
         const user = yield db_1.default.query(queries.getUserById, [id]);
         if (!user.rows.length) {
-            res.json({ message: "User does not exist. (Non existent id)" });
+            res.status(400).json({ message: "User does not exist. (Non existent id)" });
         }
         else {
             db_1.default.query(queries.deleteUser, [id], (error, results) => {
@@ -111,7 +111,7 @@ const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         }
     }
     catch (err) {
-        return res.json(err);
+        return res.status(400).json(err);
     }
 });
 exports.deleteUser = deleteUser;
@@ -121,7 +121,7 @@ const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         const { name, surname, email, phoneNumber, birthday, password } = req.body;
         const user = yield db_1.default.query(queries.getUserById, [id]);
         if (!user.rows.length) {
-            res.json({ message: "User does not exist. (Non existent id)" });
+            res.status(400).json({ message: "User does not exist. (Non existent id)" });
         }
         else {
             const newUser = yield db_1.default.query(queries.updateUser, [name, surname, email, phoneNumber, birthday, password, id]);
@@ -129,7 +129,7 @@ const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         }
     }
     catch (err) {
-        return res.json(err);
+        return res.status(400).json(err);
     }
 });
 exports.updateUser = updateUser;
@@ -149,13 +149,13 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                     return res.status(200).json({ login: "Succeeded" });
                 }
                 else {
-                    return res.status(200).json({ login: "Failed" });
+                    return res.status(400).json({ login: "Failed" });
                 }
             });
         }
     }
     catch (err) {
-        return res.json(err);
+        return res.status(400).json(err);
     }
 });
 exports.loginUser = loginUser;

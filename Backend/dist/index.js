@@ -10,6 +10,6 @@ const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use("/api/users", userRoutes_1.default);
 app.use("/api/userTypes", userTypeRoutes_1.default);
-app.listen(5000, () => {
+app.listen(8000, () => {
     console.log("Server is listening on port 5000");
 });

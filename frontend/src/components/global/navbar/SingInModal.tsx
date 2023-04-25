@@ -33,21 +33,16 @@ export const SingInModal: FC<ISignInModalProps> = ({ isOpen, onClose, onOpen, is
             setErrorMessage('')
             onClose();
         }
-        // setIsLoading(true);
-        //   const data = {
-        //       userTypeID: 3,
-        //       name: "Patryk",
-        //       surname: "Rossa",
-        //       email: formState.emailValue,
-        //       phoneNumber: "+48512807778",
-        //       birthday: "12/28/2001", 
-        //       password: formState.passwordValue
-        //   }
-        //   axios.post("http://localhost:8000/api/users", data).then((res: any) => {
-        //     console.log(res);
-        //     setIsLoading(false);
-        //     onClose();
-        //   })
+        setIsLoading(true);
+          const data = {
+              email: formState.emailValue,
+              password: formState.passwordValue
+          }
+          axios.post("http://localhost:8000/api/users/login", data).then((res: any) => {
+            console.log(res);
+            setIsLoading(false);
+            onClose();
+          })
     }
 
   return (
