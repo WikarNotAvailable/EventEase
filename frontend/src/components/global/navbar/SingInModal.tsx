@@ -1,6 +1,7 @@
 import { Button, Flex, Input, Link, Text } from '@chakra-ui/react';
 import axios from 'axios';
 import React, { FC, useReducer, useState } from 'react'
+import useUserContext from '../../../provider/user';
 import { GlobalModal } from '../modal/Modal';
 import { signInReducer } from './signInReducer';
 import { SingUpModal } from './SignUpModal';
@@ -24,6 +25,8 @@ export const SingInModal: FC<ISignInModalProps> = ({ isOpen, onClose, onOpen, is
 
     const [errorMessage, setErrorMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+  
+    const { logIn, email } = useUserContext();
 
     const handleSubmit = async () => {
         if (!formState.isEmailValid) setErrorMessage('Incorrect email')
@@ -42,6 +45,8 @@ export const SingInModal: FC<ISignInModalProps> = ({ isOpen, onClose, onOpen, is
             console.log(res);
             setIsLoading(false);
             onClose();
+            const data = res.data.userData[0];
+            logIn(data);
           })
     }
 

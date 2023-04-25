@@ -1,4 +1,4 @@
-import React, { createContext, useContext } from "react";
+import React, { createContext, useContext, useState } from "react";
 
 const UserContext = createContext({
     isLoggedIn: false,
@@ -7,18 +7,50 @@ const UserContext = createContext({
     email: '',
     password: '',
     dateOfBirth: '',
-    phoneNumber: ''
+    phoneNumber: '',
+    logIn: (d: any) => { },
+    logOut: () => {}
 })
 
 export const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
+    const handleLogin = (data: any) => {
+        setIsLoggedIn(true);
+        setFirstName(data.name)
+        setSurname(data.surname)
+        setEmail(data.email)
+        setPassword(data.password)
+        setDateOfBirth(data.birthday)
+        setPhoneNumber(data.phone_number)
+    }
+
+    const handleLogout = () => {
+        setIsLoggedIn(false);
+        setFirstName('')
+        setSurname('')
+        setEmail('')
+        setPassword('')
+        setDateOfBirth('')
+        setPhoneNumber('')
+    }
+
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [firstName, setFirstName] = useState('');
+    const [surname, setSurname] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [dateOfBirth, setDateOfBirth] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
+
     const data = {
-        isLoggedIn: false,
-        firstName: '',
-        surname: '',
-        email: '',
-        password: '',
-        dateOfBirth: '',
-        phoneNumber: ''
+        isLoggedIn: isLoggedIn,
+        firstName: firstName,
+        surname: surname,
+        email: email,
+        password: password,
+        dateOfBirth: dateOfBirth,
+        phoneNumber: phoneNumber,
+        logIn: handleLogin,
+        logOut: handleLogout
     }
 
     return (
@@ -29,9 +61,12 @@ export const UserContextProvider = ({ children }: { children: React.ReactNode })
 }
 
 const useUserContext = () => {
-    const { isLoggedIn, firstName, surname, email, password, dateOfBirth, phoneNumber } = useContext(UserContext);
+    const context = useContext(UserContext);
 
-    return { isLoggedIn, firstName, surname, email, password, dateOfBirth, phoneNumber }
+    if (!context) {
+        throw new Error('`useUserProvider` hook cannot be used outside of a `UserProvider`!');
+    }
+    return context
 }
 
 export default useUserContext;

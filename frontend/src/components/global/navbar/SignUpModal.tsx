@@ -1,6 +1,7 @@
 import { Button, Flex, Input, Link, Text } from '@chakra-ui/react';
 import axios from 'axios';
 import React, { FC, useReducer, useState } from 'react'
+import useUserContext from '../../../provider/user';
 import { GlobalModal } from '../modal/Modal';
 import { signUpReducer } from './signUpReducer';
 import { SingInModal } from './SingInModal';
