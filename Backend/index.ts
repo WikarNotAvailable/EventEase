@@ -1,15 +1,14 @@
-import express, { Express, Request, Response } from 'express';
-import dotenv from 'dotenv';
-
-dotenv.config();
+import express, { Express, Request, Response } from "express";
+import userTypeRoutes from "./src/userType/userTypeRoutes";
+import userRoutes from "./src/user/userRoutes";
 
 const app: Express = express();
-const port = process.env.PORT;
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('Express + TypeScript Server');
-});
+app.use(express.json())
 
-app.listen(port, () => {
-  console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
-});
+app.use("/api/users", userRoutes);
+app.use("/api/userTypes", userTypeRoutes);
+
+app.listen(5000, () =>{
+  console.log("Server is listening on port 5000");
+})
