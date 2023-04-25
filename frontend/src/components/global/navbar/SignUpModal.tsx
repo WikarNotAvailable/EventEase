@@ -38,22 +38,22 @@ export const SingUpModal: FC<ISignUpModalProps> = ({ isOpen, onClose, onOpen, is
         else {
             dispatchForm({type: 'FORM_SUBMIT'})
             setErrorMessage('')
+            setIsLoading(true);
+            const data = {
+                userTypeID: 3,
+                name: formState.firstNameValue,
+                surname: formState.surnameValue,
+                email: formState.emailValue,
+                phoneNumber: formState.phoneNumberValue,
+                birthday: formState.dateOfBirthValue, 
+                password: formState.passwordValue
+            }
+            axios.post("http://localhost:8000/api/users", data).then((res: any) => {
+              console.log(res);
+              setIsLoading(false);
+              onClose();
+            })
         }
-        setIsLoading(true);
-        const data = {
-            userTypeID: 3,
-            name: formState.firstNameValue,
-            surname: formState.surnameValue,
-            email: formState.emailValue,
-            phoneNumber: formState.phoneNumberValue,
-            birthday: formState.dateOfBirthValue, 
-            password: formState.passwordValue
-        }
-        axios.post("http://localhost:8000/api/users", data).then((res: any) => {
-          console.log(res);
-          setIsLoading(false);
-          onClose();
-        })
     }
 
   return (
