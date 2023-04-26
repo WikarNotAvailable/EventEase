@@ -6,7 +6,7 @@ export const CarouselPhoto = () => {
 
   return (
     <Box
-        backgroundImage='event.jpg'
+        backgroundImage='/assets/photos/event.jpg'
         backgroundSize="cover"
         backgroundPosition="center"
         height="300px"
@@ -38,9 +38,7 @@ export const CarouselPhoto = () => {
                     >
                 Warszawa - 31.12.2023
             </Text>
-
         </Grid>
-        
     </Box>
   )
 }

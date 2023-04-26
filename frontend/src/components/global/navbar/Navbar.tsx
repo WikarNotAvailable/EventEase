@@ -23,18 +23,6 @@ export const Navbar = () => {
             <NavLink text="Artists" />
             <NavLink text="Places" />
             <NavSearch />
-            {/* <Flex position="relative" align="center" gap="8px" onClick={() => isOpen ? onClose() : onOpen()} cursor="pointer">
-              {isLoggedIn && <Text fontSize="16px" fontWeight="600">{ firstName }</Text>}
-              <MdAccountCircle size="35px" />
-              {isOpen && <Flex flexDir="column" position="absolute" top="35px" bgColor="backgroundSecondary" w="80px" borderRadius="20px"
-                border="1px solid #696F8C">
-              {isLoggedIn ?
-                <Flex borderRadius="20px" p="8px" fontWeight="600" cursor="pointer" justify="center" align="center" fontSize="12px" onClick={logOut} _hover={{ bgColor: '#696F8C' }}>Logout</Flex>: <>
-                <Flex borderRadius="20px 20px 0 0" p="8px" fontWeight="600" cursor="pointer" justify="center" align="center" fontSize="12px" onClick={() => { onSingInOpen(); onClose(); }} _hover={{bgColor: '#696F8C'}}>Sign in</Flex>
-                <Flex borderRadius="0 0 20px 20px" p="8px" fontWeight="600" cursor="pointer" justify="center" align="center" fontSize="12px" onClick={() => { onSingUpOpen(); onClose(); }} _hover={{ bgColor: '#696F8C' }}>Sign up</Flex>
-                </>}
-              </Flex>}
-            </Flex> */}
             <NavProfile signInOpen={onSingInOpen} signUpOpen={onSingUpOpen} />
         </Flex>
     </Flex>

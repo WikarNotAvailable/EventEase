@@ -1,36 +1,36 @@
-import { Container } from '@chakra-ui/react'
-import { CategoryCarousel } from '../components/HomeComponents/CategoryCarousel'
+import { CategoryCarousel } from '../components/pages/home/carousel/CategoryCarousel'
 
 
 import 'swiper/css';
-import { CategoryName } from '../components/HomeComponents/CategoryName';
+import { CategoryName } from '../components/pages/home/carousel/CategoryName';
+import { PageContainer } from '../components/shared/containers/PageContainer';
+import { Flex } from '@chakra-ui/react';
 
 export const Home = () => {
   return (
- 
-    <Container centerContent maxWidth={"85%"}> 
-      <CategoryName categoryName='Music'></CategoryName>     
-      <CategoryCarousel ></CategoryCarousel>
+    <PageContainer isCentered> 
+      <Flex flexDir="column" w="100%" align="center">
+        <CategoryName text='Music'></CategoryName>     
+        <CategoryCarousel />
 
-      <CategoryName categoryName='Sport'></CategoryName>     
-      <CategoryCarousel ></CategoryCarousel>
+        <CategoryName text='Sport'></CategoryName>     
+        <CategoryCarousel />
 
-      <CategoryName categoryName='Festivals'></CategoryName>     
-      <CategoryCarousel ></CategoryCarousel>
+        <CategoryName text='Festivals'></CategoryName>     
+        <CategoryCarousel />
 
-      <CategoryName categoryName='Art and theater'></CategoryName>     
-      <CategoryCarousel ></CategoryCarousel>
+        <CategoryName text='Art and theater'></CategoryName>     
+        <CategoryCarousel />
 
-      <CategoryName categoryName='Special'></CategoryName>     
-      <CategoryCarousel ></CategoryCarousel>
+        <CategoryName text='Special'></CategoryName>     
+        <CategoryCarousel />
 
-      <CategoryName categoryName='Cabaret'></CategoryName>     
-      <CategoryCarousel ></CategoryCarousel>
+        <CategoryName text='Cabaret'></CategoryName>     
+        <CategoryCarousel />
 
-      <CategoryName categoryName='Family'></CategoryName>     
-      <CategoryCarousel ></CategoryCarousel>
-
-
-    </Container>
+        <CategoryName text='Family'></CategoryName>     
+        <CategoryCarousel />
+      </Flex>
+    </PageContainer>
   )
 }

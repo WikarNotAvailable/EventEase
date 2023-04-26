@@ -5,6 +5,7 @@ import { CarouselPhoto } from './CarouselPhoto';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
+
 export const CategoryCarousel = () => {
   const breakpoints = {
     // when window width is >= 640px
@@ -20,8 +21,7 @@ export const CategoryCarousel = () => {
   };
  
   return (
-
-    <Flex  width={"inherit"} marginBottom={2}  alignItems={'center'}>
+    <Flex  width="inherit" marginBottom={2}  alignItems='center'>
 
         <Swiper  
             navigation
@@ -30,29 +30,34 @@ export const CategoryCarousel = () => {
               disableOnInteraction: false,
               pauseOnMouseEnter: true,
             }}
-            
             slidesPerView={3}
             spaceBetween={3}
-            loop={true}
+            loop
             breakpoints={breakpoints}
-            centeredSlides={true}
+            centeredSlides
             modules={[Navigation, Autoplay]}
             >
-            <SwiperSlide><CarouselPhoto/><Text cursor={'default'} textColor={'#F9FAFB'}>coś się zbugowało i nie renderuje bez tekstu a wcześniej działało xd</Text></SwiperSlide>
-            <SwiperSlide><CarouselPhoto/></SwiperSlide>
-            <SwiperSlide><CarouselPhoto/></SwiperSlide>
-            <SwiperSlide><CarouselPhoto/></SwiperSlide>
-            <SwiperSlide><CarouselPhoto/></SwiperSlide>
-            <SwiperSlide><CarouselPhoto/></SwiperSlide>
-            
-            
+            <SwiperSlide>
+              <CarouselPhoto/>
+              <Text cursor={'default'} textColor={'#F9FAFB'}>coś się zbugowało i nie renderuje bez tekstu a wcześniej działało xd</Text>
+            </SwiperSlide>
+            <SwiperSlide>
+              <CarouselPhoto/>
+            </SwiperSlide>
+            <SwiperSlide>
+              <CarouselPhoto/>
+            </SwiperSlide>
+            <SwiperSlide>
+              <CarouselPhoto/>
+            </SwiperSlide>
+            <SwiperSlide>
+              <CarouselPhoto/>
+            </SwiperSlide>
+            <SwiperSlide>
+              <CarouselPhoto/>
+            </SwiperSlide>
         </Swiper>
-
-       
-
     </Flex>
-   
-
 
   )
 }

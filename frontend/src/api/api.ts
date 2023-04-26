@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { AxiosRequestConfig, AxiosResponse } from "axios";
+import type { AxiosRequestConfig } from "axios";
 
 class ApiService {
     private baseUrl = "http://localhost:8000/api";
