@@ -1,37 +1,37 @@
 export const signUpReducer = (state: any, action: any) => {
     if (action.type === 'EMAIL_CHANGE') {
         var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-        var isValid = false;
+        var emailValid = false;
 
-        if(action.val.match(validRegex)) isValid = true;
+        if(action.val.match(validRegex)) emailValid = true;
 
         return {
             ...state,
-            isEmailValid: isValid,
+            isEmailValid: emailValid,
             emailValue: action.val
         }
     }
 
     if (action.type === 'PASSWORD_CHANGE') {
-        var isValid = false;
+        var passwordValid = false;
 
-        if(action.val.length > 6) isValid = true;
+        if(action.val.length > 6) passwordValid = true;
 
         return {
             ...state,
-            isPasswordValid: isValid,
+            isPasswordValid: passwordValid,
             passwordValue: action.val
         }
     }
 
     if (action.type === 'PASSWORD_CONFIRMATION_CHANGE') {
-        var isValid = false;
+        var passwordConfirmationValid = false;
 
-        if(action.val.length > 6 && action.val == state.passwordValue) isValid = true;
+        if(action.val.length > 6 && action.val === state.passwordValue) passwordConfirmationValid = true;
 
         return {
             ...state,
-            isPasswordConfirmationValid: isValid,
+            isPasswordConfirmationValid: passwordConfirmationValid,
             passwordConfirmationValue: action.val
         }
     }
