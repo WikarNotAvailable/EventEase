@@ -17,27 +17,36 @@ userRoutes.post("/login", controller.loginUser);
 export default userRoutes;
 
 /*
-Body for Post
+Reponse get
+{
+    "user_id": int,
+    "usertype_id": int,
+    "name": string,
+    "surname": string,
+    "email": string,
+    "phone_number": string,
+    "birthday": date,
+    "password": "password"
+}
 
+Body for Post
 {
     "userTypeID": int,
     "name": string,
     "surname": string,
     "email": string,
     "phoneNumber": "string,
-    "birthday": string, 
+    "birthday": date, 
     "password": string
 }
 
-
-Body for Update
-
+Body for Update //all fields optional 
 {
     "name": string,
     "surname": string,
     "email": string,
     "phoneNumber": "string,
-    "birthday": string, 
+    "birthday": date, 
     "password": string
 }
 

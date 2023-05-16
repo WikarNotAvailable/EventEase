@@ -16,14 +16,17 @@ userTypeRoutes.put("/:id", controller.updateUserType);
 export default userTypeRoutes;
 
 /*
+Reponse get
+{
+    "usertype_id": int,
+    "name": string
+}
 Body for Post
-
 {
     "userTypeName": string,
 }
 
-Body for Update
-
+Body for Update //obligatory field below
 {
     "userTypeName": string,
 }
