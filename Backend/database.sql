@@ -19,3 +19,14 @@ CREATE TABLE users(
         ON DELETE SET NULL
         ON UPDATE NO ACTION
 );
+
+CREATE TABLE performers(
+    performer_id SERIAL PRIMARY KEY,
+    performertype_id INTEGER,
+    name VARCHAR (100) NOT NULL UNIQUE,
+    description text,
+    CONSTRAINT fk_performertype FOREIGN KEY(performertype_id)
+        REFERENCES performertypes(performertype_id)
+        ON DELETE SET NULL
+        ON UPDATE NO ACTION
+);
