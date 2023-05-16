@@ -10,5 +10,5 @@ app.use("/api/users", userRoutes);
 app.use("/api/userTypes", userTypeRoutes);
 
 app.listen(8000, () =>{
-  console.log("Server is listening on port 5000");
+  console.log("Server is listening on port 8000");
 })
