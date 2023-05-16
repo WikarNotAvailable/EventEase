@@ -101,11 +101,8 @@ export const updateUser = async (req: any,res: any) => {
 
 export const loginUser = async (req: any, res: any) => {
     try{ 
-        console.log("xd");
         const {email, password} = req.body;
-        console.log(email);
         const emailInDatabase: QueryResult<any> = await pool.query(queries.checkEmailExists, [email]); 
-        console.log(emailInDatabase);
 
         if (!emailInDatabase.rows.length){
             return res.json({message: "Email does not exist."});
