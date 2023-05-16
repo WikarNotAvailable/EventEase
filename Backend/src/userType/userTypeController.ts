@@ -47,7 +47,7 @@ export const deleteUser = async (req: any,res: any) => {
       const user: QueryResult<any> = await pool.query(queries.getUserTypeById, [id]);
 
       if(!user.rows.length){
-          res.status(400).json({message: "User does not exist. (Non existent id)"})
+          res.status(400).json({message: "UserType does not exist. (Non existent id)"})
       }
       else {
           pool.query(queries.deleteUserTypeById, [id], (error, results) => {
@@ -55,6 +55,23 @@ export const deleteUser = async (req: any,res: any) => {
 
           res.status(200).json({message: "Successfully deleted."});
           })
+      }
+  }catch(err: any){
+      return res.status(400).json(err);
+  }
+}
+export const updateUserType = async (req: any,res: any) => {
+  try{
+      const id = parseInt(req.params.id);
+      const {userTypeName} = req.body;
+      const user: QueryResult<any> = await pool.query(queries.getUserTypeById, [id]);
+      
+      if(!user.rows.length){
+          res.status(400).json({message: "UserType does not exist. (Non existent id)"})
+      }
+      else {
+          const newUserType: QueryResult<any>  = await pool.query(queries.updateUserType, [userTypeName, id]);
+          res.json(newUserType.rows);
       }
   }catch(err: any){
       return res.status(400).json(err);
