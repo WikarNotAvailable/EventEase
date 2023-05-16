@@ -4,7 +4,7 @@ const pg_1 = require("pg");
 const pool = new pg_1.Pool({
     user: "postgres",
     password: "postgres",
-    database: "postgres",
+    database: "eventease_database",
     host: "localhost",
     port: 5432
 });
