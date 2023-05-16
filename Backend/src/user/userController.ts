@@ -84,11 +84,40 @@ export const deleteUser = async (req: any,res: any) => {
 export const updateUser = async (req: any,res: any) => {
     try{
         const id = parseInt(req.params.id);
-        const {name, surname, email, phoneNumber, birthday, password} = req.body;
+        let {name, surname, email, phoneNumber, birthday, password} = req.body;
         const user: QueryResult<any> = await pool.query(queries.getUserById, [id]);
-        
+
+        let emailInDatabase: QueryResult<any> | null = null;           
+        let phoneNumberInDatabase: QueryResult<any> | null = null;
+            
+        if(name == null)
+            name = user.rows[0]["name"];
+        if(surname == null)
+            surname = user.rows[0]["surname"];
+
+        if(email == null)
+            email = user.rows[0]["email"];
+        else
+            emailInDatabase = await pool.query(queries.checkEmailExists, [email]); 
+
+        if(phoneNumber == null)
+            phoneNumber = user.rows[0]["phone_number"];
+        else
+            phoneNumberInDatabase = await pool.query(queries.checkPhoneNumberExists, [phoneNumber]); 
+
+        if(birthday == null)
+            birthday = user.rows[0]["birthday"];
+        if(password == null)
+            password = user.rows[0]["password"];
+    
         if(!user.rows.length){
             res.status(400).json({message: "User does not exist. (Non existent id)"})
+        }
+        else if (emailInDatabase != null && emailInDatabase.rows.length && id != user.rows[0]["user_id"]){
+            return res.status(400).json({message: "Email already exists."});
+        }
+        else if (phoneNumberInDatabase != null && phoneNumberInDatabase.rows.length && id != user.rows[0]["user_id"]){
+            return res.status(400).json({message: "Phone number already exists."});
         }
         else {
             const newUser: QueryResult<any>  = await pool.query(queries.updateUser, [name, surname, email, phoneNumber, birthday, password, id]);
