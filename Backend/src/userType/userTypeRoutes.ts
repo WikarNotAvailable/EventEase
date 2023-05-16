@@ -6,6 +6,7 @@ const userTypeRoutes : Router = Router();
 userTypeRoutes.post("/", controller.postUserType);
 userTypeRoutes.get("/", controller.getUserTypes);
 userTypeRoutes.get("/:id", controller.getUserTypeById);
+userTypeRoutes.delete("/:id", controller.deleteUser);
 
 export default userTypeRoutes;
 
