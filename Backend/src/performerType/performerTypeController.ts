@@ -13,6 +13,18 @@ export const postPerformerType = async (req: any,res: any) => {
     }
 }
 
+export const getPerformerTypes = async (req: any,res: any) => {
+  try{
+      pool.query(queries.getPerformerTypes, (error, results) => {
+          if (error) throw error;
+
+          res.status(200).json(results.rows);
+      })
+  }catch(err: any){
+      return res.status(400).json(err);
+  }
+}
+
 export const getPerformerTypeById = async (req: any,res: any) => {
   try{
       const id = parseInt(req.params.id);
