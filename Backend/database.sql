@@ -19,3 +19,8 @@ CREATE TABLE users(
         ON DELETE SET NULL
         ON UPDATE NO ACTION
 );
+
+CREATE TABLE spottypes(
+    spottype_id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE
+);
