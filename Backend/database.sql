@@ -29,3 +29,8 @@ CREATE TABLE transactionstatuses(
     transactionstatus_id SERIAL PRIMARY KEY,
     status VARCHAR(100) NOT NULL UNIQUE
 );
+
+CREATE TABLE tickettypes(
+    tickettype_id SERIAL PRIMARY KEY,
+    type VARCHAR(100) NOT NULL UNIQUE
+);
