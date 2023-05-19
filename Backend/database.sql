@@ -24,3 +24,8 @@ CREATE TABLE spottypes(
     spottype_id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL UNIQUE
 );
+
+CREATE TABLE transactionstatuses(
+    transactionstatus_id SERIAL PRIMARY KEY,
+    status VARCHAR(100) NOT NULL UNIQUE
+);
