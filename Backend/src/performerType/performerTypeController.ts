@@ -44,7 +44,7 @@ export const getPerformerTypeById = async (req: any,res: any) => {
   }
 }
 
-export const deletePefrormerType = async (req: any,res: any) => {
+export const deletePerformerType = async (req: any,res: any) => {
     try{
         const id = parseInt(req.params.id);
         const performerType: QueryResult<any> = await pool.query(queries.getPerformerTypeById, [id]);
@@ -63,3 +63,21 @@ export const deletePefrormerType = async (req: any,res: any) => {
         return res.status(400).json(err);
     }
 }
+
+export const updatePerformerType = async (req: any,res: any) => {
+    try{
+        const id = parseInt(req.params.id);
+        const {performerTypeName} = req.body;
+        const user: QueryResult<any> = await pool.query(queries.getPerformerTypeById, [id]);
+        
+        if(!user.rows.length){
+            res.status(400).json({message: "Performer Type does not exist. (Non existent id)"})
+        }
+        else {
+            const newPerformerType: QueryResult<any>  = await pool.query(queries.updatePerformerType, [performerTypeName, id]);
+            res.json(newPerformerType.rows);
+        }
+    }catch(err: any){
+        return res.status(400).json(err);
+    }
+  }
