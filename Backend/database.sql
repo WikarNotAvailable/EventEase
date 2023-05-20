@@ -34,3 +34,13 @@ CREATE TABLE tickettypes(
     tickettype_id SERIAL PRIMARY KEY,
     type VARCHAR(100) NOT NULL UNIQUE
 );
+
+CREATE TABLE eventImages(
+    eventImage_id SERIAL PRIMARY KEY,
+    url VARCHAR(500),
+    event_id INTEGER,
+    CONSTRAINT fk_event FOREIGN KEY (event_id)
+    REFERENCES events (event_id)
+    ON DELETE SET NULL
+    ON UPDATE NO ACTION
+);
