@@ -22,5 +22,5 @@ CREATE TABLE users(
 
 CREATE TABLE performertypes(
     performertype_id SERIAL PRIMARY KEY,
-    name VARCHAR (100) NOT NULL UNIQUE
+    type VARCHAR (100) NOT NULL UNIQUE
 );
