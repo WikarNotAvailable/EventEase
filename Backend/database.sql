@@ -20,6 +20,11 @@ CREATE TABLE users(
         ON UPDATE NO ACTION
 );
 
+CREATE TABLE performertypes (
+    performertype_id SERIAL PRIMARY KEY,
+    type VARCHAR(100) NOT NULL UNIQUE
+);
+
 CREATE TABLE performers(
     performer_id SERIAL PRIMARY KEY,
     performertype_id INTEGER,
@@ -41,11 +46,6 @@ CREATE TABLE transactionstatuses(
 
 CREATE TABLE tickettypes(
     tickettype_id SERIAL PRIMARY KEY,
-    type VARCHAR(100) NOT NULL UNIQUE
-);
-
-CREATE TABLE performertypes (
-    performertype_id SERIAL PRIMARY KEY,
     type VARCHAR(100) NOT NULL UNIQUE
 );
 
