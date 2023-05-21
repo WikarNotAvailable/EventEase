@@ -72,6 +72,7 @@ CREATE TABLE discussions(
         ON DELETE SET NULL,
     CONSTRAINT fk_event FOREIGN KEY(event_id)
         REFERENCES events(event_id)
+        ON DELETE SET NULL
 );
 
 CREATE TABLE comments(
@@ -81,9 +82,11 @@ CREATE TABLE comments(
     user_id INTEGER,
     discussion_id INTEGER,
     CONSTRAINT fk_user FOREIGN KEY(user_id)
-        REFERENCES users(user_id),
+        REFERENCES users(user_id)
+        ON DELETE SET NULL,
     CONSTRAINT fk_discussion FOREIGN KEY(discussion_id)
         REFERENCES discussions(discussion_id)
+        ON DELETE SET NULL
 );
 
 CREATE TABLE eventtypes(
@@ -125,9 +128,11 @@ CREATE TABLE spots(
     isopen BOOLEAN,
     spotimage VARCHAR(500),
     CONSTRAINT fk_spottype FOREIGN KEY(spottype_id)
-        REFERENCES spottypes(spottype_id),
+        REFERENCES spottypes(spottype_id)
+        ON DELETE SET NULL,
     CONSTRAINT fk_address FOREIGN KEY(address_id)
         REFERENCES addresses(address_id)
+        ON DELETE SET NULL
 );
 
 CREATE TABLE events(
