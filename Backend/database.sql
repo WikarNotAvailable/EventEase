@@ -35,10 +35,6 @@ CREATE TABLE tickettypes(
     type VARCHAR(100) NOT NULL UNIQUE
 );
 
-CREATE TABLE eventtypes(
-    eventtype_id SERIAL PRIMARY KEY,
-    name VARCHAR(100) NOT NULL UNIQUE
-);
 
 CREATE TABLE company(
     company_id SERIAL PRIMARY KEY,

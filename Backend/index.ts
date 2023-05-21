@@ -4,7 +4,6 @@ import userRoutes from "./src/user/userRoutes";
 import spotTypeRoutes from "./src/spotType/spotTypeRoutes";
 import transactionStatusRoutes from "./src/transactionStatus/transactionStatusRoutes";
 import ticketTypeRoutes from "./src/ticketType/ticketTypeRoutes";
-//import eventTypeRoutes from "./src/eventType/eventTypeRoutes";
 import companyRoutes from "./src/company/companyRoutes";
 
 const app: Express = express();
@@ -16,7 +15,6 @@ app.use("/api/userTypes", userTypeRoutes);
 app.use("/api/spotTypes", spotTypeRoutes);
 app.use("/api/transactionStatuses", transactionStatusRoutes);
 app.use("/api/ticketTypes", ticketTypeRoutes);
-//app.use("/api/eventTypes", eventTypeRoutes);
 app.use("/api/companies", companyRoutes);
 
 app.listen(8000, () =>{
