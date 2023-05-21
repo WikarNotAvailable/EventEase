@@ -64,3 +64,11 @@ CREATE TABLE transactions(
         ON DELETE SET NULL
         ON UPDATE NO ACTION
 );
+
+CREATE TABLE address(
+    address_id SERIAL PRIMARY KEY,
+    country VARCHAR(50) NOT NULL,
+    city VARCHAR(50) NOT NULL,
+    street VARCHAR(50) NOT NULL,
+    number VARCHAR(50) NOT NULL
+);
