@@ -18,40 +18,23 @@ export default companyRoutes;
 /*
 Reponse get
 {
-    "user_id": int,
-    "usertype_id": int,
+    "company_id": int,
     "name": string,
-    "surname": string,
-    "email": string,
-    "phone_number": string,
-    "birthday": date,
-    "password": "password"
+    "description": string,
+    "discussion_id": int,
+
 }
 
 Body for Post
 {
-    "userTypeID": int,
+    "discussionID": int,
     "name": string,
-    "surname": string,
-    "email": string,
-    "phoneNumber": "string,
-    "birthday": date, 
-    "password": string
+    "description": string
 }
 
 Body for Update //all fields optional 
 {
     "name": string,
-    "surname": string,
-    "email": string,
-    "phoneNumber": "string,
-    "birthday": date, 
-    "password": string
-}
-
-Body for Login
-{
-    "email": string,
-    "password": string
+    "description": string
 }
 */
