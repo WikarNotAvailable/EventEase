@@ -59,7 +59,7 @@ CREATE TABLE companies(
 ALTER TABLE companies 
 ADD CONSTRAINT fk_discussion FOREIGN KEY(discussion_id)
 REFERENCES discussions(discussion_id)
-ON DELETE CASCADE
+ON DELETE CASCADE;
 
 CREATE TABLE discussions(
     discussion_id SERIAL PRIMARY KEY,
@@ -72,7 +72,7 @@ CREATE TABLE discussions(
         ON DELETE SET NULL,
     CONSTRAINT fk_event FOREIGN KEY(event_id)
         REFERENCES events(event_id)
-        ON DELETE SET NULL
+        ON DELETE CASCADE
 );
 
 CREATE TABLE comments(
@@ -161,4 +161,4 @@ ADD CONSTRAINT fk_spot FOREIGN KEY(spot_id)
     CONSTRAINT fk_company FOREIGN KEY(company_id)
         REFERENCES companies(company_id)
         ON DELETE SET NULL
-        ON UPDATE NO ACTION
+        ON UPDATE NO ACTION;
