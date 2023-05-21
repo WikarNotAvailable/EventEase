@@ -32,6 +32,7 @@ CREATE TABLE performers(
     description text,
     CONSTRAINT fk_performertype FOREIGN KEY(performertype_id)
         REFERENCES performertypes(performertype_id)
+        ON DELETE SET NULL
 );
 
 CREATE TABLE spottypes(
