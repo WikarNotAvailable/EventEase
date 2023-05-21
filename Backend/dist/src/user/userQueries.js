@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.loginUser = exports.updateUser = exports.deleteUser = exports.getUserById = exports.getUsers = exports.checkPhoneNumberExists = exports.checkEmailExists = exports.checkUserTypeExists = exports.addUser = void 0;
+exports.getTransactionsForUser = exports.loginUser = exports.updateUser = exports.deleteUser = exports.getUserById = exports.getUsers = exports.checkPhoneNumberExists = exports.checkEmailExists = exports.checkUserTypeExists = exports.addUser = void 0;
 exports.addUser = "INSERT INTO users (usertype_id,name,surname,email,phone_number,birthday,password) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *";
 exports.checkUserTypeExists = "SELECT * from usertypes WHERE usertype_id = $1";
 exports.checkEmailExists = "SELECT * from users WHERE email = $1";
@@ -10,3 +10,4 @@ exports.getUserById = "Select * FROM users WHERE user_id = $1";
 exports.deleteUser = "Delete FROM users WHERE user_id = $1";
 exports.updateUser = "Update users SET name = $1, surname = $2, email = $3, phone_number = $4, birthday = $5, password = $6 WHERE user_id = $7 RETURNING *";
 exports.loginUser = "SELECT * from users WHERE email = $1 and password = $2";
+exports.getTransactionsForUser = "SELECT * FROM transactions INNER JOIN transactionstatuses on transactions.transactionstatus_id = transactionstatuses.transactionstatus_id WHERE transactions.user_id = $1";

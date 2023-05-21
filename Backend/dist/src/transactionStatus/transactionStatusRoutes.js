@@ -24,52 +24,25 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const controller = __importStar(require("./userController"));
-const userRoutes = (0, express_1.Router)();
-userRoutes.post("/", controller.postUser);
-userRoutes.get("/", controller.getUsers);
-userRoutes.get("/:id", controller.getUserById);
-userRoutes.delete("/:id", controller.deleteUser);
-userRoutes.put("/:id", controller.updateUser);
-userRoutes.post("/login", controller.loginUser);
-exports.default = userRoutes;
+const controller = __importStar(require("./transactionStatusController"));
+const transactionStatusRoutes = (0, express_1.Router)();
+transactionStatusRoutes.post("/", controller.postTransactionStatus);
+transactionStatusRoutes.get("/", controller.getTransactionStatuses);
+transactionStatusRoutes.get("/:id", controller.getTransactionStatusById);
+transactionStatusRoutes.delete("/:id", controller.deleteTransactionStatus);
+transactionStatusRoutes.put("/:id", controller.updateTransactionStatus);
+exports.default = transactionStatusRoutes;
 /*
-Reponse get
-{
-    "user_id": int,
-    "usertype_id": int,
-    "name": string,
-    "surname": string,
-    "email": string,
-    "phone_number": string,
-    "birthday": date,
-    "password": "password"
-}
+Body for post:
+ {
+    "status": string
+ }
 
-Body for Post
-{
-    "userTypeID": int,
-    "name": string,
-    "surname": string,
-    "email": string,
-    "phoneNumber": "string,
-    "birthday": date,
-    "password": string
-}
+ Response for get:
+ {
+   "transactionstatus_id": int
+   "status": string
+ }
 
-Body for Update //all fields optional
-{
-    "name": string,
-    "surname": string,
-    "email": string,
-    "phoneNumber": "string,
-    "birthday": date,
-    "password": string
-}
-
-Body for Login
-{
-    "email": string,
-    "password": string
-}
+ }
 */ 
