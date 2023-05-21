@@ -46,10 +46,12 @@ export const getUserById = async (req: any,res: any) => {
     try{
         const id = parseInt(req.params.id);
 
-        pool.query(queries.getUserById, [id], (error, results) => {
+        pool.query(queries.getUserById, [id], async (error, results) => {
             if (error) throw error;
 
-            if (results.rows.length){
+            if (results.rows.length){   
+                results.rows[0]["transactions"] = (await pool.query(queries.getTransactionsForUser, [results.rows[0]["user_id"]])).rows
+
                 res.status(200).json(results.rows);
             }
             else{
