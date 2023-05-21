@@ -66,9 +66,12 @@ CREATE TABLE discussions(
     name VARCHAR(100) NOT NULL UNIQUE,
     description text,
     company_id INTEGER,
+    event_id INTEGER,
     CONSTRAINT fk_company FOREIGN KEY(company_id)
         REFERENCES companies(company_id)
-        ON DELETE SET NULL
+        ON DELETE SET NULL,
+    CONSTRAINT fk_event FOREIGN KEY(event_id)
+        REFERENCES events(event_id)
 );
 
 CREATE TABLE comments(
