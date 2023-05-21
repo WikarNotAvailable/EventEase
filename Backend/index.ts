@@ -1,6 +1,7 @@
 import express, { Express, Request, Response } from "express";
 import userTypeRoutes from "./src/userType/userTypeRoutes";
 import userRoutes from "./src/user/userRoutes";
+import performerRoutes from "./src/performer/performerRoutes";
 import spotTypeRoutes from "./src/spotType/spotTypeRoutes";
 import transactionStatusRoutes from "./src/transactionStatus/transactionStatusRoutes";
 import ticketTypeRoutes from "./src/ticketType/ticketTypeRoutes";
@@ -13,6 +14,7 @@ app.use(express.json())
 
 app.use("/api/users", userRoutes);
 app.use("/api/userTypes", userTypeRoutes);
+app.use("/api/performers", performerRoutes);
 app.use("/api/spotTypes", spotTypeRoutes);
 app.use("/api/transactionStatuses", transactionStatusRoutes);
 app.use("/api/ticketTypes", ticketTypeRoutes);

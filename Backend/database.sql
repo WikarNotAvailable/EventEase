@@ -20,6 +20,15 @@ CREATE TABLE users(
         ON UPDATE NO ACTION
 );
 
+CREATE TABLE performers(
+    performer_id SERIAL PRIMARY KEY,
+    performertype_id INTEGER,
+    name VARCHAR (100) NOT NULL UNIQUE,
+    description text,
+    CONSTRAINT fk_performertype FOREIGN KEY(performertype_id)
+        REFERENCES performertypes(performertype_id)
+);
+
 CREATE TABLE spottypes(
     spottype_id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL UNIQUE
