@@ -24,52 +24,22 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const controller = __importStar(require("./userController"));
-const userRoutes = (0, express_1.Router)();
-userRoutes.post("/", controller.postUser);
-userRoutes.get("/", controller.getUsers);
-userRoutes.get("/:id", controller.getUserById);
-userRoutes.delete("/:id", controller.deleteUser);
-userRoutes.put("/:id", controller.updateUser);
-userRoutes.post("/login", controller.loginUser);
-exports.default = userRoutes;
+const controller = __importStar(require("./performerTypeController"));
+const performerTypeRoutes = (0, express_1.Router)();
+performerTypeRoutes.post("/", controller.postPerformerType);
+performerTypeRoutes.get("/", controller.getPerformerTypes);
+performerTypeRoutes.get("/:id", controller.getPerformerTypeById);
+performerTypeRoutes.delete("/:id", controller.deletePerformerType);
+performerTypeRoutes.put("/:id", controller.updatePerformerType);
+exports.default = performerTypeRoutes;
 /*
-Reponse get
-{
-    "user_id": int,
-    "usertype_id": int,
-    "name": string,
-    "surname": string,
-    "email": string,
-    "phone_number": string,
-    "birthday": date,
-    "password": "password"
-}
-
 Body for Post
 {
-    "userTypeID": int,
-    "name": string,
-    "surname": string,
-    "email": string,
-    "phoneNumber": "string,
-    "birthday": date,
-    "password": string
+    "performerTypeName": string
 }
 
-Body for Update //all fields optional
+Body for Update //obligatory field below
 {
-    "name": string,
-    "surname": string,
-    "email": string,
-    "phoneNumber": "string,
-    "birthday": date,
-    "password": string
+    "performerTypeName": string
 }
-
-Body for Login
-{
-    "email": string,
-    "password": string
-}
-*/ 
+*/

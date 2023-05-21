@@ -12,9 +12,9 @@ export const PerformerInfo = () => {
             fontSize={'3xl'} 
             fontWeight={'bold'}
             backgroundColor="primary"
-            backdropBrightness={'20%'}
             borderBottomRadius={'10'}
             paddingLeft={'5'}
+            textColor={"#101828"}
             >
                 Kygo
         </Text>
@@ -23,7 +23,8 @@ export const PerformerInfo = () => {
               borderWidth="4px"
               borderRadius={'10'}
               marginTop={'5'}
-              padding={'3'}>
+              padding={'3'}
+              textColor={"#101828"}>
             
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ac magna leo. Aenean pharetra nisi non tellus cursus elementum. Cras urna nisl, congue id nisi ac, maximus iaculis nunc. Phasellus interdum lorem vel posuere viverra. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed sodales fermentum ipsum quis convallis. Pellentesque suscipit ornare mattis. Nam justo leo, efficitur et tempus quis, porta non lacus. Aliquam nec condimentum sapien, eget feugiat dolor.
