@@ -49,26 +49,38 @@ CREATE TABLE tickettypes(
     type VARCHAR(100) NOT NULL UNIQUE
 );
 
-CREATE TABLE company(
+CREATE TABLE companies(
     company_id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL UNIQUE,
-    description VARCHAR(100) NOT NULL UNIQUE,
+    description text,
     discussion_id INTEGER
 );
 
-CREATE TABLE discussion(
+ALTER TABLE companies 
+ADD CONSTRAINT fk_discussion FOREIGN KEY(discussion_id)
+REFERENCES discussions(discussion_id)
+ON DELETE CASCADE
+
+CREATE TABLE discussions(
     discussion_id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL UNIQUE,
-    description VARCHAR(100) NOT NULL UNIQUE,
-    company_id INTEGER
+    description text,
+    company_id INTEGER,
+    CONSTRAINT fk_company FOREIGN KEY(company_id)
+        REFERENCES companies(company_id)
+        ON DELETE SET NULL
 );
 
 CREATE TABLE comments(
     comments_id SERIAL PRIMARY KEY,
-    content VARCHAR(100) NOT NULL,
+    content text,
     post_date Date NOT NULL,
     user_id INTEGER,
-    discussion_id INTEGER
+    discussion_id INTEGER,
+    CONSTRAINT fk_user FOREIGN KEY(user_id)
+        REFERENCES users(user_id),
+    CONSTRAINT fk_discussion FOREIGN KEY(discussion_id)
+        REFERENCES discussions(discussion_id)
 );
 
 CREATE TABLE eventtypes(
@@ -91,3 +103,54 @@ CREATE TABLE transactions(
         ON DELETE SET NULL
         ON UPDATE NO ACTION
 );
+
+CREATE TABLE addresses(
+    address_id SERIAL PRIMARY KEY,
+    country VARCHAR(50) NOT NULL,
+    city VARCHAR(50) NOT NULL,
+    street VARCHAR(50) NOT NULL,
+    number VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE spots(
+    spot_id SERIAL PRIMARY KEY,
+    spottype_id INTEGER NOT NULL,
+    address_id INTEGER NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    description text,
+    capacity INTEGER,
+    isopen BOOLEAN,
+    spotimage VARCHAR(500),
+    CONSTRAINT fk_spottype FOREIGN KEY(spottype_id)
+        REFERENCES spottypes(spottype_id),
+    CONSTRAINT fk_address FOREIGN KEY(address_id)
+        REFERENCES addresses(address_id)
+);
+
+CREATE TABLE events(
+    event_id SERIAL PRIMARY KEY,
+    name VARCHAR (100) NOT NULL,
+    description text,
+    BeginDate Date,
+    EndDate Date,
+    AvailableTickets INTEGER,
+    CurrentlyTakenTickets INTEGER,
+    spot_id INTEGER NOT NULL,
+    eventtype_id INTEGER NOT NULL,
+    company_id INTEGER,
+    discussion_id INTEGER
+);
+
+ALTER TABLE events
+ADD CONSTRAINT fk_spot FOREIGN KEY(spot_id)
+        REFERENCES spots(spot_id)
+        ON DELETE SET NULL
+        ON UPDATE NO ACTION,
+    CONSTRAINT fk_eventtype FOREIGN KEY(eventtype_id)
+        REFERENCES eventtypes(eventtype_id)
+        ON DELETE SET NULL
+        ON UPDATE NO ACTION,
+    CONSTRAINT fk_company FOREIGN KEY(company_id)
+        REFERENCES companies(company_id)
+        ON DELETE SET NULL
+        ON UPDATE NO ACTION
