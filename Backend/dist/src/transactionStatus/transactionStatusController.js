@@ -35,23 +35,23 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateUserType = exports.deleteUser = exports.getUserTypeById = exports.getUserTypes = exports.postUserType = void 0;
+exports.updateTransactionStatus = exports.deleteTransactionStatus = exports.getTransactionStatusById = exports.getTransactionStatuses = exports.postTransactionStatus = void 0;
 const db_1 = __importDefault(require("../../db"));
-const queries = __importStar(require("./userTypeQueries"));
-const postUserType = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const queries = __importStar(require("./transactionStatusQueries"));
+const postTransactionStatus = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { userTypeName } = req.body;
-        const newUserType = yield db_1.default.query(queries.addUserType, [userTypeName]);
-        res.json(newUserType.rows);
+        const { status } = req.body;
+        const newTransactionStatus = yield db_1.default.query(queries.addTransactionStatus, [status]);
+        res.json(newTransactionStatus.rows);
     }
     catch (err) {
         res.status(500).json(err);
     }
 });
-exports.postUserType = postUserType;
-const getUserTypes = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.postTransactionStatus = postTransactionStatus;
+const getTransactionStatuses = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        db_1.default.query(queries.getUserTypes, (error, results) => {
+        db_1.default.query(queries.getTransactionStatuses, (error, results) => {
             if (error)
                 throw error;
             res.status(200).json(results.rows);
@@ -61,18 +61,18 @@ const getUserTypes = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         return res.status(400).json(err);
     }
 });
-exports.getUserTypes = getUserTypes;
-const getUserTypeById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.getTransactionStatuses = getTransactionStatuses;
+const getTransactionStatusById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = parseInt(req.params.id);
-        db_1.default.query(queries.getUserTypeById, [id], (error, results) => {
+        db_1.default.query(queries.getTransactionStatusById, [id], (error, results) => {
             if (error)
                 throw error;
             if (results.rows.length) {
                 res.status(200).json(results.rows);
             }
             else {
-                res.status(400).json({ message: "UserType does not exist. (Non existent id)" });
+                res.status(400).json({ message: "Transaction status does not exist. (Non existent id)" });
             }
         });
     }
@@ -80,16 +80,16 @@ const getUserTypeById = (req, res) => __awaiter(void 0, void 0, void 0, function
         return res.status(400).json(err);
     }
 });
-exports.getUserTypeById = getUserTypeById;
-const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.getTransactionStatusById = getTransactionStatusById;
+const deleteTransactionStatus = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = parseInt(req.params.id);
-        const user = yield db_1.default.query(queries.getUserTypeById, [id]);
-        if (!user.rows.length) {
-            res.status(400).json({ message: "UserType does not exist. (Non existent id)" });
+        const transactionStatus = yield db_1.default.query(queries.getTransactionStatusById, [id]);
+        if (!transactionStatus.rows.length) {
+            res.status(400).json({ message: "Transaction status does not exist. (Non existent id)" });
         }
         else {
-            db_1.default.query(queries.deleteUserTypeById, [id], (error, results) => {
+            db_1.default.query(queries.deleteTransactionStatus, [id], (error, results) => {
                 if (error)
                     throw error;
                 res.status(200).json({ message: "Successfully deleted." });
@@ -100,22 +100,22 @@ const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         return res.status(400).json(err);
     }
 });
-exports.deleteUser = deleteUser;
-const updateUserType = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.deleteTransactionStatus = deleteTransactionStatus;
+const updateTransactionStatus = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = parseInt(req.params.id);
-        const { userTypeName } = req.body;
-        const user = yield db_1.default.query(queries.getUserTypeById, [id]);
-        if (!user.rows.length) {
-            res.status(400).json({ message: "UserType does not exist. (Non existent id)" });
+        const { status } = req.body;
+        const transactionStatus = yield db_1.default.query(queries.getTransactionStatusById, [id]);
+        if (!transactionStatus.rows.length) {
+            res.status(400).json({ message: "TransactionStatus does not exist. (Non existent id)" });
         }
         else {
-            const newUserType = yield db_1.default.query(queries.updateUserType, [userTypeName, id]);
-            res.json(newUserType.rows);
+            const newTransactionStatus = yield db_1.default.query(queries.updateTransactionStatus, [status, id]);
+            res.json(newTransactionStatus.rows);
         }
     }
     catch (err) {
         return res.status(400).json(err);
     }
 });
-exports.updateUserType = updateUserType;
+exports.updateTransactionStatus = updateTransactionStatus;

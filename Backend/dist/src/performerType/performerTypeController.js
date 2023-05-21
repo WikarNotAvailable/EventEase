@@ -35,23 +35,23 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateUserType = exports.deleteUser = exports.getUserTypeById = exports.getUserTypes = exports.postUserType = void 0;
+exports.updatePerformerType = exports.deletePerformerType = exports.getPerformerTypeById = exports.getPerformerTypes = exports.postPerformerType = void 0;
 const db_1 = __importDefault(require("../../db"));
-const queries = __importStar(require("./userTypeQueries"));
-const postUserType = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const queries = __importStar(require("./performerTypeQueries"));
+const postPerformerType = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { userTypeName } = req.body;
-        const newUserType = yield db_1.default.query(queries.addUserType, [userTypeName]);
-        res.json(newUserType.rows);
+        const { performerTypeName } = req.body;
+        const newPerformerType = yield db_1.default.query(queries.addPerformerType, [performerTypeName]);
+        res.json(newPerformerType.rows);
     }
     catch (err) {
         res.status(500).json(err);
     }
 });
-exports.postUserType = postUserType;
-const getUserTypes = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.postPerformerType = postPerformerType;
+const getPerformerTypes = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        db_1.default.query(queries.getUserTypes, (error, results) => {
+        db_1.default.query(queries.getPerformerTypes, (error, results) => {
             if (error)
                 throw error;
             res.status(200).json(results.rows);
@@ -61,18 +61,18 @@ const getUserTypes = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         return res.status(400).json(err);
     }
 });
-exports.getUserTypes = getUserTypes;
-const getUserTypeById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.getPerformerTypes = getPerformerTypes;
+const getPerformerTypeById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = parseInt(req.params.id);
-        db_1.default.query(queries.getUserTypeById, [id], (error, results) => {
+        db_1.default.query(queries.getPerformerTypeById, [id], (error, results) => {
             if (error)
                 throw error;
             if (results.rows.length) {
                 res.status(200).json(results.rows);
             }
             else {
-                res.status(400).json({ message: "UserType does not exist. (Non existent id)" });
+                res.status(400).json({ message: "Performer Type does not exist. (Non existent id)" });
             }
         });
     }
@@ -80,16 +80,16 @@ const getUserTypeById = (req, res) => __awaiter(void 0, void 0, void 0, function
         return res.status(400).json(err);
     }
 });
-exports.getUserTypeById = getUserTypeById;
-const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.getPerformerTypeById = getPerformerTypeById;
+const deletePerformerType = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = parseInt(req.params.id);
-        const user = yield db_1.default.query(queries.getUserTypeById, [id]);
-        if (!user.rows.length) {
-            res.status(400).json({ message: "UserType does not exist. (Non existent id)" });
+        const performerType = yield db_1.default.query(queries.getPerformerTypeById, [id]);
+        if (!performerType.rows.length) {
+            res.status(400).json({ message: "Performer Type does not exist. (Non existent id)" });
         }
         else {
-            db_1.default.query(queries.deleteUserTypeById, [id], (error, results) => {
+            db_1.default.query(queries.deletePerformerType, [id], (error, results) => {
                 if (error)
                     throw error;
                 res.status(200).json({ message: "Successfully deleted." });
@@ -100,22 +100,22 @@ const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         return res.status(400).json(err);
     }
 });
-exports.deleteUser = deleteUser;
-const updateUserType = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.deletePerformerType = deletePerformerType;
+const updatePerformerType = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = parseInt(req.params.id);
-        const { userTypeName } = req.body;
-        const user = yield db_1.default.query(queries.getUserTypeById, [id]);
+        const { performerTypeName } = req.body;
+        const user = yield db_1.default.query(queries.getPerformerTypeById, [id]);
         if (!user.rows.length) {
-            res.status(400).json({ message: "UserType does not exist. (Non existent id)" });
+            res.status(400).json({ message: "Performer Type does not exist. (Non existent id)" });
         }
         else {
-            const newUserType = yield db_1.default.query(queries.updateUserType, [userTypeName, id]);
-            res.json(newUserType.rows);
+            const newPerformerType = yield db_1.default.query(queries.updatePerformerType, [performerTypeName, id]);
+            res.json(newPerformerType.rows);
         }
     }
     catch (err) {
         return res.status(400).json(err);
     }
 });
-exports.updateUserType = updateUserType;
+exports.updatePerformerType = updatePerformerType;
