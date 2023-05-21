@@ -35,6 +35,11 @@ CREATE TABLE tickettypes(
     type VARCHAR(100) NOT NULL UNIQUE
 );
 
+CREATE TABLE performertypes (
+    performertype_id SERIAL PRIMARY KEY,
+    type VARCHAR(100) NOT NULL UNIQUE
+);
+
 CREATE TABLE transactions(
     transaction_id SERIAL PRIMARY KEY,
     user_id INTEGER NOT NULL,
