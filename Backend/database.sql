@@ -49,6 +49,11 @@ CREATE TABLE tickettypes(
     type VARCHAR(100) NOT NULL UNIQUE
 );
 
+CREATE TABLE eventtypes(
+    eventype_id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE
+);
+
 CREATE TABLE transactions(
     transaction_id SERIAL PRIMARY KEY,
     user_id INTEGER NOT NULL,

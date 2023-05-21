@@ -5,6 +5,7 @@ import performerRoutes from "./src/performer/performerRoutes";
 import spotTypeRoutes from "./src/spotType/spotTypeRoutes";
 import transactionStatusRoutes from "./src/transactionStatus/transactionStatusRoutes";
 import ticketTypeRoutes from "./src/ticketType/ticketTypeRoutes";
+import eventTypeRoutes from "./src/eventType/eventTypeRoutes";
 import performerTypeRoutes from "./src/performerType/performerTypeRoutes";
 import transactionRoutes from "./src/transaction/transactionsRoutes";
 
@@ -18,6 +19,7 @@ app.use("/api/performers", performerRoutes);
 app.use("/api/spotTypes", spotTypeRoutes);
 app.use("/api/transactionStatuses", transactionStatusRoutes);
 app.use("/api/ticketTypes", ticketTypeRoutes);
+app.use("/api/eventTypes", eventTypeRoutes);
 app.use("/api/performerTypes", performerTypeRoutes);
 app.use("/api/transactions", transactionRoutes);
 
