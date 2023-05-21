@@ -1,6 +1,7 @@
 import pool from "../../db"
 import { QueryResult } from "pg";
 import * as queries from "./userQueries";
+import * as passwordHash from "password-hash";
 
 export const postUser = async (req: any, res: any) => {
     try{ 
@@ -22,7 +23,9 @@ export const postUser = async (req: any, res: any) => {
             return res.status(400).json({message: "User type does not exist."});
         }
         else {
-            const newUser: QueryResult<any> = await pool.query(queries.addUser, [userTypeID, name, surname, email, phoneNumber, birthday, password]);
+            let newUser: QueryResult<any> = await pool.query(queries.addUser, [userTypeID, name, surname, email, phoneNumber, birthday, password]);
+            newUser.rows[0]["password"] = passwordHash.generate(newUser.rows[0]["password"]);
+
             return res.status(201).json(newUser.rows);
         }
     }catch(err: any){
@@ -50,12 +53,13 @@ export const getUserById = async (req: any,res: any) => {
             if (error) throw error;
 
             if (results.rows.length){   
-                results.rows[0]["transactions"] = (await pool.query(queries.getTransactionsForUser, [results.rows[0]["user_id"]])).rows
+                results.rows[0]["transactions"] = (await pool.query(queries.getTransactionsForUser, [results.rows[0]["user_id"]])).rows;
+                results.rows[0]["password"] = passwordHash.generate(results.rows[0]["password"]);
 
                 res.status(200).json(results.rows);
             }
             else{
-                res.status(400).json({message: "User does not exist. (Non existent id)"})
+                res.status(400).json({message: "User does not exist. (Non existent id)"});
             }  
         })
     }catch(err: any){
@@ -69,7 +73,7 @@ export const deleteUser = async (req: any,res: any) => {
         const user: QueryResult<any> = await pool.query(queries.getUserById, [id]);
 
         if(!user.rows.length){
-            res.status(400).json({message: "User does not exist. (Non existent id)"})
+            res.status(400).json({message: "User does not exist. (Non existent id)"});
         }
         else {
             pool.query(queries.deleteUser, [id], (error, results) => {
