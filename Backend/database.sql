@@ -111,12 +111,17 @@ CREATE TABLE transactions(
         ON UPDATE NO ACTION
 );
 
+<<<<<<< HEAD
 CREATE TABLE addresses(
+=======
+CREATE TABLE address(
+>>>>>>> cee419310c822c4f39d21e1e13e540f07e2d8df2
     address_id SERIAL PRIMARY KEY,
     country VARCHAR(50) NOT NULL,
     city VARCHAR(50) NOT NULL,
     street VARCHAR(50) NOT NULL,
     number VARCHAR(50) NOT NULL
+<<<<<<< HEAD
 );
 
 CREATE TABLE spots(
@@ -163,3 +168,6 @@ ADD CONSTRAINT fk_spot FOREIGN KEY(spot_id)
         REFERENCES companies(company_id)
         ON DELETE SET NULL
         ON UPDATE NO ACTION;
+=======
+);
+>>>>>>> cee419310c822c4f39d21e1e13e540f07e2d8df2
