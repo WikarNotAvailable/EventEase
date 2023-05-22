@@ -32,6 +32,7 @@ CREATE TABLE performers(
     description text,
     CONSTRAINT fk_performertype FOREIGN KEY(performertype_id)
         REFERENCES performertypes(performertype_id)
+        ON DELETE SET NULL
 );
 
 CREATE TABLE spottypes(
@@ -64,3 +65,56 @@ CREATE TABLE transactions(
         ON DELETE SET NULL
         ON UPDATE NO ACTION
 );
+
+CREATE TABLE addresses(
+    address_id SERIAL PRIMARY KEY,
+    country VARCHAR(50) NOT NULL,
+    city VARCHAR(50) NOT NULL,
+    street VARCHAR(50) NOT NULL,
+    number VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE spots(
+    spot_id SERIAL PRIMARY KEY,
+    spottype_id INTEGER NOT NULL,
+    address_id INTEGER NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    description text,
+    capacity INTEGER,
+    isopen BOOLEAN,
+    spotimage VARCHAR(500),
+    CONSTRAINT fk_spottype FOREIGN KEY(spottype_id)
+        REFERENCES spottypes(spottype_id)
+        ON DELETE SET NULL,
+    CONSTRAINT fk_address FOREIGN KEY(address_id)
+        REFERENCES addresses(address_id)
+        ON DELETE SET NULL
+);
+
+CREATE TABLE events(
+    event_id SERIAL PRIMARY KEY,
+    name VARCHAR (100) NOT NULL,
+    description text,
+    BeginDate Date,
+    EndDate Date,
+    AvailableTickets INTEGER,
+    CurrentlyTakenTickets INTEGER,
+    spot_id INTEGER NOT NULL,
+    eventtype_id INTEGER NOT NULL,
+    company_id INTEGER,
+    discussion_id INTEGER
+);
+
+ALTER TABLE events
+ADD CONSTRAINT fk_spot FOREIGN KEY(spot_id)
+        REFERENCES spots(spot_id)
+        ON DELETE SET NULL
+        ON UPDATE NO ACTION,
+    CONSTRAINT fk_eventtype FOREIGN KEY(eventtype_id)
+        REFERENCES eventtypes(eventtype_id)
+        ON DELETE SET NULL
+        ON UPDATE NO ACTION,
+    CONSTRAINT fk_company FOREIGN KEY(company_id)
+        REFERENCES companies(company_id)
+        ON DELETE SET NULL
+        ON UPDATE NO ACTION;
