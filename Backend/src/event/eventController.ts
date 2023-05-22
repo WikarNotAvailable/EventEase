@@ -138,16 +138,6 @@ export const getEventsByEventTypeId = async (req: any, res: any) => {
   }
 };
 
-export const getEventsByCompanyId = async (req: any, res: any) => {
-  try {
-    const companyId = parseInt(req.params.companyId);
-    const events: QueryResult<any> = await pool.query(queries.getEventsByCompanyId, [companyId]);
-    return res.status(200).json(events.rows);
-  } catch (err: any) {
-    return res.status(400).json(err);
-  }
-};
-
 export const getEventsWithinDateRange = async (req: any, res: any) => {
   try {
     const { startDate, endDate } = req.params;

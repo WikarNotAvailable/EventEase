@@ -10,7 +10,6 @@ eventRoutes.delete("/:id", controller.deleteEvent);
 eventRoutes.put("/:id", controller.updateEvent);
 eventRoutes.get("/spot/:spotId", controller.getEventsBySpotId);
 eventRoutes.get("/eventtype/:eventTypeId", controller.getEventsByEventTypeId);
-eventRoutes.get("/company/:companyId", controller.getEventsByCompanyId);
 eventRoutes.get("/date-range", controller.getEventsWithinDateRange);
 eventRoutes.get("/available-tickets", controller.getEventsWithAvailableTickets);
 eventRoutes.get("/limited-availability/:limit", controller.getEventsWithLimitedAvailability);
