@@ -30,6 +30,7 @@ CREATE TABLE performers(
     performertype_id INTEGER,
     name VARCHAR (100) NOT NULL UNIQUE,
     description text,
+    url VARCHAR (500),
     CONSTRAINT fk_performertype FOREIGN KEY(performertype_id)
         REFERENCES performertypes(performertype_id)
         ON DELETE SET NULL
@@ -159,9 +160,35 @@ CREATE TABLE events(
         ON UPDATE NO ACTION
 );
 
+CREATE TABLE eventImages(
+    eventImage_id SERIAL PRIMARY KEY,
+    url VARCHAR(500),
+    event_id INTEGER,
+    CONSTRAINT fk_event FOREIGN KEY (event_id)
+    REFERENCES events (event_id)
+    ON DELETE SET NULL
+    ON UPDATE NO ACTION
+);
+
+CREATE TABLE eventsperformers (
+    event_id INTEGER,
+    performer_id INTEGER,
+    PRIMARY KEY (event_id, performer_id),
+    CONSTRAINT fk_event FOREIGN KEY (event_id)
+        REFERENCES events (event_id)
+        ON DELETE CASCADE
+        ON UPDATE NO ACTION,
+    CONSTRAINT fk_performer FOREIGN KEY (performer_id)
+        REFERENCES performers (performer_id)
+        ON DELETE CASCADE
+        ON UPDATE NO ACTION
+);
+
 ALTER TABLE discussions
 ADD CONSTRAINT fk_event FOREIGN KEY(event_id)
         REFERENCES events(event_id)
         ON DELETE CASCADE;
+
+        
 
 	
