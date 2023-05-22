@@ -7,10 +7,10 @@ export const addEvent = async (req: any, res: any) => {
     const {
       name,
       description,
-      BeginDate,
-      EndDate,
-      AvailableTickets,
-      CurrentlyTakenTickets,
+      begindate,
+      enddate,
+      availabletickets,
+      currentlytakentickets,
       spot_id,
       eventtype_id,
       company_id,
@@ -20,10 +20,10 @@ export const addEvent = async (req: any, res: any) => {
     const newEvent: QueryResult<any> = await pool.query(queries.addEvent, [
       name,
       description,
-      BeginDate,
-      EndDate,
-      AvailableTickets,
-      CurrentlyTakenTickets,
+      begindate,
+      enddate,
+      availabletickets,
+      currentlytakentickets,
       spot_id,
       eventtype_id,
       company_id,
@@ -49,7 +49,7 @@ export const getEventById = async (req: any, res: any) => {
   try {
     const id = parseInt(req.params.id);
     const event: QueryResult<any> = await pool.query(queries.getEventById, [id]);
-
+    
     if (event.rows.length) {
       return res.status(200).json(event.rows);
     } else {
@@ -82,10 +82,10 @@ export const updateEvent = async (req: any, res: any) => {
     const {
       name,
       description,
-      BeginDate,
-      EndDate,
-      AvailableTickets,
-      CurrentlyTakenTickets,
+      begindate,
+      enddate,
+      availabletickets,
+      currentlytakentickets,
       spot_id,
       eventtype_id,
       company_id,
@@ -100,10 +100,10 @@ export const updateEvent = async (req: any, res: any) => {
       const updatedEvent: QueryResult<any> = await pool.query(queries.updateEvent, [
         name,
         description,
-        BeginDate,
-        EndDate,
-        AvailableTickets,
-        CurrentlyTakenTickets,
+        begindate,
+        enddate,
+        availabletickets,
+        currentlytakentickets,
         spot_id,
         eventtype_id,
         company_id,
@@ -120,7 +120,7 @@ export const updateEvent = async (req: any, res: any) => {
 
 export const getEventsBySpotId = async (req: any, res: any) => {
   try {
-    const spotId = parseInt(req.params.spotId);
+    const spotId = parseInt(req.params.spotid);
     const events: QueryResult<any> = await pool.query(queries.getEventsBySpotId, [spotId]);
     return res.status(200).json(events.rows);
   } catch (err: any) {
@@ -130,7 +130,7 @@ export const getEventsBySpotId = async (req: any, res: any) => {
 
 export const getEventsByEventTypeId = async (req: any, res: any) => {
   try {
-    const eventTypeId = parseInt(req.params.eventTypeId);
+    const eventTypeId = parseInt(req.params.eventtypeid);
     const events: QueryResult<any> = await pool.query(queries.getEventsByEventTypeId, [eventTypeId]);
     return res.status(200).json(events.rows);
   } catch (err: any) {
@@ -140,8 +140,8 @@ export const getEventsByEventTypeId = async (req: any, res: any) => {
 
 export const getEventsWithinDateRange = async (req: any, res: any) => {
   try {
-    const { startDate, endDate } = req.params;
-    const events: QueryResult<any> = await pool.query(queries.getEventsWithinDateRange, [startDate, endDate]);
+    const { startdate, enddate } = req.params;
+    const events: QueryResult<any> = await pool.query(queries.getEventsWithinDateRange, [startdate, enddate]);
     return res.status(200).json(events.rows);
   } catch (err: any) {
     return res.status(400).json(err);
