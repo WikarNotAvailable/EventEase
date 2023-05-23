@@ -9,6 +9,8 @@ spotRoutes.get("/", controller.getSpot);
 
 spotRoutes.get("/:id", controller.getSpotById);
 
+spotRoutes.get('/type/:id', controller.getSpotByType);
+
 spotRoutes.delete("/:id", controller.deleteSpot);
 
 spotRoutes.put("/:id", controller.updateSpot);
