@@ -4,6 +4,7 @@ import { Flex } from '@chakra-ui/react';
 import { ScrollToTop } from '../../shared/scrollToTop/ScrollToTop';
 import { Error } from '../../../pages/Error';
 import { Navbar } from '../navbar/Navbar';
+import { MyProfile } from '../../../pages/MyProfile';
 
 export const Wrapper = () => {
   const pages = [
@@ -11,6 +12,10 @@ export const Wrapper = () => {
       path: '/',
       element: <Home />,
     },
+    {
+      path: '/me',
+      element: <MyProfile/>
+    }
   ].map((element, index) => ({ ...element, id: `${element.path}_${index}` }));
 
   return (
