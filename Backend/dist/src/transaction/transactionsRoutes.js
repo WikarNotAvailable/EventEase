@@ -69,10 +69,8 @@ Post body:
     "transactionDate": string
 }
 
-Post and update response:
+Update response:
 {
-    "transaction_id": int,
-    "user_id": int,
     "transactionstatus_id": int,
     "value": float,
     "transactiondate": string

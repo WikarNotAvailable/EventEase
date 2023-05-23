@@ -35,24 +35,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateSpotType = exports.deleteSpotType = exports.getSpotTypeById = exports.getSpotType = exports.postSpotType = void 0;
+exports.updateCompany = exports.deleteCompany = exports.getCompanyById = exports.getCompany = exports.postCompany = void 0;
 const db_1 = __importDefault(require("../../db"));
-const queries = __importStar(require("./spotTypeQueries"));
-const postSpotType = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const queries = __importStar(require("./companyQueries"));
+const postCompany = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { spotTypeName } = req.body;
-        const newSpotType = yield db_1.default.query(queries.addSpotType, [spotTypeName]);
-        res.json(newSpotType.rows);
+        const { discussionID, name, description } = req.body;
+        const newCompany = yield db_1.default.query(queries.addCompany, [discussionID, name, description]);
     }
     catch (err) {
-        res.status(500).json(err);
-        console.log(err);
+        return res.status(400).json(err);
     }
 });
-exports.postSpotType = postSpotType;
-const getSpotType = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.postCompany = postCompany;
+const getCompany = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        db_1.default.query(queries.getSpotType, (error, results) => {
+        db_1.default.query(queries.getCompany, (error, results) => {
             if (error)
                 throw error;
             res.status(200).json(results.rows);
@@ -62,18 +60,18 @@ const getSpotType = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         return res.status(400).json(err);
     }
 });
-exports.getSpotType = getSpotType;
-const getSpotTypeById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.getCompany = getCompany;
+const getCompanyById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = parseInt(req.params.id);
-        db_1.default.query(queries.getSpotTypeById, [id], (error, result) => {
+        db_1.default.query(queries.getCompanyById, [id], (error, results) => {
             if (error)
                 throw error;
-            if (result.rows.length) {
-                res.status(200).json(result.rows);
+            if (results.rows.length) {
+                res.status(200).json(results.rows);
             }
             else {
-                res.status(400).json({ message: "Spot Type does not exist. (Non existent id)" });
+                res.status(400).json({ message: "Company does not exist. Non existent id." });
             }
         });
     }
@@ -81,19 +79,19 @@ const getSpotTypeById = (req, res) => __awaiter(void 0, void 0, void 0, function
         return res.status(400).json(err);
     }
 });
-exports.getSpotTypeById = getSpotTypeById;
-const deleteSpotType = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.getCompanyById = getCompanyById;
+const deleteCompany = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = parseInt(req.params.id);
-        const spotType = yield db_1.default.query(queries.getSpotTypeById, [id]);
-        if (!spotType.rows.length) {
-            res.status(400).json({ message: "Spot type does not exist. (Non existent id)" });
+        const company = yield db_1.default.query(queries.getCompanyById, [id]);
+        if (!company.rows.length) {
+            res.status(400).json({ message: "Company does not exist. (Non existent id)" });
         }
         else {
-            db_1.default.query(queries.deleteSpotType, [id], (error, result) => {
+            db_1.default.query(queries.deleteCompany, [id], (error, results) => {
                 if (error)
                     throw error;
-                res.status(200).json({ message: "Successfully deleted." });
+                res.status(200).json({ message: "Successfully deleted" });
             });
         }
     }
@@ -101,22 +99,26 @@ const deleteSpotType = (req, res) => __awaiter(void 0, void 0, void 0, function*
         return res.status(400).json(err);
     }
 });
-exports.deleteSpotType = deleteSpotType;
-const updateSpotType = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.deleteCompany = deleteCompany;
+const updateCompany = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = parseInt(req.params.id);
-        const { spotTypeName } = req.body;
-        const spotType = yield db_1.default.query(queries.getSpotTypeById, [id]);
-        if (!spotType.rows.length) {
-            res.status(400).json({ message: " Spot type does not exist. (Non existent id)" });
+        let { name, description } = req.body;
+        const company = yield db_1.default.query(queries.getCompanyById, [id]);
+        if (name == null)
+            name = company.rows[0]["name"];
+        if (description == null)
+            description = company.rows[0]["description"];
+        if (!company.rows.length) {
+            res.status(400).json({ message: "Company does not exist. (Non existent id)" });
         }
         else {
-            const newSpotType = yield db_1.default.query(queries.updateSpotType, [spotTypeName, id]);
-            res.json(newSpotType.rows);
+            const newCompany = yield db_1.default.query(queries.updateCompany, [name, description, id]);
+            res.json(newCompany.rows);
         }
     }
     catch (err) {
         return res.status(400).json(err);
     }
 });
-exports.updateSpotType = updateSpotType;
+exports.updateCompany = updateCompany;

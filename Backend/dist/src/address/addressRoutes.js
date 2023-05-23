@@ -24,29 +24,38 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const controller = __importStar(require("./performerController"));
-const performerRoutes = (0, express_1.Router)();
-performerRoutes.post('/', controller.addPerformer);
-performerRoutes.get('/', controller.getPerformers);
-performerRoutes.get('/:id', controller.getPerformerById);
-performerRoutes.get('/type/:id', controller.getPerformersByType);
-performerRoutes.delete('/:id', controller.deletePerformer);
-performerRoutes.put('/:id', controller.updatePerformer);
-exports.default = performerRoutes;
+const controller = __importStar(require("./addressController"));
+const addressRoutes = (0, express_1.Router)();
+addressRoutes.post("/", controller.postAddress);
+addressRoutes.get("/", controller.getAddress);
+addressRoutes.get("/:id", controller.getAddressById);
+addressRoutes.delete("/:id", controller.deleteAddress);
+addressRoutes.put("/:id", controller.updateAddress);
+exports.default = addressRoutes;
 /*
-Body for Post
-
+Get response:
 {
-    "performertype_id": number,
-    "name": string,
-    "description": string
+    "address_id": int
+    "country": string,
+    "city": string,
+    "street": string,
+    "number": string
 }
 
-Body for Update
 
+Post body:
 {
-    "performertype_id": number,
-    "name": string,
-    "description": string
+    "country": string,
+    "city": string,
+    "street": string,
+    "number": string
+}
+
+Update response:
+{
+    "country": string,
+    "city": string,
+    "street": string,
+    "number": string
 }
 */
