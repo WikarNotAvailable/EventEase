@@ -6,3 +6,4 @@ export const getTransactionById = "SELECT * FROM transactions INNER JOIN transac
 export const deleteTransaction = "DELETE FROM transactions WHERE transaction_id = $1";
 export const updateTransaction = "UPDATE transactions SET transactionstatus_id = $1, value = $2, transactiondate = $3 WHERE transaction_id = $4 RETURNING *";
 export const getUserForTransaction = "SELECT usertypes.name as usertype, users.name, users.surname, users.email, users.phone_number, users.birthday FROM users INNER JOIN usertypes on users.usertype_id = usertypes.usertype_id WHERE user_id = $1";
+export const getTicketsForTransaction = "SELECT * FROM tickets INNER JOIN tickettypes on tickettypes.tickettype_id = tickets.tickettype_id WHERE tickets.transaction_id = $1";
