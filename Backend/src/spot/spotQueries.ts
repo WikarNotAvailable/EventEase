@@ -1,0 +1,10 @@
+export const addSpot = "INSERT INTO spots (spottype_id, address_id, name, description, capacity, isopen, spotimage) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *";
+export const checkAddressExist = "SELECT * FROM addresses WHERE address_id = $1";
+export const checkSpotTypeExist = "SELECT * FROM spottypes WHERE spottype_id = $1";
+export const checkSpotNameExist = " SELECT * FROM spots WHERE name = $1";
+export const getSpot = "SELECT * FROM spots";
+export const getSpotById = "SELECT spots.spot_id, json_build_object('address_id', addresses.address_id, 'country', addresses.country, 'city', addresses.city, 'street', addresses.street, 'number', addresses.number) AS address, spots.spottype_id, spots.name, spots.description, spots.capacity, spots.isopen, spots.spotimage, spottypes.name AS type FROM spots INNER JOIN addresses ON spots.address_id = addresses.address_id INNER JOIN spottypes ON spots.spottype_id = spottypes.spottype_id WHERE spot_id = $1";
+export const getSpotByType = "SELECT spots.spot_id, json_build_object('address_id', addresses.address_id, 'country', addresses.country, 'city', addresses.city, 'street', addresses.street, 'number', addresses.number) AS address, spots.spottype_id, spots.name, spots.description, spots.capacity, spots.isopen, spots.spotimage, spottypes.name AS type FROM spots INNER JOIN addresses ON spots.address_id = addresses.address_id INNER JOIN spottypes ON spots.spottype_id = spottypes.spottype_id WHERE spottypes.spottype_id = $1";
+export const deleteSpot = "DELETE FROM spots WHERE spot_id = $1";
+export const updateSpot = "UPDATE spots SET spottype_id = $1, address_id = $2, name = $3, description = $4, capacity = $5, isopen = $6, spotimage = $7 WHERE spot_id = $8 RETURNING *";
+export const getAddressForSpot ="SELECT * FROM addresses WHERE address_id = $1";
