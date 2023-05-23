@@ -35,12 +35,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updatePerformer = exports.deletePerformer = exports.getPerformerById = exports.getPerformers = exports.addPerformer = void 0;
+exports.updatePerformer = exports.deletePerformer = exports.getPerformersByType = exports.getPerformerById = exports.getPerformers = exports.addPerformer = void 0;
 const db_1 = __importDefault(require("../../db"));
 const queries = __importStar(require("./performerQueries"));
 const addPerformer = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { performertype_id, name, description } = req.body;
+        const { performertype_id, name, description, url } = req.body;
         const performerNameExists = yield db_1.default.query(queries.checkPerformerNameExists, [name]);
         if (performerNameExists.rows.length) {
             return res.status(400).json({ message: 'Performer name already exists.' });
@@ -50,6 +50,7 @@ const addPerformer = (req, res) => __awaiter(void 0, void 0, void 0, function* (
                 performertype_id,
                 name,
                 description,
+                url,
             ]);
             return res.status(201).json(newPerformer.rows);
         }
@@ -85,6 +86,17 @@ const getPerformerById = (req, res) => __awaiter(void 0, void 0, void 0, functio
     }
 });
 exports.getPerformerById = getPerformerById;
+const getPerformersByType = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const performertype_id = parseInt(req.params.id);
+        const performers = yield db_1.default.query(queries.getPerformersByType, [performertype_id]);
+        return res.status(200).json(performers.rows);
+    }
+    catch (err) {
+        return res.status(400).json(err);
+    }
+});
+exports.getPerformersByType = getPerformersByType;
 const deletePerformer = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = parseInt(req.params.id);
@@ -105,7 +117,7 @@ exports.deletePerformer = deletePerformer;
 const updatePerformer = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = parseInt(req.params.id);
-        const { performertype_id, name, description } = req.body;
+        const { performertype_id, name, description, url } = req.body;
         const performer = yield db_1.default.query(queries.getPerformerById, [id]);
         if (!performer.rows.length) {
             return res.status(400).json({ message: 'Performer does not exist.' });
@@ -115,6 +127,7 @@ const updatePerformer = (req, res) => __awaiter(void 0, void 0, void 0, function
                 performertype_id,
                 name,
                 description,
+                url,
                 id,
             ]);
             return res.json(updatedPerformer.rows);

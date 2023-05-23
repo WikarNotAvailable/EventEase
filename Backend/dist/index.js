@@ -10,8 +10,11 @@ const performerRoutes_1 = __importDefault(require("./src/performer/performerRout
 const spotTypeRoutes_1 = __importDefault(require("./src/spotType/spotTypeRoutes"));
 const transactionStatusRoutes_1 = __importDefault(require("./src/transactionStatus/transactionStatusRoutes"));
 const ticketTypeRoutes_1 = __importDefault(require("./src/ticketType/ticketTypeRoutes"));
+const companyRoutes_1 = __importDefault(require("./src/company/companyRoutes"));
+const eventTypeRoutes_1 = __importDefault(require("./src/eventType/eventTypeRoutes"));
 const performerTypeRoutes_1 = __importDefault(require("./src/performerType/performerTypeRoutes"));
 const transactionsRoutes_1 = __importDefault(require("./src/transaction/transactionsRoutes"));
+const addressRoutes_1 = __importDefault(require("./src/address/addressRoutes"));
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use("/api/users", userRoutes_1.default);
@@ -20,8 +23,11 @@ app.use("/api/performers", performerRoutes_1.default);
 app.use("/api/spotTypes", spotTypeRoutes_1.default);
 app.use("/api/transactionStatuses", transactionStatusRoutes_1.default);
 app.use("/api/ticketTypes", ticketTypeRoutes_1.default);
+app.use("/api/companies", companyRoutes_1.default);
+app.use("/api/eventTypes", eventTypeRoutes_1.default);
 app.use("/api/performerTypes", performerTypeRoutes_1.default);
 app.use("/api/transactions", transactionsRoutes_1.default);
+app.use("/api/addresses", addressRoutes_1.default);
 app.listen(8000, () => {
     console.log("Server is listening on port 8000");
 });

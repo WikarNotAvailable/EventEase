@@ -35,24 +35,23 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateSpotType = exports.deleteSpotType = exports.getSpotTypeById = exports.getSpotType = exports.postSpotType = void 0;
+exports.updateEventType = exports.deleteEventType = exports.getEventTypeByID = exports.getEventType = exports.postEventType = void 0;
 const db_1 = __importDefault(require("../../db"));
-const queries = __importStar(require("./spotTypeQueries"));
-const postSpotType = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const queries = __importStar(require("./eventTypeQueries"));
+const postEventType = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { spotTypeName } = req.body;
-        const newSpotType = yield db_1.default.query(queries.addSpotType, [spotTypeName]);
-        res.json(newSpotType.rows);
+        const { eventTypeName } = req.body;
+        const newEventType = yield db_1.default.query(queries.addEventType, [eventTypeName]);
+        res.json(newEventType.rows);
     }
     catch (err) {
         res.status(500).json(err);
-        console.log(err);
     }
 });
-exports.postSpotType = postSpotType;
-const getSpotType = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.postEventType = postEventType;
+const getEventType = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        db_1.default.query(queries.getSpotType, (error, results) => {
+        db_1.default.query(queries.getEventType, (error, results) => {
             if (error)
                 throw error;
             res.status(200).json(results.rows);
@@ -62,18 +61,18 @@ const getSpotType = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         return res.status(400).json(err);
     }
 });
-exports.getSpotType = getSpotType;
-const getSpotTypeById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.getEventType = getEventType;
+const getEventTypeByID = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = parseInt(req.params.id);
-        db_1.default.query(queries.getSpotTypeById, [id], (error, result) => {
+        db_1.default.query(queries.getEventTypeById, [id], (error, results) => {
             if (error)
                 throw error;
-            if (result.rows.length) {
-                res.status(200).json(result.rows);
+            if (results.rows.length) {
+                res.status(200).json(results.rows);
             }
             else {
-                res.status(400).json({ message: "Spot Type does not exist. (Non existent id)" });
+                res.status(400).json({ message: "Event Type does not exist. (Non existent id)" });
             }
         });
     }
@@ -81,16 +80,16 @@ const getSpotTypeById = (req, res) => __awaiter(void 0, void 0, void 0, function
         return res.status(400).json(err);
     }
 });
-exports.getSpotTypeById = getSpotTypeById;
-const deleteSpotType = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.getEventTypeByID = getEventTypeByID;
+const deleteEventType = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = parseInt(req.params.id);
-        const spotType = yield db_1.default.query(queries.getSpotTypeById, [id]);
-        if (!spotType.rows.length) {
-            res.status(400).json({ message: "Spot type does not exist. (Non existent id)" });
+        const eventType = yield db_1.default.query(queries.getEventTypeById, [id]);
+        if (!eventType.rows.length) {
+            res.status(400).json({ message: "Event Type does not exist. (Non existent id)" });
         }
         else {
-            db_1.default.query(queries.deleteSpotType, [id], (error, result) => {
+            db_1.default.query(queries.deleteEventType, [id], (error, results) => {
                 if (error)
                     throw error;
                 res.status(200).json({ message: "Successfully deleted." });
@@ -101,22 +100,22 @@ const deleteSpotType = (req, res) => __awaiter(void 0, void 0, void 0, function*
         return res.status(400).json(err);
     }
 });
-exports.deleteSpotType = deleteSpotType;
-const updateSpotType = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.deleteEventType = deleteEventType;
+const updateEventType = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = parseInt(req.params.id);
-        const { spotTypeName } = req.body;
-        const spotType = yield db_1.default.query(queries.getSpotTypeById, [id]);
-        if (!spotType.rows.length) {
-            res.status(400).json({ message: " Spot type does not exist. (Non existent id)" });
+        const { eventTypeName } = req.body;
+        const eventType = yield db_1.default.query(queries.getEventTypeById, [id]);
+        if (!eventType.rows.length) {
+            res.status(400).json({ message: "Event type does not exist. (Non existent id" });
         }
         else {
-            const newSpotType = yield db_1.default.query(queries.updateSpotType, [spotTypeName, id]);
-            res.json(newSpotType.rows);
+            const newEventType = yield db_1.default.query(queries.updateEventType, [eventTypeName, id]);
+            res.json(newEventType.rows);
         }
     }
     catch (err) {
         return res.status(400).json(err);
     }
 });
-exports.updateSpotType = updateSpotType;
+exports.updateEventType = updateEventType;

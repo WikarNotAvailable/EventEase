@@ -5,8 +5,8 @@ exports.addUser = "INSERT INTO users (usertype_id,name,surname,email,phone_numbe
 exports.checkUserTypeExists = "SELECT * from usertypes WHERE usertype_id = $1";
 exports.checkEmailExists = "SELECT * from users WHERE email = $1";
 exports.checkPhoneNumberExists = "SELECT * from users WHERE phone_number = $1";
-exports.getUsers = "Select * FROM users";
-exports.getUserById = "Select * FROM users WHERE user_id = $1";
+exports.getUsers = "Select user_id, users.usertype_id, usertypes.name as usertype, users.name, surname, email, phone_number, birthday FROM users INNER JOIN usertypes on users.usertype_id = usertypes.usertype_id";
+exports.getUserById = "Select user_id, users.usertype_id, usertypes.name as usertype, users.name, surname, email, phone_number, birthday, password FROM users INNER JOIN usertypes on users.usertype_id = usertypes.usertype_id WHERE user_id = $1";
 exports.deleteUser = "Delete FROM users WHERE user_id = $1";
 exports.updateUser = "Update users SET name = $1, surname = $2, email = $3, phone_number = $4, birthday = $5, password = $6 WHERE user_id = $7 RETURNING *";
 exports.loginUser = "SELECT * from users WHERE email = $1 and password = $2";

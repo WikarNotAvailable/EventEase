@@ -24,29 +24,34 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const controller = __importStar(require("./performerController"));
-const performerRoutes = (0, express_1.Router)();
-performerRoutes.post('/', controller.addPerformer);
-performerRoutes.get('/', controller.getPerformers);
-performerRoutes.get('/:id', controller.getPerformerById);
-performerRoutes.get('/type/:id', controller.getPerformersByType);
-performerRoutes.delete('/:id', controller.deletePerformer);
-performerRoutes.put('/:id', controller.updatePerformer);
-exports.default = performerRoutes;
+const controller = __importStar(require("./companyController"));
+const companyRoutes = (0, express_1.Router)();
+companyRoutes.post("/", controller.postCompany);
+companyRoutes.get("/", controller.getCompany);
+companyRoutes.get("/:id", controller.getCompanyById);
+companyRoutes.delete("/:id", controller.deleteCompany);
+companyRoutes.put("/:id", controller.updateCompany);
+exports.default = companyRoutes;
 /*
+Reponse get
+{
+    "company_id": int,
+    "name": string,
+    "description": string,
+    "discussion_id": int,
+
+}
+
 Body for Post
-
 {
-    "performertype_id": number,
+    "discussionID": int,
     "name": string,
     "description": string
 }
 
-Body for Update
-
+Body for Update //all fields optional
 {
-    "performertype_id": number,
     "name": string,
     "description": string
 }
-*/
+*/ 

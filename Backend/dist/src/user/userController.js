@@ -38,6 +38,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.loginUser = exports.updateUser = exports.deleteUser = exports.getUserById = exports.getUsers = exports.postUser = void 0;
 const db_1 = __importDefault(require("../../db"));
 const queries = __importStar(require("./userQueries"));
+const passwordHash = __importStar(require("password-hash"));
 const postUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { userTypeID, name, surname, email, phoneNumber, birthday, password } = req.body;
@@ -54,7 +55,8 @@ const postUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             return res.status(400).json({ message: "User type does not exist." });
         }
         else {
-            const newUser = yield db_1.default.query(queries.addUser, [userTypeID, name, surname, email, phoneNumber, birthday, password]);
+            let newUser = yield db_1.default.query(queries.addUser, [userTypeID, name, surname, email, phoneNumber, birthday, password]);
+            newUser.rows[0]["password"] = passwordHash.generate(newUser.rows[0]["password"]);
             return res.status(201).json(newUser.rows);
         }
     }
@@ -84,6 +86,7 @@ const getUserById = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
                 throw error;
             if (results.rows.length) {
                 results.rows[0]["transactions"] = (yield db_1.default.query(queries.getTransactionsForUser, [results.rows[0]["user_id"]])).rows;
+                results.rows[0]["password"] = passwordHash.generate(results.rows[0]["password"]);
                 res.status(200).json(results.rows);
             }
             else {

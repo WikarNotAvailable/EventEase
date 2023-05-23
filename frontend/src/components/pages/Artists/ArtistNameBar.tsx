@@ -12,7 +12,8 @@ export const ArtistNameBar : FC<IArtistNameProps> = ({text}) =>  {
     <Flex   backgroundColor="primary"
             borderBottomRadius={'10'}
             justify={'space-between'}
-            align={'center'}>
+            align={'center'}
+            height={"15%"}>
 
         <Text textAlign={'left'} 
             fontSize={'24'} 
