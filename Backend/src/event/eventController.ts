@@ -52,6 +52,7 @@ export const getEventById = async (req: any, res: any) => {
     
     if (event.rows.length) {
       return res.status(200).json(event.rows[0]);
+
     } else {
       return res.status(400).json({ message: "Event does not exist. (Nonexistent id)" });
     }
@@ -122,6 +123,7 @@ export const getEventsBySpotId = async (req: any, res: any) => {
   try {
     const id = parseInt(req.params.id);
     const events: QueryResult<any> = await pool.query(queries.getEventsBySpotId, [id]);
+
     return res.status(200).json(events.rows);
   } catch (err: any) {
     return res.status(400).json(err);
@@ -151,20 +153,14 @@ export const getEventsByEventTypeId = async (req: any, res: any) => {
 export const getEventsWithinDateRange = async (req: any, res: any) => {
   try {
     const { begin, end } = req.params;
-
-    // Parse the begin and end dates (assuming they are in a specific format)
     const beginDate = new Date(begin);
     const endDate = new Date(end);
-
-    // Make a database query to fetch events within the specified date range
     const events: QueryResult<any> = await pool.query(queries.getEventsWithinDateRange, [beginDate, endDate]);
-
     return res.status(200).json(events.rows);
   } catch (err: any) {
     return res.status(400).json(err);
   }
 };
-
 
 export const getEventsWithAvailableTickets = async (req: any, res: any) => {
   try {

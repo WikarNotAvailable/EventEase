@@ -47,6 +47,7 @@ export const getEvents = `SELECT
   JOIN addresses AS a ON s.address_id = a.address_id
   JOIN eventtypes AS et ON e.eventtype_id = et.eventtype_id;
   `;
+
 export const getEventById = `SELECT
   e.event_id,
   e.name,
@@ -96,8 +97,6 @@ export const getEventById = `SELECT
   JOIN eventtypes AS et ON e.eventtype_id = et.eventtype_id
   WHERE e.event_id = $1;
 `;
-
-
 
 export const deleteEvent = "DELETE FROM events WHERE event_id = $1";
 export const updateEvent = "UPDATE events SET name = $1, description = $2, begindate = $3, enddate = $4, availabletickets = $5, currentlytakentickets = $6, spot_id = $7, eventtype_id = $8, company_id = $9, discussion_id = $10 WHERE event_id = $11 RETURNING *";

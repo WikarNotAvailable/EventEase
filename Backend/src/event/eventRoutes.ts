@@ -33,7 +33,6 @@ Request Body for POST/PUT:
   "discussion_id": 8 
 }
 
-
 Request Body for updateEvent:
 {
     "name": string,
