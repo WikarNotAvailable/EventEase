@@ -30,6 +30,7 @@ CREATE TABLE performers(
     performertype_id INTEGER,
     name VARCHAR (100) NOT NULL UNIQUE,
     description text,
+    url VARCHAR (500),
     CONSTRAINT fk_performertype FOREIGN KEY(performertype_id)
         REFERENCES performertypes(performertype_id)
         ON DELETE SET NULL
@@ -48,6 +49,48 @@ CREATE TABLE transactionstatuses(
 CREATE TABLE tickettypes(
     tickettype_id SERIAL PRIMARY KEY,
     type VARCHAR(100) NOT NULL UNIQUE
+);
+
+CREATE TABLE companies(
+    company_id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE,
+    description text,
+    discussion_id INTEGER
+);
+
+CREATE TABLE discussions(
+    discussion_id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE,
+    description text,
+    company_id INTEGER,
+    event_id INTEGER,
+    CONSTRAINT fk_company FOREIGN KEY(company_id)
+        REFERENCES companies(company_id)
+        ON DELETE SET NULL
+);
+
+ALTER TABLE companies 
+ADD CONSTRAINT fk_discussion FOREIGN KEY(discussion_id)
+REFERENCES discussions(discussion_id)
+ON DELETE CASCADE;
+
+CREATE TABLE comments(
+    comments_id SERIAL PRIMARY KEY,
+    content text,
+    post_date Date NOT NULL,
+    user_id INTEGER,
+    discussion_id INTEGER,
+    CONSTRAINT fk_user FOREIGN KEY(user_id)
+        REFERENCES users(user_id)
+        ON DELETE SET NULL,
+    CONSTRAINT fk_discussion FOREIGN KEY(discussion_id)
+        REFERENCES discussions(discussion_id)
+        ON DELETE SET NULL
+);
+
+CREATE TABLE eventtypes(
+    eventtype_id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE
 );
 
 CREATE TABLE transactions(
@@ -102,11 +145,8 @@ CREATE TABLE events(
     spot_id INTEGER NOT NULL,
     eventtype_id INTEGER NOT NULL,
     company_id INTEGER,
-    discussion_id INTEGER
-);
-
-ALTER TABLE events
-ADD CONSTRAINT fk_spot FOREIGN KEY(spot_id)
+    discussion_id INTEGER,
+	CONSTRAINT fk_spot FOREIGN KEY(spot_id)
         REFERENCES spots(spot_id)
         ON DELETE SET NULL
         ON UPDATE NO ACTION,
@@ -117,4 +157,39 @@ ADD CONSTRAINT fk_spot FOREIGN KEY(spot_id)
     CONSTRAINT fk_company FOREIGN KEY(company_id)
         REFERENCES companies(company_id)
         ON DELETE SET NULL
-        ON UPDATE NO ACTION;
+        ON UPDATE NO ACTION
+);
+
+CREATE TABLE eventImages(
+    eventImage_id SERIAL PRIMARY KEY,
+    url VARCHAR(500),
+    event_id INTEGER,
+    CONSTRAINT fk_event FOREIGN KEY (event_id)
+    REFERENCES events (event_id)
+    ON DELETE SET NULL
+    ON UPDATE NO ACTION
+);
+
+CREATE TABLE eventsperformers (
+    event_id INTEGER,
+    performer_id INTEGER,
+    PRIMARY KEY (event_id, performer_id),
+    CONSTRAINT fk_event FOREIGN KEY (event_id)
+        REFERENCES events (event_id)
+        ON DELETE CASCADE
+        ON UPDATE NO ACTION,
+    CONSTRAINT fk_performer FOREIGN KEY (performer_id)
+        REFERENCES performers (performer_id)
+        ON DELETE CASCADE
+        ON UPDATE NO ACTION
+);
+
+ALTER TABLE discussions
+ADD CONSTRAINT fk_event FOREIGN KEY(event_id)
+        REFERENCES events(event_id)
+        ON DELETE CASCADE;
+
+        
+
+	
+
