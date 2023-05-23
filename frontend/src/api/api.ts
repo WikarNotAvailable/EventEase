@@ -35,7 +35,7 @@ class ApiService {
       return req.data
     }
 
-    public async getArtistOfTheSameType(type_id: number) {
+    public async getArtistsByType(type_id: number) {
       const req = await axios.get(`${this.baseUrl}/performers/type/${type_id}`, this.config)
       return req.data
     }

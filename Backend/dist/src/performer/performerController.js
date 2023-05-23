@@ -35,7 +35,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updatePerformer = exports.deletePerformer = exports.getPerformersByType = exports.getPerformerById = exports.getPerformers = exports.addPerformer = void 0;
+exports.updatePerformer = exports.deletePerformer = exports.getPerformersByEventId = exports.getPerformerByName = exports.getPerformersByType = exports.getPerformerById = exports.getPerformers = exports.addPerformer = void 0;
 const db_1 = __importDefault(require("../../db"));
 const queries = __importStar(require("./performerQueries"));
 const addPerformer = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -97,6 +97,33 @@ const getPerformersByType = (req, res) => __awaiter(void 0, void 0, void 0, func
     }
 });
 exports.getPerformersByType = getPerformersByType;
+const getPerformerByName = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const name = req.params.name;
+        const performer = yield db_1.default.query(queries.getPerformerByName, [name]);
+        if (performer.rows.length) {
+            return res.status(200).json(performer.rows);
+        }
+        else {
+            return res.status(400).json({ message: "Performer does not exist. (Nonexistent name)" });
+        }
+    }
+    catch (err) {
+        return res.status(400).json(err);
+    }
+});
+exports.getPerformerByName = getPerformerByName;
+const getPerformersByEventId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const id = parseInt(req.params.id);
+        const performers = yield db_1.default.query(queries.getPerformersByEventId, [id]);
+        return res.status(200).json(performers.rows);
+    }
+    catch (err) {
+        return res.status(400).json(err);
+    }
+});
+exports.getPerformersByEventId = getPerformersByEventId;
 const deletePerformer = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = parseInt(req.params.id);

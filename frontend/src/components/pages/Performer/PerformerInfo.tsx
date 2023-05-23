@@ -1,7 +1,7 @@
 import { Flex, Image, Text } from '@chakra-ui/react'
 import { FC } from 'react'
 
-export interface IPerformerInfoProps
+interface IPerformerInfoProps
 {
     name: string,
     description: string,

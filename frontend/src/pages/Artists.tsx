@@ -11,6 +11,7 @@ export const Artists = () => {
     const getArtists = async () => {
       try {
         setArtists(await api.getArtists())
+        console.log("artist")
       } catch(error)
       {
         console.log(error)
@@ -19,7 +20,7 @@ export const Artists = () => {
     } 
 
     getArtists()
-   }
+   }, []
   )
   
   return (
