@@ -3,7 +3,6 @@ import { QueryResult } from "pg";
 import * as queries from "./spotTypeQueries";
 
 export const postSpotType = async (req: any,res: any) => {
-    console.log("test");
     try{
         const {spotTypeName} : Record<string, any> = req.body;
         const newSpotType : QueryResult<any> = await pool.query(queries.addSpotType, [spotTypeName]);
