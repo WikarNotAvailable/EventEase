@@ -2,3 +2,5 @@ export const addComment = "INSERT INTO comments (content, post_date, user_id, di
 export const getComment = "SELECT * FROM comments";
 export const getCommentById = "SELECT * FROM comments WHERE comment_id = $1";
 export const getCommentByUser = "SELECT * FROM comments WHERE user_id =$1";
+export const checkUserExists
+export const checkDiscussionExists
