@@ -30,6 +30,7 @@ CREATE TABLE performers(
     performertype_id INTEGER,
     name VARCHAR (100) NOT NULL UNIQUE,
     description text,
+    url VARCHAR (500),
     CONSTRAINT fk_performertype FOREIGN KEY(performertype_id)
         REFERENCES performertypes(performertype_id)
         ON DELETE SET NULL
@@ -57,11 +58,6 @@ CREATE TABLE companies(
     discussion_id INTEGER
 );
 
-ALTER TABLE companies 
-ADD CONSTRAINT fk_discussion FOREIGN KEY(discussion_id)
-REFERENCES discussions(discussion_id)
-ON DELETE CASCADE;
-
 CREATE TABLE discussions(
     discussion_id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL UNIQUE,
@@ -70,11 +66,13 @@ CREATE TABLE discussions(
     event_id INTEGER,
     CONSTRAINT fk_company FOREIGN KEY(company_id)
         REFERENCES companies(company_id)
-        ON DELETE SET NULL,
-    CONSTRAINT fk_event FOREIGN KEY(event_id)
-        REFERENCES events(event_id)
-        ON DELETE CASCADE
+        ON DELETE SET NULL
 );
+
+ALTER TABLE companies 
+ADD CONSTRAINT fk_discussion FOREIGN KEY(discussion_id)
+REFERENCES discussions(discussion_id)
+ON DELETE CASCADE;
 
 CREATE TABLE comments(
     comments_id SERIAL PRIMARY KEY,
@@ -91,7 +89,7 @@ CREATE TABLE comments(
 );
 
 CREATE TABLE eventtypes(
-    eventype_id SERIAL PRIMARY KEY,
+    eventtype_id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL UNIQUE
 );
 
@@ -107,6 +105,28 @@ CREATE TABLE transactions(
         ON UPDATE NO ACTION,
     CONSTRAINT fk_status FOREIGN KEY(transactionstatus_id) 
         REFERENCES transactionstatuses(transactionstatus_id)
+        ON DELETE SET NULL
+        ON UPDATE NO ACTION
+);
+
+CREATE TABLE tickets(
+    ticket_id SERIAL PRIMARY KEY,
+    tickettype_id INTEGER NOT NULL,
+    event_id INTEGER NOT NULL,
+    transaction_id INTEGER,
+    price FLOAT NOT NULL,
+    ticket_place INTEGER,
+    isAvailable BOOLEAN,
+    CONSTRAINT fk_type FOREIGN KEY(tickettype_id) 
+        REFERENCES tickettypes(tickettype_id)
+        ON DELETE SET NULL
+        ON UPDATE NO ACTION,
+    CONSTRAINT fk_event FOREIGN KEY(event_id) 
+        REFERENCES events(event_id)
+        ON DELETE CASCADE
+        ON UPDATE NO ACTION,
+    CONSTRAINT fk_transaction FOREIGN KEY(transaction_id) 
+        REFERENCES transactions(transaction_id)
         ON DELETE SET NULL
         ON UPDATE NO ACTION
 );
@@ -147,11 +167,8 @@ CREATE TABLE events(
     spot_id INTEGER NOT NULL,
     eventtype_id INTEGER NOT NULL,
     company_id INTEGER,
-    discussion_id INTEGER
-);
-
-ALTER TABLE events
-ADD CONSTRAINT fk_spot FOREIGN KEY(spot_id)
+    discussion_id INTEGER,
+	CONSTRAINT fk_spot FOREIGN KEY(spot_id)
         REFERENCES spots(spot_id)
         ON DELETE SET NULL
         ON UPDATE NO ACTION,
@@ -162,4 +179,34 @@ ADD CONSTRAINT fk_spot FOREIGN KEY(spot_id)
     CONSTRAINT fk_company FOREIGN KEY(company_id)
         REFERENCES companies(company_id)
         ON DELETE SET NULL
-        ON UPDATE NO ACTION;
+        ON UPDATE NO ACTION
+);
+
+CREATE TABLE eventImages(
+    eventImage_id SERIAL PRIMARY KEY,
+    url VARCHAR(500),
+    event_id INTEGER,
+    CONSTRAINT fk_event FOREIGN KEY (event_id)
+    REFERENCES events (event_id)
+    ON DELETE SET NULL
+    ON UPDATE NO ACTION
+);
+
+CREATE TABLE eventsperformers (
+    event_id INTEGER,
+    performer_id INTEGER,
+    PRIMARY KEY (event_id, performer_id),
+    CONSTRAINT fk_event FOREIGN KEY (event_id)
+        REFERENCES events (event_id)
+        ON DELETE CASCADE
+        ON UPDATE NO ACTION,
+    CONSTRAINT fk_performer FOREIGN KEY (performer_id)
+        REFERENCES performers (performer_id)
+        ON DELETE CASCADE
+        ON UPDATE NO ACTION
+);
+
+ALTER TABLE discussions
+ADD CONSTRAINT fk_event FOREIGN KEY(event_id)
+        REFERENCES events(event_id)
+        ON DELETE CASCADE;
