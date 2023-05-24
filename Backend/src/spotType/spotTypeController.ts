@@ -7,7 +7,7 @@ export const postSpotType = async (req: any,res: any) => {
         const {spotTypeName} : Record<string, any> = req.body;
         const newSpotType : QueryResult<any> = await pool.query(queries.addSpotType, [spotTypeName]);
         
-        res.json(newSpotType.rows);
+        res.json(newSpotType.rows[0]);
     }catch(err: any){
         res.status(500).json(err);
         console.log(err);
@@ -34,7 +34,7 @@ export const getSpotTypeById = async (req: any, res: any) => {
             if(error) throw error;
 
             if(result.rows.length){
-                res.status(200).json(result.rows);
+                res.status(200).json(result.rows[0]);
             }
             else{
                 res.status(400).json({message: "Spot Type does not exist. (Non existent id)"})
@@ -75,7 +75,7 @@ export const updateSpotType = async (req: any,res: any) => {
         }
         else{
             const newSpotType: QueryResult<any> = await pool.query(queries.updateSpotType, [spotTypeName, id]);
-            res.json(newSpotType.rows);
+            res.json(newSpotType.rows[0]);
         }
     }catch(err: any){
         return res.status(400).json(err);

@@ -7,7 +7,7 @@ export const postPerformerType = async (req: any,res: any) => {
       const {performerTypeName} : Record<string, any> = req.body;
       const newPerformerType : QueryResult<any> = await pool.query(queries.addPerformerType, [performerTypeName]);
   
-      res.json(newPerformerType.rows);
+      res.json(newPerformerType.rows[0]);
     }catch(err: any){
       res.status(500).json(err);
     }
@@ -33,7 +33,7 @@ export const getPerformerTypeById = async (req: any,res: any) => {
           if (error) throw error;
 
           if (results.rows.length){
-              res.status(200).json(results.rows);
+              res.status(200).json(results.rows[0]);
           }
           else{
               res.status(400).json({message: "Performer Type does not exist. (Non existent id)"})
@@ -75,7 +75,7 @@ export const updatePerformerType = async (req: any,res: any) => {
         }
         else {
             const newPerformerType: QueryResult<any>  = await pool.query(queries.updatePerformerType, [performerTypeName, id]);
-            res.json(newPerformerType.rows);
+            res.json(newPerformerType.rows[0]);
         }
     }catch(err: any){
         return res.status(400).json(err);

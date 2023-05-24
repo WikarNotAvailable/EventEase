@@ -35,7 +35,7 @@ export const postTicket = async (req: any, res: any) => {
 
             let newTicket: QueryResult<any> = await pool.query(queries.addTicket, [ticketTypeID, eventID, null, price, ticketPlace, true]);
 
-            return res.status(201).json(newTicket.rows);
+            return res.status(201).json(newTicket.rows[0]);
         }
     }catch(err: any){
         return res.status(400).json(err);
@@ -115,7 +115,7 @@ export const getTicketById = async (req: any,res: any) => {
                 results.rows[0]["transaction"] = (await pool.query(queries.getTransactionForTicket, [results.rows[0]["transaction_id"]])).rows;
                 results.rows[0]["event"] = (await pool.query(queries.getEventForTicket, [results.rows[0]["event_id"]])).rows;
 
-                res.status(200).json(results.rows);
+                res.status(200).json(results.rows[0]);
             }
             else{
                 res.status(400).json({message: "Ticket does not exist. (Non existent id)"});
@@ -195,7 +195,7 @@ export const updateUser = async (req: any,res: any) => {
             }
             
             const newTicket: QueryResult<any>  = await pool.query(queries.updateTicket, [price, isAvailable, transactionID, id]);
-            res.json(newTicket.rows);
+            res.status(200).json(newTicket.rows[0]);
         }
     }catch(err: any){
         return res.status(400).json(err);
