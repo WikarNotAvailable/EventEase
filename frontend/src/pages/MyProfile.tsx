@@ -9,11 +9,11 @@ export const MyProfile = () => {
   return (
     <PageContainer isCentered>
 
-      <Grid templateColumns={'repeat(auto-fill, minmax(200px, 1fr))'} >
+
             <ProfilePhoto/>
+            <ProfileData/>
             
-            
-      </Grid>
+
         
 
 

@@ -1,17 +1,45 @@
-import { Flex, Image, position} from '@chakra-ui/react'
-
-
+import React, { useState } from 'react';
+import { Image, Box, Button } from '@chakra-ui/react';
 
 export const ProfilePhoto = () => {
+  const [photo, setPhoto] = useState('/assets/photos/user.jpg');
+
+  const handlePhotoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        if (e.target && typeof e.target.result === 'string') {
+          setPhoto(e.target.result);
+        }
+      };
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  };
+
   return (
-     
-            <Image src='/assets/photos/user.jpg' width={"250"} height={"250"} 
-            borderRadius={'500'} border={"4px"} 
-            position={"absolute"} top={"32"} shadow={"2xl"}>
-            </Image>
-
-
-        
-  
-  )
-}
+    <Box position="absolute" width="250px" height="250px">
+      <Image
+        src={photo}
+        alt="User Photo"
+        borderRadius="50%"
+        border="4px solid #fff"
+        boxShadow="2xl"
+        objectFit="cover"
+        width="100%"
+        height="100%"
+      />
+      <label htmlFor="photo-upload">
+        <Button as="span" marginTop="2" variant="outline" position="absolute">
+          Change photo
+        </Button>
+      </label>
+      <input
+        id="photo-upload"
+        type="file"
+        accept="image/*"
+        onChange={handlePhotoChange}
+        style={{ display: 'none' }}
+      />
+    </Box>
+  );
+};
