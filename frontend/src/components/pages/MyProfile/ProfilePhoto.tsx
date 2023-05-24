@@ -16,11 +16,13 @@ export const ProfilePhoto = () => {
     }
   };
 
+
   return (
-    <Box position="absolute" width="250px" height="250px">
+    
+    <Box position="absolute" width="250px" height="250px" >
       <Image
         src={photo}
-        alt="User Photo"
+        alt={""}
         borderRadius="50%"
         border="4px solid #fff"
         boxShadow="2xl"
@@ -28,18 +30,18 @@ export const ProfilePhoto = () => {
         width="100%"
         height="100%"
       />
-      <label htmlFor="photo-upload">
-        <Button as="span" marginTop="2" variant="outline" position="absolute">
-          Change photo
-        </Button>
-      </label>
-      <input
-        id="photo-upload"
-        type="file"
-        accept="image/*"
-        onChange={handlePhotoChange}
-        style={{ display: 'none' }}
-      />
+      <Button as="label" htmlFor="photo-upload" marginTop="2" variant="outline"
+              display="flex"
+              alignItems="center">
+        Change photo
+        <input
+          id="photo-upload"
+          type="file"
+          accept="image/*"
+          onChange={handlePhotoChange}
+          style={{ display: 'none' }}
+        />
+      </Button>
     </Box>
   );
 };
