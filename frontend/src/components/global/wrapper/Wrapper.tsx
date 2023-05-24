@@ -1,16 +1,25 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { Home } from '../../../pages/Home';
-import { Flex } from '@chakra-ui/react';
-import { ScrollToTop } from '../../shared/scrollToTop/ScrollToTop';
-import { Error } from '../../../pages/Error';
-import { Navbar } from '../navbar/Navbar';
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Home } from "../../../pages/Home";
+import { Flex } from "@chakra-ui/react";
+import { ScrollToTop } from "../../shared/scrollToTop/ScrollToTop";
+import { Error } from "../../../pages/Error";
+import { Navbar } from "../navbar/Navbar";
+import { Events } from "../../../pages/Events";
 
 export const Wrapper = () => {
   const pages = [
     {
-      path: '/',
-      element: <Home />,
+      path: "/",
+      element: <Home />
     },
+    {
+      path: "/events",
+      element: <Events />
+    },
+    {
+      path: "/events/:id",
+      element: <>event details</>
+    }
   ].map((element, index) => ({ ...element, id: `${element.path}_${index}` }));
 
   return (
