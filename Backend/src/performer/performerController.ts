@@ -5,7 +5,7 @@ import * as queries from "./performerQueries";
 
 export const addPerformer = async (req: Request, res: Response): Promise<Response> => {
     try {
-      const { performertype_id, name, description } = req.body;
+      const { performertype_id, name, description, url } = req.body;
   
       const performerNameExists: QueryResult<any> = await pool.query(queries.checkPerformerNameExists, [name]);
   
@@ -16,6 +16,7 @@ export const addPerformer = async (req: Request, res: Response): Promise<Respons
           performertype_id,
           name,
           description,
+          url,
         ]);
         return res.status(201).json(newPerformer.rows);
       }
@@ -48,6 +49,44 @@ export const addPerformer = async (req: Request, res: Response): Promise<Respons
       return res.status(400).json(err);
     }
   };
+
+  export const getPerformersByType = async (req: Request, res: Response): Promise<Response> => {
+    try {
+      const performertype_id: number = parseInt(req.params.id);
+      const performers: QueryResult<any> = await pool.query(queries.getPerformersByType, [performertype_id]);
+      return res.status(200).json(performers.rows);
+    } catch (err: any) {
+      return res.status(400).json(err);
+    }
+  };
+
+  export const getPerformerByName = async (req: any, res: any) => {
+    try {
+      const name = req.params.name;
+      const performer: QueryResult<any> = await pool.query(queries.getPerformerByName, [name]);
+
+      if (performer.rows.length) {
+        return res.status(200).json(performer.rows);
+      } else {
+        return res.status(400).json({ message: "Performer does not exist. (Nonexistent name)" });
+      }
+    } catch (err: any) {
+      return res.status(400).json(err);
+    }
+  };
+
+  
+export const getPerformersByEventId = async (req: Request, res: Response) => {
+  try {
+    const id: number = parseInt(req.params.id);
+
+    const performers: QueryResult<any> = await pool.query(queries.getPerformersByEventId, [id]);
+
+    return res.status(200).json(performers.rows);
+  } catch (err: any) {
+    return res.status(400).json(err);
+  }
+};
   
   export const deletePerformer = async (req: Request, res: Response): Promise<Response> => {
     try {
@@ -69,7 +108,7 @@ export const addPerformer = async (req: Request, res: Response): Promise<Respons
   export const updatePerformer = async (req: Request, res: Response): Promise<Response> => {
     try {
       const id: number = parseInt(req.params.id);
-      const { performertype_id, name, description } = req.body;
+      const { performertype_id, name, description, url } = req.body;
   
       const performer: QueryResult<any> = await pool.query(queries.getPerformerById, [id]);
   
@@ -80,6 +119,7 @@ export const addPerformer = async (req: Request, res: Response): Promise<Respons
           performertype_id,
           name,
           description,
+          url,
           id,
         ]);
         return res.json(updatedPerformer.rows);
