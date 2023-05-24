@@ -52,7 +52,7 @@ export const ProfileData = () => {
       </Text>
 
       <Text textAlign="center" fontSize="20">
-        {isEditing ? (
+        Birth date: {isEditing ? (
           <Input
             value={birthDate}
             onChange={(e) => setBirthDate(e.target.value)}
@@ -65,7 +65,7 @@ export const ProfileData = () => {
       </Text>
 
       <Text textAlign="center" fontSize="20">
-        {isEditing ? (
+        Phone number: {isEditing ? (
           <Input
             value={phoneNumber}
             onChange={(e) => setPhoneNumber(e.target.value)}
