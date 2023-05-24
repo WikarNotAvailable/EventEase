@@ -24,7 +24,7 @@ export const getCompany = async (req: any,res: any) => {
         pool.query(queries.getCompany,(error, results) => {
             if(error) throw error;
 
-            res.status(200).json(results.rows[0]);
+            res.status(200).json(results.rows);
         })
     }catch(err: any){
         return res.status(400).json(err);

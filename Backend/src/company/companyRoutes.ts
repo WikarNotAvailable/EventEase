@@ -18,25 +18,37 @@ companyRoutes.put("/:id", controller.updateCompany);
 export default companyRoutes;
 
 /*
-Reponse get
+Get All response:
 {
     "company_id": int,
     "name": string,
     "description": string,
-    "discussion_id": int,
-
+    "discussion_id": int
 }
 
-Body for Post
+Get by id response:
 {
-    "discussionID": int,
+    "company_id": int,
     "name": string,
-    "description": string
+    "description": string,
+    "discussion": {
+        "discussion_id": int,
+        "name": string,
+        "description": string
+    }
 }
 
-Body for Update //all fields optional 
+Post body:
 {
     "name": string,
-    "description": string
+    "description": string,
+    "discussion_id": int
+}
+
+Update response:
+{
+    "name": string,
+    "description": string,
+    "discussion_id": int
 }
 */
