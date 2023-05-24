@@ -9,6 +9,8 @@ companyRoutes.get("/", controller.getCompany);
 
 companyRoutes.get("/:id", controller.getCompanyById);
 
+companyRoutes.get("/discussion/:id", controller.getCompanyByDiscussion);
+
 companyRoutes.delete("/:id", controller.deleteCompany);
 
 companyRoutes.put("/:id", controller.updateCompany);
