@@ -24,28 +24,23 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const controller = __importStar(require("./userTypeController"));
-const userTypeRoutes = (0, express_1.Router)();
-userTypeRoutes.post("/", controller.postUserType);
-userTypeRoutes.get("/", controller.getUserTypes);
-userTypeRoutes.get("/:id", controller.getUserTypeById);
-userTypeRoutes.delete("/:id", controller.deleteUser);
-userTypeRoutes.put("/:id", controller.updateUserType);
-exports.default = userTypeRoutes;
+const controller = __importStar(require("./eventsPerformersController"));
+const eventsPerformersRoutes = (0, express_1.Router)();
+eventsPerformersRoutes.post('/', controller.addEventPerformer);
+eventsPerformersRoutes.get('/', controller.getEventsPerformers);
+eventsPerformersRoutes.delete('/:event_id/:performer_id', controller.deleteEventPerformer);
+eventsPerformersRoutes.put('/:event_id/:performer_id', controller.updateEventPerformer);
+exports.default = eventsPerformersRoutes;
 /*
-Reponse get
+BODY FOR POST
 {
-    "usertype_id": int,
-    "name": string
-}
-Body for Post
-{
-    "userTypeName": string,
+  "event_id": 1,
+  "performer_id": 19
 }
 
-Body for Update //obligatory field below
+Body for UPDATE
 {
-    "userTypeName": string,
+    "new_event_id": number,
+    "new_performer_id": number
 }
-
-*/
+*/ 

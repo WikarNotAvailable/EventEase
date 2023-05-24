@@ -35,23 +35,23 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateUserType = exports.deleteUser = exports.getUserTypeById = exports.getUserTypes = exports.postUserType = void 0;
+exports.updateAddress = exports.deleteAddress = exports.getAddressById = exports.getAddress = exports.postAddress = void 0;
 const db_1 = __importDefault(require("../../db"));
-const queries = __importStar(require("./userTypeQueries"));
-const postUserType = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const queries = __importStar(require("./addressQueries"));
+const postAddress = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { userTypeName } = req.body;
-        const newUserType = yield db_1.default.query(queries.addUserType, [userTypeName]);
-        res.json(newUserType.rows);
+        const { country, city, street, number } = req.body;
+        const newAddress = yield db_1.default.query(queries.addAddress, [country, city, street, number]);
+        res.json(newAddress.rows);
     }
     catch (err) {
-        res.status(500).json(err);
+        return res.status(500).json(err);
     }
 });
-exports.postUserType = postUserType;
-const getUserTypes = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.postAddress = postAddress;
+const getAddress = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        db_1.default.query(queries.getUserTypes, (error, results) => {
+        db_1.default.query(queries.getAddress, (error, results) => {
             if (error)
                 throw error;
             res.status(200).json(results.rows);
@@ -61,18 +61,18 @@ const getUserTypes = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         return res.status(400).json(err);
     }
 });
-exports.getUserTypes = getUserTypes;
-const getUserTypeById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.getAddress = getAddress;
+const getAddressById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = parseInt(req.params.id);
-        db_1.default.query(queries.getUserTypeById, [id], (error, results) => {
+        db_1.default.query(queries.getAddressById, [id], (error, result) => {
             if (error)
                 throw error;
-            if (results.rows.length) {
-                res.status(200).json(results.rows);
+            if (result.rows.length) {
+                res.status(200).json(result.rows);
             }
             else {
-                res.status(400).json({ message: "UserType does not exist. (Non existent id)" });
+                res.status(400).json({ message: "Address does not exist." });
             }
         });
     }
@@ -80,16 +80,16 @@ const getUserTypeById = (req, res) => __awaiter(void 0, void 0, void 0, function
         return res.status(400).json(err);
     }
 });
-exports.getUserTypeById = getUserTypeById;
-const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.getAddressById = getAddressById;
+const deleteAddress = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = parseInt(req.params.id);
-        const user = yield db_1.default.query(queries.getUserTypeById, [id]);
-        if (!user.rows.length) {
-            res.status(400).json({ message: "UserType does not exist. (Non existent id)" });
+        const address = yield db_1.default.query(queries.getAddressById, [id]);
+        if (!address.rows.length) {
+            res.status(400).json({ message: "Address does not exist." });
         }
         else {
-            db_1.default.query(queries.deleteUserTypeById, [id], (error, results) => {
+            db_1.default.query(queries.deleteAddress, [id], (error, results) => {
                 if (error)
                     throw error;
                 res.status(200).json({ message: "Successfully deleted." });
@@ -100,22 +100,30 @@ const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         return res.status(400).json(err);
     }
 });
-exports.deleteUser = deleteUser;
-const updateUserType = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.deleteAddress = deleteAddress;
+const updateAddress = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = parseInt(req.params.id);
-        const { userTypeName } = req.body;
-        const user = yield db_1.default.query(queries.getUserTypeById, [id]);
-        if (!user.rows.length) {
-            res.status(400).json({ message: "UserType does not exist. (Non existent id)" });
+        let { country, city, street, number } = req.body;
+        const address = yield db_1.default.query(queries.getAddressById, [id]);
+        if (country == null)
+            country = address.rows[0]["country"];
+        if (city == null)
+            city = address.rows[0]["city"];
+        if (street == null)
+            street = address.rows[0]["street"];
+        if (number == null)
+            number = address.rows[0]["number"];
+        if (!address.rows.length) {
+            res.status(400).json({ message: "Address does not exist." });
         }
         else {
-            const newUserType = yield db_1.default.query(queries.updateUserType, [userTypeName, id]);
-            res.json(newUserType.rows);
+            const newAddress = yield db_1.default.query(queries.updateAddress, [country, city, street, number, id]);
+            res.json(newAddress.rows);
         }
     }
     catch (err) {
         return res.status(400).json(err);
     }
 });
-exports.updateUserType = updateUserType;
+exports.updateAddress = updateAddress;

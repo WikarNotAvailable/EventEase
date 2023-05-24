@@ -35,23 +35,23 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateUserType = exports.deleteUser = exports.getUserTypeById = exports.getUserTypes = exports.postUserType = void 0;
+exports.updateTicketType = exports.deleteTicketType = exports.getTicketTypeById = exports.getTicketTypes = exports.postTicketType = void 0;
 const db_1 = __importDefault(require("../../db"));
-const queries = __importStar(require("./userTypeQueries"));
-const postUserType = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const queries = __importStar(require("./ticketTypeQueries"));
+const postTicketType = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { userTypeName } = req.body;
-        const newUserType = yield db_1.default.query(queries.addUserType, [userTypeName]);
-        res.json(newUserType.rows);
+        const { type } = req.body;
+        const newTicketType = yield db_1.default.query(queries.addTicketType, [type]);
+        res.json(newTicketType.rows);
     }
     catch (err) {
         res.status(500).json(err);
     }
 });
-exports.postUserType = postUserType;
-const getUserTypes = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.postTicketType = postTicketType;
+const getTicketTypes = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        db_1.default.query(queries.getUserTypes, (error, results) => {
+        db_1.default.query(queries.getTicketTypes, (error, results) => {
             if (error)
                 throw error;
             res.status(200).json(results.rows);
@@ -61,18 +61,18 @@ const getUserTypes = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         return res.status(400).json(err);
     }
 });
-exports.getUserTypes = getUserTypes;
-const getUserTypeById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.getTicketTypes = getTicketTypes;
+const getTicketTypeById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = parseInt(req.params.id);
-        db_1.default.query(queries.getUserTypeById, [id], (error, results) => {
+        db_1.default.query(queries.getTicketTypeById, [id], (error, results) => {
             if (error)
                 throw error;
             if (results.rows.length) {
                 res.status(200).json(results.rows);
             }
             else {
-                res.status(400).json({ message: "UserType does not exist. (Non existent id)" });
+                res.status(400).json({ message: "Ticket type does not exist. (Non existent id)" });
             }
         });
     }
@@ -80,16 +80,16 @@ const getUserTypeById = (req, res) => __awaiter(void 0, void 0, void 0, function
         return res.status(400).json(err);
     }
 });
-exports.getUserTypeById = getUserTypeById;
-const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.getTicketTypeById = getTicketTypeById;
+const deleteTicketType = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = parseInt(req.params.id);
-        const user = yield db_1.default.query(queries.getUserTypeById, [id]);
-        if (!user.rows.length) {
-            res.status(400).json({ message: "UserType does not exist. (Non existent id)" });
+        const ticketType = yield db_1.default.query(queries.getTicketTypeById, [id]);
+        if (!ticketType.rows.length) {
+            res.status(400).json({ message: "Ticket type does not exist. (Non existent id)" });
         }
         else {
-            db_1.default.query(queries.deleteUserTypeById, [id], (error, results) => {
+            db_1.default.query(queries.deleteTicketTypeById, [id], (error, results) => {
                 if (error)
                     throw error;
                 res.status(200).json({ message: "Successfully deleted." });
@@ -100,22 +100,22 @@ const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         return res.status(400).json(err);
     }
 });
-exports.deleteUser = deleteUser;
-const updateUserType = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.deleteTicketType = deleteTicketType;
+const updateTicketType = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = parseInt(req.params.id);
-        const { userTypeName } = req.body;
-        const user = yield db_1.default.query(queries.getUserTypeById, [id]);
-        if (!user.rows.length) {
-            res.status(400).json({ message: "UserType does not exist. (Non existent id)" });
+        const { type } = req.body;
+        const ticketType = yield db_1.default.query(queries.getTicketTypeById, [id]);
+        if (!ticketType.rows.length) {
+            res.status(400).json({ message: "Ticket type does not exist. (Non existent id)" });
         }
         else {
-            const newUserType = yield db_1.default.query(queries.updateUserType, [userTypeName, id]);
-            res.json(newUserType.rows);
+            const newTicketType = yield db_1.default.query(queries.updateTicketType, [type, id]);
+            res.json(newTicketType.rows);
         }
     }
     catch (err) {
         return res.status(400).json(err);
     }
 });
-exports.updateUserType = updateUserType;
+exports.updateTicketType = updateTicketType;

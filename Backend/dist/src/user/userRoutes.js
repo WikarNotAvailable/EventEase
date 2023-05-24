@@ -34,27 +34,57 @@ userRoutes.put("/:id", controller.updateUser);
 userRoutes.post("/login", controller.loginUser);
 exports.default = userRoutes;
 /*
+Reponse get all
+{
+    "user_id": int,
+    "usertype_id": int,
+    "usertype": string,
+    "name": string,
+    "surname": string,
+    "email": string,
+    "phone_number": string,
+    "birthday": date
+}
+Response get
+{
+    "user_id": int,
+    "usertype_id": int,
+    "usertype": string,
+    "name": string,
+    "surname": string,
+    "email": string,
+    "phone_number": int,
+    "birthday": date,
+    "password": string (hashed),
+    "transactions": [
+        {
+            "transaction_id": int,
+            "user_id": int,
+            "transactionstatus_id": int,
+            "value": float,
+            "transactiondate": date,
+            "status": "Completed"
+        }
+    ]
+}
 Body for Post
-
 {
     "userTypeID": int,
     "name": string,
     "surname": string,
     "email": string,
     "phoneNumber": "string,
-    "birthday": string,
+    "birthday": date,
     "password": string
 }
 
-
-Body for Update
-
+Body for Update //all fields optional
 {
     "name": string,
     "surname": string,
     "email": string,
     "phoneNumber": "string,
-    "birthday": string,
+    "birthday": date,
     "password": string
 }
 
