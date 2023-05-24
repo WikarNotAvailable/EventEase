@@ -45,7 +45,8 @@ export const getTransactionById = async (req: any,res: any) => {
             if (error) throw error;
 
             if (results.rows.length){
-                results.rows[0]["user"] = (await pool.query(queries.getUserForTransaction, [results.rows[0]["user_id"]])).rows[0]
+                results.rows[0]["user"] = (await pool.query(queries.getUserForTransaction, [results.rows[0]["user_id"]])).rows[0];
+                results.rows[0]["tickets"] = (await pool.query(queries.getTicketsForTransaction, [results.rows[0]["transaction_id"]])).rows;
 
                 res.status(200).json(results.rows);
             }

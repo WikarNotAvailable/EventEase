@@ -51,7 +51,8 @@ export const getEventById = async (req: any, res: any) => {
     const event: QueryResult<any> = await pool.query(queries.getEventById, [id]);
     
     if (event.rows.length) {
-      return res.status(200).json(event.rows);
+      return res.status(200).json(event.rows[0]);
+
     } else {
       return res.status(400).json({ message: "Event does not exist. (Nonexistent id)" });
     }
@@ -120,18 +121,29 @@ export const updateEvent = async (req: any, res: any) => {
 
 export const getEventsBySpotId = async (req: any, res: any) => {
   try {
-    const spotId = parseInt(req.params.spotid);
-    const events: QueryResult<any> = await pool.query(queries.getEventsBySpotId, [spotId]);
+    const id = parseInt(req.params.id);
+    const events: QueryResult<any> = await pool.query(queries.getEventsBySpotId, [id]);
+
     return res.status(200).json(events.rows);
   } catch (err: any) {
     return res.status(400).json(err);
   }
 };
 
+export const getEventsByPerformerId = async (req: any, res: any) => {
+  try {
+    const id = req.params.id;  
+    const events: QueryResult<any> = await pool.query(queries.getEventsByPerformerId, [id]);
+    return res.status(200).json(events.rows);
+  } catch (err) {
+    return res.status(400).json(err);
+  }
+};
+
 export const getEventsByEventTypeId = async (req: any, res: any) => {
   try {
-    const eventTypeId = parseInt(req.params.eventtypeid);
-    const events: QueryResult<any> = await pool.query(queries.getEventsByEventTypeId, [eventTypeId]);
+    const id = parseInt(req.params.id);
+    const events: QueryResult<any> = await pool.query(queries.getEventsByEventTypeId, [id]);
     return res.status(200).json(events.rows);
   } catch (err: any) {
     return res.status(400).json(err);
@@ -140,8 +152,10 @@ export const getEventsByEventTypeId = async (req: any, res: any) => {
 
 export const getEventsWithinDateRange = async (req: any, res: any) => {
   try {
-    const { startdate, enddate } = req.params;
-    const events: QueryResult<any> = await pool.query(queries.getEventsWithinDateRange, [startdate, enddate]);
+    const { begin, end } = req.params;
+    const beginDate = new Date(begin);
+    const endDate = new Date(end);
+    const events: QueryResult<any> = await pool.query(queries.getEventsWithinDateRange, [beginDate, endDate]);
     return res.status(200).json(events.rows);
   } catch (err: any) {
     return res.status(400).json(err);

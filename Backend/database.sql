@@ -109,6 +109,28 @@ CREATE TABLE transactions(
         ON UPDATE NO ACTION
 );
 
+CREATE TABLE tickets(
+    ticket_id SERIAL PRIMARY KEY,
+    tickettype_id INTEGER NOT NULL,
+    event_id INTEGER NOT NULL,
+    transaction_id INTEGER,
+    price FLOAT NOT NULL,
+    ticket_place INTEGER,
+    isAvailable BOOLEAN,
+    CONSTRAINT fk_type FOREIGN KEY(tickettype_id) 
+        REFERENCES tickettypes(tickettype_id)
+        ON DELETE SET NULL
+        ON UPDATE NO ACTION,
+    CONSTRAINT fk_event FOREIGN KEY(event_id) 
+        REFERENCES events(event_id)
+        ON DELETE CASCADE
+        ON UPDATE NO ACTION,
+    CONSTRAINT fk_transaction FOREIGN KEY(transaction_id) 
+        REFERENCES transactions(transaction_id)
+        ON DELETE SET NULL
+        ON UPDATE NO ACTION
+);
+
 CREATE TABLE addresses(
     address_id SERIAL PRIMARY KEY,
     country VARCHAR(50) NOT NULL,
@@ -182,14 +204,10 @@ CREATE TABLE eventsperformers (
         REFERENCES performers (performer_id)
         ON DELETE CASCADE
         ON UPDATE NO ACTION
+
 );
 
 ALTER TABLE discussions
 ADD CONSTRAINT fk_event FOREIGN KEY(event_id)
         REFERENCES events(event_id)
         ON DELETE CASCADE;
-
-        
-
-	
-
