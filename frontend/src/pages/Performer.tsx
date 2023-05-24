@@ -9,7 +9,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 
 export const Performer = () => {
   const isWideScreen = useBreakpointValue({ base: false, lg: true });
-  const {name} = useParams();
+  let {name} = useParams();
   const [artist, setArtist] = useState<any>(null)
   const navigate = useNavigate()
   useEffect(() => {
@@ -26,7 +26,7 @@ export const Performer = () => {
     } 
 
     getArtist()
-   }, [artist]
+   }, []
   )
 
   if(artist)
