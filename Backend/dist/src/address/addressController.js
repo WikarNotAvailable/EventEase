@@ -42,7 +42,7 @@ const postAddress = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     try {
         const { country, city, street, number } = req.body;
         const newAddress = yield db_1.default.query(queries.addAddress, [country, city, street, number]);
-        res.json(newAddress.rows);
+        res.json(newAddress.rows[0]);
     }
     catch (err) {
         return res.status(500).json(err);
@@ -69,7 +69,7 @@ const getAddressById = (req, res) => __awaiter(void 0, void 0, void 0, function*
             if (error)
                 throw error;
             if (result.rows.length) {
-                res.status(200).json(result.rows);
+                res.status(200).json(result.rows[0]);
             }
             else {
                 res.status(400).json({ message: "Address does not exist." });
@@ -119,7 +119,7 @@ const updateAddress = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         }
         else {
             const newAddress = yield db_1.default.query(queries.updateAddress, [country, city, street, number, id]);
-            res.json(newAddress.rows);
+            res.json(newAddress.rows[0]);
         }
     }
     catch (err) {

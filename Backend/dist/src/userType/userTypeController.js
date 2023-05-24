@@ -42,7 +42,7 @@ const postUserType = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     try {
         const { userTypeName } = req.body;
         const newUserType = yield db_1.default.query(queries.addUserType, [userTypeName]);
-        res.json(newUserType.rows);
+        res.json(newUserType.rows[0]);
     }
     catch (err) {
         res.status(500).json(err);
@@ -69,7 +69,7 @@ const getUserTypeById = (req, res) => __awaiter(void 0, void 0, void 0, function
             if (error)
                 throw error;
             if (results.rows.length) {
-                res.status(200).json(results.rows);
+                res.status(200).json(results.rows[0]);
             }
             else {
                 res.status(400).json({ message: "UserType does not exist. (Non existent id)" });
@@ -111,7 +111,7 @@ const updateUserType = (req, res) => __awaiter(void 0, void 0, void 0, function*
         }
         else {
             const newUserType = yield db_1.default.query(queries.updateUserType, [userTypeName, id]);
-            res.json(newUserType.rows);
+            res.status(200).json(newUserType.rows[0]);
         }
     }
     catch (err) {
