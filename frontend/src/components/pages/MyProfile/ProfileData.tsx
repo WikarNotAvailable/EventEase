@@ -5,7 +5,7 @@ export const ProfileData = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState('Arkadiusz');
   const [surname, setSurname] = useState('Nowak');
-  const [birthDate, setBirthDate] = useState('1990-01-01');
+  const [birthDate, setBirthDate] = useState('01-01-1990');
   const [phoneNumber, setPhoneNumber] = useState('123-123-321');
   const [email] = useState('arkadiusz.nowak@gmail.com');
 
