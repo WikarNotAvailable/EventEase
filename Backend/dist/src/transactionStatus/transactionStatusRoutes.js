@@ -24,28 +24,25 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const controller = __importStar(require("./userTypeController"));
-const userTypeRoutes = (0, express_1.Router)();
-userTypeRoutes.post("/", controller.postUserType);
-userTypeRoutes.get("/", controller.getUserTypes);
-userTypeRoutes.get("/:id", controller.getUserTypeById);
-userTypeRoutes.delete("/:id", controller.deleteUser);
-userTypeRoutes.put("/:id", controller.updateUserType);
-exports.default = userTypeRoutes;
+const controller = __importStar(require("./transactionStatusController"));
+const transactionStatusRoutes = (0, express_1.Router)();
+transactionStatusRoutes.post("/", controller.postTransactionStatus);
+transactionStatusRoutes.get("/", controller.getTransactionStatuses);
+transactionStatusRoutes.get("/:id", controller.getTransactionStatusById);
+transactionStatusRoutes.delete("/:id", controller.deleteTransactionStatus);
+transactionStatusRoutes.put("/:id", controller.updateTransactionStatus);
+exports.default = transactionStatusRoutes;
 /*
-Reponse get
-{
-    "usertype_id": int,
-    "name": string
-}
-Body for Post
-{
-    "userTypeName": string,
-}
+Body for post:
+ {
+    "status": string
+ }
 
-Body for Update //obligatory field below
-{
-    "userTypeName": string,
-}
+ Response for get:
+ {
+   "transactionstatus_id": int
+   "status": string
+ }
 
-*/
+ }
+*/ 

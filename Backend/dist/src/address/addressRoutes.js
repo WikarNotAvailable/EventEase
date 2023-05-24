@@ -24,28 +24,38 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const controller = __importStar(require("./userTypeController"));
-const userTypeRoutes = (0, express_1.Router)();
-userTypeRoutes.post("/", controller.postUserType);
-userTypeRoutes.get("/", controller.getUserTypes);
-userTypeRoutes.get("/:id", controller.getUserTypeById);
-userTypeRoutes.delete("/:id", controller.deleteUser);
-userTypeRoutes.put("/:id", controller.updateUserType);
-exports.default = userTypeRoutes;
+const controller = __importStar(require("./addressController"));
+const addressRoutes = (0, express_1.Router)();
+addressRoutes.post("/", controller.postAddress);
+addressRoutes.get("/", controller.getAddress);
+addressRoutes.get("/:id", controller.getAddressById);
+addressRoutes.delete("/:id", controller.deleteAddress);
+addressRoutes.put("/:id", controller.updateAddress);
+exports.default = addressRoutes;
 /*
-Reponse get
+Get response:
 {
-    "usertype_id": int,
-    "name": string
-}
-Body for Post
-{
-    "userTypeName": string,
-}
-
-Body for Update //obligatory field below
-{
-    "userTypeName": string,
+    "address_id": int
+    "country": string,
+    "city": string,
+    "street": string,
+    "number": string
 }
 
+
+Post body:
+{
+    "country": string,
+    "city": string,
+    "street": string,
+    "number": string
+}
+
+Update response:
+{
+    "country": string,
+    "city": string,
+    "street": string,
+    "number": string
+}
 */

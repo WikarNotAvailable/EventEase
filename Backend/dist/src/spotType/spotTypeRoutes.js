@@ -24,28 +24,16 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const controller = __importStar(require("./userTypeController"));
-const userTypeRoutes = (0, express_1.Router)();
-userTypeRoutes.post("/", controller.postUserType);
-userTypeRoutes.get("/", controller.getUserTypes);
-userTypeRoutes.get("/:id", controller.getUserTypeById);
-userTypeRoutes.delete("/:id", controller.deleteUser);
-userTypeRoutes.put("/:id", controller.updateUserType);
-exports.default = userTypeRoutes;
+const controller = __importStar(require("./spotTypeController"));
+const spotTypeRoutes = (0, express_1.Router)();
+spotTypeRoutes.post("/", controller.postSpotType);
+spotTypeRoutes.get("/", controller.getSpotType);
+spotTypeRoutes.get("/", controller.getSpotTypeById);
+spotTypeRoutes.delete("/:id", controller.deleteSpotType);
+spotTypeRoutes.put("/:id", controller.updateSpotType);
+exports.default = spotTypeRoutes;
 /*
-Reponse get
-{
-    "usertype_id": int,
-    "name": string
-}
 Body for Post
-{
-    "userTypeName": string,
-}
 
-Body for Update //obligatory field below
-{
-    "userTypeName": string,
-}
 
-*/
+*/ 
