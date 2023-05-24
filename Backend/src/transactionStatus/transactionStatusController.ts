@@ -7,7 +7,7 @@ export const postTransactionStatus= async (req: any,res: any) => {
       const {status} : Record<string, any> = req.body;
       const newTransactionStatus : QueryResult<any> = await pool.query(queries.addTransactionStatus, [status]);
   
-      res.json(newTransactionStatus.rows);
+      res.json(newTransactionStatus.rows[0]);
     }catch(err: any){
       res.status(500).json(err);
     }
@@ -33,7 +33,7 @@ export const getTransactionStatusById = async (req: any,res: any) => {
           if (error) throw error;
 
           if (results.rows.length){
-              res.status(200).json(results.rows);
+              res.status(200).json(results.rows[0]);
           }
           else{
               res.status(400).json({message: "Transaction status does not exist. (Non existent id)"})
@@ -75,7 +75,7 @@ export const updateTransactionStatus = async (req: any,res: any) => {
       }
       else {
           const newTransactionStatus: QueryResult<any>  = await pool.query(queries.updateTransactionStatus, [status, id]);
-          res.json(newTransactionStatus.rows);
+          res.status(200).json(newTransactionStatus.rows[0]);
       }
   }catch(err: any){
       return res.status(400).json(err);

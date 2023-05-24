@@ -7,7 +7,7 @@ export const addEventPerformer = async (req: any, res: any) => {
     const { event_id, performer_id }: Record<string, any> = req.body;
     const newEventPerformer: QueryResult<any> = await pool.query(queries.addEventPerformer, [event_id, performer_id]);
 
-    return res.status(201).json(newEventPerformer.rows);
+    return res.status(201).json(newEventPerformer.rows[0]);
 
   } catch (err: any) {
     res.status(500).json(err);
@@ -57,7 +57,7 @@ export const updateEventPerformer = async (req: any,res: any) => {
       }
       else {
           const newEventPerformer: QueryResult<any>  = await pool.query(queries.updateEventPerformer, [new_event_id, new_performer_id, event_id, performer_id]);
-          res.json(newEventPerformer.rows);
+          res.json(newEventPerformer.rows[0]);
       }
   }catch(err: any){
       return res.status(400).json(err);

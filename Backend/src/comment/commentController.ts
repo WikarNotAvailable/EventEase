@@ -17,7 +17,7 @@ export const postComment = async (req: any,res: any) => {
         }
         else{
             const newComment: QueryResult<any> = await pool.query(queries.addComment, [content, post_date, user_id, discussion_id]);
-            return res.status(201).json(newComment.rows);
+            return res.status(201).json(newComment.rows[0]);
         }
     }catch(err: any){
         return res.status(400).json(err);
@@ -43,7 +43,7 @@ export const getCommentById = async (req: any, res: any) => {
             if(error) throw error;
 
             if(results.rows.length){
-                res.status(200).json(results.rows);
+                res.status(200).json(results.rows[0]);
             }
             else{
                 res.status(400).json({message: "Comment does not exist."});
@@ -106,7 +106,7 @@ export const updateComment = async(req: any, res: any) => {
         }
         else{
             const newComment: QueryResult<any> = await pool.query(queries.updateComment,[content, post_date, user_id, discussion_id, id]);
-            return res.json(newComment.rows);
+            return res.json(newComment.rows[0]);
         }
     }catch(err: any){
         return res.status(400).json(err);
