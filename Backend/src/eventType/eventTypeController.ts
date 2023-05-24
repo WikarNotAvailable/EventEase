@@ -7,7 +7,7 @@ export const postEventType = async (req: any,res: any) => {
         const {eventTypeName} : Record<string, any> = req.body;
         const newEventType : QueryResult<any> = await pool.query(queries.addEventType, [eventTypeName]);
 
-        res.json(newEventType.rows);
+        res.json(newEventType.rows[0]);
     }catch(err: any){
         res.status(500).json(err);
     }
@@ -33,7 +33,7 @@ export const getEventTypeByID = async (req: any,res: any) => {
             if(error) throw error;
 
             if(results.rows.length){
-                res.status(200).json(results.rows);
+                res.status(200).json(results.rows[0]);
             }
             else{
                 res.status(400).json({message: "Event Type does not exist. (Non existent id)"})
@@ -74,7 +74,7 @@ export const updateEventType = async (req: any,res: any) => {
         }
         else{
             const newEventType: QueryResult<any> = await pool.query(queries.updateEventType, [eventTypeName, id]);
-            res.json(newEventType.rows);
+            res.json(newEventType.rows[0]);
         }
     }catch(err: any){
         return res.status(400).json(err);

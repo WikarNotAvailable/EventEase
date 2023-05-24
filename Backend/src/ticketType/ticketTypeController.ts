@@ -7,7 +7,7 @@ export const postTicketType = async (req: any,res: any) => {
       const {type} : Record<string, any> = req.body;
       const newTicketType : QueryResult<any> = await pool.query(queries.addTicketType, [type]);
   
-      res.json(newTicketType.rows);
+      res.json(newTicketType.rows[0]);
     }catch(err: any){
       res.status(500).json(err);
     }
@@ -33,7 +33,7 @@ export const getTicketTypeById = async (req: any,res: any) => {
             if (error) throw error;
   
             if (results.rows.length){
-                res.status(200).json(results.rows);
+                res.status(200).json(results.rows[0]);
             }
             else{
                 res.status(400).json({message: "Ticket type does not exist. (Non existent id)"})
@@ -75,7 +75,7 @@ export const updateTicketType = async (req: any,res: any) => {
         }
         else {
             const newTicketType: QueryResult<any>  = await pool.query(queries.updateTicketType, [type, id]);
-            res.json(newTicketType.rows);
+            res.status(200).json(newTicketType.rows[0]);
         }
     }catch(err: any){
         return res.status(400).json(err);
