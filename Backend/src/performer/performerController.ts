@@ -59,6 +59,17 @@ export const addPerformer = async (req: Request, res: Response): Promise<Respons
       return res.status(400).json(err);
     }
   };
+
+  export const getPerformersByTypeWithLimit = async (req: Request, res: Response): Promise<Response> => {
+    try {
+      const performertype_id: number = parseInt(req.params.id);
+      const limit: number = parseInt(req.params.limit);
+      const performers: QueryResult<any> = await pool.query(queries.getPerformersByTypeWithLimit, [performertype_id, limit]);
+      return res.status(200).json(performers.rows);
+    } catch (err: any) {
+      return res.status(400).json(err);
+    }
+  };
   
   export const deletePerformer = async (req: Request, res: Response): Promise<Response> => {
     try {
