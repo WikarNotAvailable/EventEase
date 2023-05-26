@@ -5,6 +5,7 @@ import { ScrollToTop } from '../../shared/scrollToTop/ScrollToTop';
 import { Error } from '../../../pages/Error';
 import { Navbar } from '../navbar/Navbar';
 import { MyProfile } from '../../../pages/MyProfile';
+import { ChangePassowrd } from '../../../pages/ChangePassword';
 
 export const Wrapper = () => {
   const pages = [
@@ -15,7 +16,11 @@ export const Wrapper = () => {
     {
       path: '/me',
       element: <MyProfile/>
-    }
+    },
+    {
+      path: '/me/changepassword',
+      element: <ChangePassowrd/>
+    },
   ].map((element, index) => ({ ...element, id: `${element.path}_${index}` }));
 
   return (

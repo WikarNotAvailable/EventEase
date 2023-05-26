@@ -28,7 +28,7 @@ export const ProfileData = () => {
       boxShadow="lg"
       textColor="#101828"
       position="absolute"
-      top="300%"
+      top="350%"
     >
       <Text textAlign="center" fontSize="32" fontWeight="bold" marginBottom="2">
         {isEditing ? (
