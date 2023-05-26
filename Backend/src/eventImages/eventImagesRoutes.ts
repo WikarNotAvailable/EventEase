@@ -4,9 +4,11 @@ import * as controller from "./eventImagesController";
 const eventImagesRoutes: Router = Router();
 
 eventImagesRoutes.post("/", controller.addEventImage);
-eventImagesRoutes.get("/:event_id", controller.getEventImagesByEventId);
-eventImagesRoutes.put("/:eventImage_id", controller.updateEventImage);
-eventImagesRoutes.delete("/:eventImage_id", controller.deleteEventImage);
+eventImagesRoutes.get("/", controller.getEventImages);
+eventImagesRoutes.get("/:id", controller.getEventImageById);
+eventImagesRoutes.get("/event/:id", controller.getEventImagesByEventId);
+eventImagesRoutes.put("/:eventimage_id", controller.updateEventImage);
+eventImagesRoutes.delete("/:id", controller.deleteEventImage);
 
 export default eventImagesRoutes;
 

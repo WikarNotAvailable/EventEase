@@ -13,11 +13,38 @@ export const addEventImage = async (req: any, res: any) => {
   }
 };
 
+export const getEventImages = async (req: any, res: any) => {
+  try {
+
+    pool.query(queries.getEventImages, (error, results) => {
+      if (error) throw error;
+
+      res.status(200).json(results.rows);
+    });
+  } catch (err: any) {
+    return res.status(400).json(err);
+  }
+};
+
+export const getEventImageById = async (req: any, res: any) => {
+  try {
+    const id = parseInt(req.params.id);
+
+    pool.query(queries.getEventImageById, [id], (error, results) => {
+      if (error) throw error;
+
+      res.status(200).json(results.rows[0]);
+    });
+  } catch (err: any) {
+    return res.status(400).json(err);
+  }
+};
+
 export const getEventImagesByEventId = async (req: any, res: any) => {
   try {
-    const event_id = parseInt(req.params.event_id);
+    const id = parseInt(req.params.id);
 
-    pool.query(queries.getEventImagesByEventId, [event_id], (error, results) => {
+    pool.query(queries.getEventImagesByEventId, [id], (error, results) => {
       if (error) throw error;
 
       res.status(200).json(results.rows);
@@ -29,8 +56,9 @@ export const getEventImagesByEventId = async (req: any, res: any) => {
 
 export const updateEventImage = async (req: any, res: any) => {
   try {
-    const { url, eventImage_id } = req.body;
-    const updatedEventImage: QueryResult<any> = await pool.query(queries.updateEventImage, [url, eventImage_id]);
+    const { url, event_id } = req.body;
+    const { eventimage_id } = req.params;
+    const updatedEventImage: QueryResult<any> = await pool.query(queries.updateEventImage, [url, event_id, eventimage_id]);
 
     res.json(updatedEventImage.rows[0]);
   } catch (err: any) {
@@ -40,9 +68,9 @@ export const updateEventImage = async (req: any, res: any) => {
 
 export const deleteEventImage = async (req: any, res: any) => {
   try {
-    const eventImage_id = parseInt(req.params.eventImage_id);
+    const id = parseInt(req.params.id);
 
-    const deletedEventImage: QueryResult<any> = await pool.query(queries.deleteEventImage, [eventImage_id]);
+    const deletedEventImage: QueryResult<any> = await pool.query(queries.deleteEventImage, [id]);
 
     if (deletedEventImage.rowCount === 0) {
       res.status(400).json({ message: "Event image does not exist. (Non-existent id)" });
