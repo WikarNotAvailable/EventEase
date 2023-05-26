@@ -17,18 +17,39 @@ userRoutes.post("/login", controller.loginUser);
 export default userRoutes;
 
 /*
-Reponse get
+Reponse get all
 {
     "user_id": int,
     "usertype_id": int,
+    "usertype": string,
     "name": string,
     "surname": string,
     "email": string,
     "phone_number": string,
-    "birthday": date,
-    "password": "password"
+    "birthday": date
 }
-
+Response get
+{
+    "user_id": int,
+    "usertype_id": int,
+    "usertype": string,
+    "name": string,
+    "surname": string,
+    "email": string,
+    "phone_number": int,
+    "birthday": date,
+    "password": string (hashed),
+    "transactions": [
+        {
+            "transaction_id": int,
+            "user_id": int,
+            "transactionstatus_id": int,
+            "value": float,
+            "transactiondate": date,
+            "status": "Completed"
+        }
+    ]
+}
 Body for Post
 {
     "userTypeID": int,

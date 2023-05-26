@@ -35,7 +35,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.postUserType = void 0;
+exports.updateUserType = exports.deleteUser = exports.getUserTypeById = exports.getUserTypes = exports.postUserType = void 0;
 const db_1 = __importDefault(require("../../db"));
 const queries = __importStar(require("./userTypeQueries"));
 const postUserType = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -49,3 +49,73 @@ const postUserType = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     }
 });
 exports.postUserType = postUserType;
+const getUserTypes = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        db_1.default.query(queries.getUserTypes, (error, results) => {
+            if (error)
+                throw error;
+            res.status(200).json(results.rows);
+        });
+    }
+    catch (err) {
+        return res.status(400).json(err);
+    }
+});
+exports.getUserTypes = getUserTypes;
+const getUserTypeById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const id = parseInt(req.params.id);
+        db_1.default.query(queries.getUserTypeById, [id], (error, results) => {
+            if (error)
+                throw error;
+            if (results.rows.length) {
+                res.status(200).json(results.rows);
+            }
+            else {
+                res.status(400).json({ message: "UserType does not exist. (Non existent id)" });
+            }
+        });
+    }
+    catch (err) {
+        return res.status(400).json(err);
+    }
+});
+exports.getUserTypeById = getUserTypeById;
+const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const id = parseInt(req.params.id);
+        const user = yield db_1.default.query(queries.getUserTypeById, [id]);
+        if (!user.rows.length) {
+            res.status(400).json({ message: "UserType does not exist. (Non existent id)" });
+        }
+        else {
+            db_1.default.query(queries.deleteUserTypeById, [id], (error, results) => {
+                if (error)
+                    throw error;
+                res.status(200).json({ message: "Successfully deleted." });
+            });
+        }
+    }
+    catch (err) {
+        return res.status(400).json(err);
+    }
+});
+exports.deleteUser = deleteUser;
+const updateUserType = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const id = parseInt(req.params.id);
+        const { userTypeName } = req.body;
+        const user = yield db_1.default.query(queries.getUserTypeById, [id]);
+        if (!user.rows.length) {
+            res.status(400).json({ message: "UserType does not exist. (Non existent id)" });
+        }
+        else {
+            const newUserType = yield db_1.default.query(queries.updateUserType, [userTypeName, id]);
+            res.json(newUserType.rows);
+        }
+    }
+    catch (err) {
+        return res.status(400).json(err);
+    }
+});
+exports.updateUserType = updateUserType;
