@@ -103,4 +103,62 @@ body for get by id
         },
     ]
 }
+
+body for get
+{
+    [
+        {
+        "event_id": 2,
+        "name": "StandUP.TV",
+        "description": "haha xd lol",
+        "begindate": "2023-05-30T22:00:00.000Z",
+        "enddate": "2023-06-03T22:00:00.000Z",
+        "availabletickets": 100,
+        "currentlytakentickets": 0,
+        "spot_id": 7,
+        "eventtype_id": 2,
+        "company_id": 12,
+        "discussion_id": 7
+        }, ...
+    ]
+}
+
+body for get by id
+{
+    "event_id": 2,
+    "name": "StandUP.TV",
+    "description": "haha xd lol",
+    "begindate": "2023-05-30T22:00:00.000Z",
+    "enddate": "2023-06-03T22:00:00.000Z",
+    "availabletickets": 100,
+    "currentlytakentickets": 0,
+    "spot": {
+        "spot_id": 7,
+        "spot_name": "Spot B",
+        "spot_type": "Spot Type B",
+        "address": {
+            "address_id": 2,
+            "country": "Country B",
+            "city": "City B",
+            "street": "Street B",
+            "number": "456"
+        }
+    },
+    "eventtype_name": "Event Type B",
+    "company_id": 12,
+    "discussion_id": 7,
+    "event_images": [
+        {
+            "eventimage_id": 1,
+            "image_url": "image_url_1.jpg"
+        },
+    ],
+    "performers": [
+        {
+            "performer_id": 17,
+            "performer_name": "Performer B",
+            "performer_type": "Performer Type B"
+        },
+    ]
+}
 */

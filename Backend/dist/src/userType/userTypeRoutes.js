@@ -27,10 +27,23 @@ const express_1 = require("express");
 const controller = __importStar(require("./userTypeController"));
 const userTypeRoutes = (0, express_1.Router)();
 userTypeRoutes.post("/", controller.postUserType);
+userTypeRoutes.get("/", controller.getUserTypes);
+userTypeRoutes.get("/:id", controller.getUserTypeById);
+userTypeRoutes.delete("/:id", controller.deleteUser);
+userTypeRoutes.put("/:id", controller.updateUserType);
 exports.default = userTypeRoutes;
 /*
+Reponse get
+{
+    "usertype_id": int,
+    "name": string
+}
 Body for Post
+{
+    "userTypeName": string,
+}
 
+Body for Update //obligatory field below
 {
     "userTypeName": string,
 }

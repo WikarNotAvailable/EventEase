@@ -19,9 +19,9 @@ export const Navbar = () => {
         <SingInModal isOpen={isSignInOpen} onOpen={onSingInOpen} onClose={onSignInClose} isAnotherOpen={isSignUpOpen} onAnotherClose={onSignUpClose} onAnotherOpen={onSingUpOpen} />
         <Text fontSize="24px" fontWeight="600" color="primary">EventEase</Text>
         <Flex align="center" gap="16px">
-            <NavLink text="Events" />
-            <NavLink text="Artists" />
-            <NavLink text="Places" />
+            <NavLink text="Events" location='events'/>
+            <NavLink text="Artists" location='artists'/>
+            <NavLink text="Places" location='places'/>
             <NavSearch />
             <NavProfile signInOpen={onSingInOpen} signUpOpen={onSingUpOpen} />
         </Flex>

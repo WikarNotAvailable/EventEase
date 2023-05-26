@@ -38,6 +38,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.loginUser = exports.updateUser = exports.deleteUser = exports.getUserById = exports.getUsers = exports.postUser = void 0;
 const db_1 = __importDefault(require("../../db"));
 const queries = __importStar(require("./userQueries"));
+const passwordHash = __importStar(require("password-hash"));
 const postUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { userTypeID, name, surname, email, phoneNumber, birthday, password } = req.body;
@@ -54,7 +55,8 @@ const postUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             return res.status(400).json({ message: "User type does not exist." });
         }
         else {
-            const newUser = yield db_1.default.query(queries.addUser, [userTypeID, name, surname, email, phoneNumber, birthday, password]);
+            let newUser = yield db_1.default.query(queries.addUser, [userTypeID, name, surname, email, phoneNumber, birthday, password]);
+            newUser.rows[0]["password"] = passwordHash.generate(newUser.rows[0]["password"]);
             return res.status(201).json(newUser.rows);
         }
     }
@@ -79,16 +81,18 @@ exports.getUsers = getUsers;
 const getUserById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = parseInt(req.params.id);
-        db_1.default.query(queries.getUserById, [id], (error, results) => {
+        db_1.default.query(queries.getUserById, [id], (error, results) => __awaiter(void 0, void 0, void 0, function* () {
             if (error)
                 throw error;
             if (results.rows.length) {
+                results.rows[0]["transactions"] = (yield db_1.default.query(queries.getTransactionsForUser, [results.rows[0]["user_id"]])).rows;
+                results.rows[0]["password"] = passwordHash.generate(results.rows[0]["password"]);
                 res.status(200).json(results.rows);
             }
             else {
                 res.status(400).json({ message: "User does not exist. (Non existent id)" });
             }
-        });
+        }));
     }
     catch (err) {
         return res.status(400).json(err);
@@ -118,10 +122,34 @@ exports.deleteUser = deleteUser;
 const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = parseInt(req.params.id);
-        const { name, surname, email, phoneNumber, birthday, password } = req.body;
+        let { name, surname, email, phoneNumber, birthday, password } = req.body;
         const user = yield db_1.default.query(queries.getUserById, [id]);
+        let emailInDatabase = null;
+        let phoneNumberInDatabase = null;
+        if (name == null)
+            name = user.rows[0]["name"];
+        if (surname == null)
+            surname = user.rows[0]["surname"];
+        if (email == null)
+            email = user.rows[0]["email"];
+        else
+            emailInDatabase = yield db_1.default.query(queries.checkEmailExists, [email]);
+        if (phoneNumber == null)
+            phoneNumber = user.rows[0]["phone_number"];
+        else
+            phoneNumberInDatabase = yield db_1.default.query(queries.checkPhoneNumberExists, [phoneNumber]);
+        if (birthday == null)
+            birthday = user.rows[0]["birthday"];
+        if (password == null)
+            password = user.rows[0]["password"];
         if (!user.rows.length) {
             res.status(400).json({ message: "User does not exist. (Non existent id)" });
+        }
+        else if (emailInDatabase != null && emailInDatabase.rows.length && id != user.rows[0]["user_id"]) {
+            return res.status(400).json({ message: "Email already exists." });
+        }
+        else if (phoneNumberInDatabase != null && phoneNumberInDatabase.rows.length && id != user.rows[0]["user_id"]) {
+            return res.status(400).json({ message: "Phone number already exists." });
         }
         else {
             const newUser = yield db_1.default.query(queries.updateUser, [name, surname, email, phoneNumber, birthday, password, id]);
@@ -135,11 +163,8 @@ const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 exports.updateUser = updateUser;
 const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        console.log("xd");
         const { email, password } = req.body;
-        console.log(email);
         const emailInDatabase = yield db_1.default.query(queries.checkEmailExists, [email]);
-        console.log(emailInDatabase);
         if (!emailInDatabase.rows.length) {
             return res.json({ message: "Email does not exist." });
         }

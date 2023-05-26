@@ -31,7 +31,7 @@ export const getCompanyById = async (req: any,res: any) => {
             if(error) throw error;
 
             if(results.rows.length){
-                res.status(200).json(results.rows);
+                res.status(200).json(results.rows[0]);
             }
             else{
                 res.status(400).json({message: "Company does not exist. Non existent id."})
@@ -78,7 +78,7 @@ export const updateCompany = async (req: any,res: any) => {
         }
         else{
             const newCompany: QueryResult<any> = await pool.query(queries.updateCompany, [name, description, id]);
-            res.json(newCompany.rows);
+            res.json(newCompany.rows[0]);
         }
     }catch(err: any){
         return res.status(400).json(err);

@@ -28,7 +28,7 @@ export const addEvent = async (req: any, res: any) => {
       company_id,
     ]);
 
-    return res.status(201).json(newEvent.rows);
+    return res.status(201).json(newEvent.rows[0]);
   } catch (err: any) {
     return res.status(400).json(err);
   }
@@ -108,7 +108,7 @@ export const updateEvent = async (req: any, res: any) => {
         id,
       ]);
 
-      return res.status(200).json(updatedEvent.rows);
+      return res.status(200).json(updatedEvent.rows[0]);
     }
   } catch (err: any) {
     return res.status(400).json(err);

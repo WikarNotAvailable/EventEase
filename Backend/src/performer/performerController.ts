@@ -18,7 +18,7 @@ export const addPerformer = async (req: Request, res: Response): Promise<Respons
           description,
           url,
         ]);
-        return res.status(201).json(newPerformer.rows);
+        return res.status(201).json(newPerformer.rows[0]);
       }
     } catch (err: any) {
       return res.status(400).json(err);
@@ -41,7 +41,7 @@ export const addPerformer = async (req: Request, res: Response): Promise<Respons
       const performer: QueryResult<any> = await pool.query(queries.getPerformerById, [id]);
   
       if (performer.rows.length) {
-        return res.status(200).json(performer.rows);
+        return res.status(200).json(performer.rows[0]);
       } else {
         return res.status(400).json({ message: 'Performer does not exist.' });
       }
@@ -122,7 +122,7 @@ export const getPerformersByEventId = async (req: Request, res: Response) => {
           url,
           id,
         ]);
-        return res.json(updatedPerformer.rows);
+        return res.json(updatedPerformer.rows[0]);
       }
     } catch (err: any) {
       return res.status(400).json(err);

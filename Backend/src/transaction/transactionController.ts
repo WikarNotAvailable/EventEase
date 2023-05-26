@@ -18,7 +18,7 @@ export const postTransaction = async (req: any, res: any) => {
         }
         else {
             const newTransaction: QueryResult<any> = await pool.query(queries.addTransaction, [userID, transactionStatusID, value, transactionDate]);
-            return res.status(201).json(newTransaction.rows);
+            return res.status(201).json(newTransaction.rows[0]);
         }
     }catch(err: any){
         return res.status(400).json(err);
@@ -48,7 +48,7 @@ export const getTransactionById = async (req: any,res: any) => {
                 results.rows[0]["user"] = (await pool.query(queries.getUserForTransaction, [results.rows[0]["user_id"]])).rows[0];
                 results.rows[0]["tickets"] = (await pool.query(queries.getTicketsForTransaction, [results.rows[0]["transaction_id"]])).rows;
 
-                res.status(200).json(results.rows);
+                res.status(200).json(results.rows[0]);
             }
             else{
                 res.status(400).json({message: "Transaction does not exist. (Non existent id)"})
@@ -97,7 +97,7 @@ export const updateTransaction = async (req: any,res: any) => {
         }
         else {
             const newTransaction: QueryResult<any>  = await pool.query(queries.updateTransaction, [transactionStatusID, value, transactionDate, id]);
-            res.json(newTransaction.rows);
+            res.status(200).json(newTransaction.rows[0]);
         }
     }catch(err: any){
         return res.status(400).json(err);

@@ -199,6 +199,7 @@ CREATE TABLE eventsperformers (
         REFERENCES performers (performer_id)
         ON DELETE CASCADE
         ON UPDATE NO ACTION
+
 );
 
 ALTER TABLE discussions

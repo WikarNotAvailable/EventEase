@@ -1,5 +1,4 @@
 export const addEvent = "INSERT INTO events (name, description, BeginDate, EndDate, AvailableTickets, CurrentlyTakenTickets, spot_id, eventtype_id, company_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *";
-
 export const getEvents = `SELECT
   e.event_id,
   e.name,

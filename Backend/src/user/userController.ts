@@ -26,7 +26,7 @@ export const postUser = async (req: any, res: any) => {
             let newUser: QueryResult<any> = await pool.query(queries.addUser, [userTypeID, name, surname, email, phoneNumber, birthday, password]);
             newUser.rows[0]["password"] = passwordHash.generate(newUser.rows[0]["password"]);
 
-            return res.status(201).json(newUser.rows);
+            return res.status(201).json(newUser.rows[0]);
         }
     }catch(err: any){
         return res.status(400).json(err);
@@ -56,7 +56,7 @@ export const getUserById = async (req: any,res: any) => {
                 results.rows[0]["transactions"] = (await pool.query(queries.getTransactionsForUser, [results.rows[0]["user_id"]])).rows;
                 results.rows[0]["password"] = passwordHash.generate(results.rows[0]["password"]);
 
-                res.status(200).json(results.rows);
+                res.status(200).json(results.rows[0]);
             }
             else{
                 res.status(400).json({message: "User does not exist. (Non existent id)"});
@@ -127,7 +127,7 @@ export const updateUser = async (req: any,res: any) => {
         }
         else {
             const newUser: QueryResult<any>  = await pool.query(queries.updateUser, [name, surname, email, phoneNumber, birthday, password, id]);
-            res.json(newUser.rows);
+            res.status(200).json(newUser.rows[0]);
         }
     }catch(err: any){
         return res.status(400).json(err);
