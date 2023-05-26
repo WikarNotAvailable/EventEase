@@ -12,6 +12,7 @@ eventRoutes.delete("/:id", controller.deleteEvent);
 eventRoutes.put("/:id", controller.updateEvent);
 eventRoutes.get("/spot/:id", controller.getEventsBySpotId);
 eventRoutes.get("/type/:id", controller.getEventsByEventTypeId);
+eventRoutes.get("/discussion/:id", controller.getEventByDiscussionId);
 eventRoutes.get("/performer/:id", controller.getEventsByPerformerId);
 eventRoutes.get("/date/:begin/:end", controller.getEventsWithinDateRange);
 eventRoutes.get("/limited-availability/:limit", controller.getEventsWithLimitedAvailability);
@@ -29,8 +30,7 @@ Request Body for POST/PUT:
   "currentlytakentickets": 0,
   "spot_id": 8,
   "eventtype_id": 3,
-  "company_id": 13,
-  "discussion_id": 8 
+  "company_id": 13
 }
 
 Request Body for updateEvent:
@@ -43,8 +43,7 @@ Request Body for updateEvent:
     "CurrentlyTakenTickets": integer,
     "spot_id": integer,
     "eventtype_id": integer,
-    "company_id": integer,
-    "discussion_id": integer
+    "company_id": integer
 }
 
 body for get

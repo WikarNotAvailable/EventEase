@@ -14,7 +14,6 @@ export const addEvent = async (req: any, res: any) => {
       spot_id,
       eventtype_id,
       company_id,
-      discussion_id,
     } = req.body;
 
     const newEvent: QueryResult<any> = await pool.query(queries.addEvent, [
@@ -27,7 +26,6 @@ export const addEvent = async (req: any, res: any) => {
       spot_id,
       eventtype_id,
       company_id,
-      discussion_id,
     ]);
 
     return res.status(201).json(newEvent.rows);
@@ -89,8 +87,7 @@ export const updateEvent = async (req: any, res: any) => {
       currentlytakentickets,
       spot_id,
       eventtype_id,
-      company_id,
-      discussion_id,
+      company_id
     } = req.body;
 
     const event: QueryResult<any> = await pool.query(queries.getEventById, [id]);
@@ -108,7 +105,6 @@ export const updateEvent = async (req: any, res: any) => {
         spot_id,
         eventtype_id,
         company_id,
-        discussion_id,
         id,
       ]);
 
@@ -149,6 +145,22 @@ export const getEventsByEventTypeId = async (req: any, res: any) => {
     return res.status(400).json(err);
   }
 };
+
+export const getEventByDiscussionId = async (req: any, res: any) => {
+  try {
+    const { id } = req.params;
+    const event: QueryResult<any> = await pool.query(queries.getEventByDiscussionId, [id]);
+
+    if (event.rows.length === 0) {
+      return res.status(404).json({ message: "Event not found" });
+    }
+
+    return res.status(200).json(event.rows[0]);
+  } catch (error) {
+    return res.status(400).json(error);
+  }
+};
+
 
 export const getEventsWithinDateRange = async (req: any, res: any) => {
   try {
