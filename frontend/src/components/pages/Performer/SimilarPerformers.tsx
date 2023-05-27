@@ -5,10 +5,11 @@ import api from '../../../api/api'
 
 interface ISimilarPerformersProps
 {
-    performertype_id:number
+    performertype_id:number,
+    performer_name:string
 }
 
-export const SimilarPerformers: FC<ISimilarPerformersProps> = ({performertype_id}) => {
+export const SimilarPerformers: FC<ISimilarPerformersProps> = ({performertype_id, performer_name}) => {
 
   const [similarArtists, setSimilarArtists] = useState<any>([])
   const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -30,22 +31,30 @@ export const SimilarPerformers: FC<ISimilarPerformersProps> = ({performertype_id
    }, []
   )
 
-  return (
-    <Grid  marginLeft={'10'} alignItems={'flex-start'} maxHeight={'900'} flex={'3 1 0 '}>
-        <Text fontSize={'25'} 
-            textAlign={'center'}
-            borderBottomColor="border"
-            borderBottomWidth="4px"
-            >
-            You may also like
-        </Text>
+  if(isLoading)
+  {
+    return <></>
+  }
+  else
+  {
+    return (
+      
+      <Grid  marginLeft={'10'} alignItems={'flex-start'} maxHeight={'900'} flex={'3 1 0 '}>
+          <Text fontSize={'25'} 
+              textAlign={'center'}
+              borderBottomColor="border"
+              borderBottomWidth="4px"
+              >
+              You may also like
+          </Text>
 
-        {similarArtists.map((artist:any) => (
-          <SimilarPerformersItem key={artist.performer_id} name={artist.name} url={artist.url}></SimilarPerformersItem>
-        ))}
+          {similarArtists.filter((a: any) => a.name !== performer_name).map((artist:any) => (
+            <SimilarPerformersItem key={artist.performer_id} name={artist.name} url={artist.url}></SimilarPerformersItem>
+          ))}
 
 
-    </Grid>
-  )
+      </Grid>
+    )
+  }
 }
 

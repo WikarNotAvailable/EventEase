@@ -55,7 +55,7 @@ const postSpot = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         }
         else {
             const newSpot = yield db_1.default.query(queries.addSpot, [spottype_id, address_id, name, description, capacity, isopen, spotimage]);
-            return res.status(201).json(newSpot.rows);
+            return res.status(201).json(newSpot.rows[0]);
         }
     }
     catch (err) {
@@ -83,7 +83,7 @@ const getSpotById = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             if (error)
                 throw error;
             if (results.rows.length) {
-                res.status(200).json(results.rows);
+                res.status(200).json(results.rows[0]);
             }
             else {
                 res.status(400).json({ message: "Spot does not exist" });
@@ -136,7 +136,7 @@ const updateSpot = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         }
         else {
             const newSpot = yield db_1.default.query(queries.updateSpot, [spottype_id, address_id, name, description, capacity, isopen, spotimage, id]);
-            res.json(newSpot.rows);
+            res.json(newSpot.rows[0]);
         }
     }
     catch (err) {

@@ -53,7 +53,7 @@ const addEvent = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             company_id,
             discussion_id,
         ]);
-        return res.status(201).json(newEvent.rows);
+        return res.status(201).json(newEvent.rows[0]);
     }
     catch (err) {
         return res.status(400).json(err);
@@ -125,7 +125,7 @@ const updateEvent = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
                 discussion_id,
                 id,
             ]);
-            return res.status(200).json(updatedEvent.rows);
+            return res.status(200).json(updatedEvent.rows[0]);
         }
     }
     catch (err) {

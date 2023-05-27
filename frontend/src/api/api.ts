@@ -49,8 +49,6 @@ class ApiService {
       const req = await axios.get(`${this.baseUrl}/performerTypes`, this.config)
       return req.data
     }
-
-    
 }
 
 const api = new ApiService();

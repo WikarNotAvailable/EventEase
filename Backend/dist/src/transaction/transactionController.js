@@ -51,7 +51,7 @@ const postTransaction = (req, res) => __awaiter(void 0, void 0, void 0, function
         }
         else {
             const newTransaction = yield db_1.default.query(queries.addTransaction, [userID, transactionStatusID, value, transactionDate]);
-            return res.status(201).json(newTransaction.rows);
+            return res.status(201).json(newTransaction.rows[0]);
         }
     }
     catch (err) {
@@ -81,7 +81,7 @@ const getTransactionById = (req, res) => __awaiter(void 0, void 0, void 0, funct
             if (results.rows.length) {
                 results.rows[0]["user"] = (yield db_1.default.query(queries.getUserForTransaction, [results.rows[0]["user_id"]])).rows[0];
                 results.rows[0]["tickets"] = (yield db_1.default.query(queries.getTicketsForTransaction, [results.rows[0]["transaction_id"]])).rows;
-                res.status(200).json(results.rows);
+                res.status(200).json(results.rows[0]);
             }
             else {
                 res.status(400).json({ message: "Transaction does not exist. (Non existent id)" });
@@ -129,7 +129,7 @@ const updateTransaction = (req, res) => __awaiter(void 0, void 0, void 0, functi
         }
         else {
             const newTransaction = yield db_1.default.query(queries.updateTransaction, [transactionStatusID, value, transactionDate, id]);
-            res.json(newTransaction.rows);
+            res.status(200).json(newTransaction.rows[0]);
         }
     }
     catch (err) {

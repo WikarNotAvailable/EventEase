@@ -3,30 +3,61 @@ import { PageContainer } from '../components/shared/containers/PageContainer'
 import { Flex, Grid } from '@chakra-ui/react'
 import { ArtistItem } from '../components/pages/Artists/ArtistItem'
 import api from '../api/api'
-import { PacmanLoader } from 'react-spinners'
 import { PacmanPageLoader } from '../components/shared/Loaders/PacmanPageLoader'
 import { ArtistsTypeSideBar } from '../components/pages/Artists/ArtistsTypeSideBar'
+import { useNavigate, useParams } from 'react-router-dom'
 
 export const Artists = () => {
   const [artists, setArtists] = useState([])
   const [isLoading, setIsLoading] = useState<boolean>(true)
-
+  const navigate = useNavigate()
+  const {type} = useParams()
+ 
   useEffect(() => {
-    const getArtists = async () => {
-      try {
-        setIsLoading(true)
-        setArtists(await api.getArtists())
-      } catch(error)
-      {
-        console.log(error)
-      }
-      
-    } 
 
-    getArtists().then(() => setIsLoading(false))
+      const getArtists = async () => {
+        try {
+          setIsLoading(true)
+          if(type === "all")
+            setArtists(await api.getArtists())
+        } catch(error)
+        {
+          console.log(error)
+          navigate("")
+        }
+        
+       
+      }
+      getArtists().then(() => setIsLoading(false))
+    
+
+
     
    }, []
   )
+
+  const getArtistsByType = async (type_id:number , type_name: string) => {
+
+    try {
+      if(type_id !== 0)
+      {      
+        setArtists(await api.getArtistsByType(type_id))
+
+      }
+      else
+      {
+        setArtists(await api.getArtists())
+
+      }
+
+      
+    }catch(error)
+    {
+      console.log(error)
+    }
+
+  } 
+
   if(isLoading)
   {
     return(
@@ -44,7 +75,7 @@ export const Artists = () => {
               ))}
 
           </Grid>
-          <ArtistsTypeSideBar/>
+          <ArtistsTypeSideBar onClick={getArtistsByType} isParentLoading={isLoading}/>
         </Flex>
           
         

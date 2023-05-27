@@ -52,7 +52,7 @@ const addPerformer = (req, res) => __awaiter(void 0, void 0, void 0, function* (
                 description,
                 url,
             ]);
-            return res.status(201).json(newPerformer.rows);
+            return res.status(201).json(newPerformer.rows[0]);
         }
     }
     catch (err) {
@@ -75,7 +75,7 @@ const getPerformerById = (req, res) => __awaiter(void 0, void 0, void 0, functio
         const id = parseInt(req.params.id);
         const performer = yield db_1.default.query(queries.getPerformerById, [id]);
         if (performer.rows.length) {
-            return res.status(200).json(performer.rows);
+            return res.status(200).json(performer.rows[0]);
         }
         else {
             return res.status(400).json({ message: 'Performer does not exist.' });
@@ -157,7 +157,7 @@ const updatePerformer = (req, res) => __awaiter(void 0, void 0, void 0, function
                 url,
                 id,
             ]);
-            return res.json(updatedPerformer.rows);
+            return res.json(updatedPerformer.rows[0]);
         }
     }
     catch (err) {

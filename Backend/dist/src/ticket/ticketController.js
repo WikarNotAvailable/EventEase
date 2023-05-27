@@ -62,7 +62,7 @@ const postTicket = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
                 ticketPlace = ticketsMaxPlace.rows[0]["maxplace"] + 1;
             }
             let newTicket = yield db_1.default.query(queries.addTicket, [ticketTypeID, eventID, null, price, ticketPlace, true]);
-            return res.status(201).json(newTicket.rows);
+            return res.status(201).json(newTicket.rows[0]);
         }
     }
     catch (err) {
@@ -135,7 +135,7 @@ const getTicketById = (req, res) => __awaiter(void 0, void 0, void 0, function* 
             if (results.rows.length) {
                 results.rows[0]["transaction"] = (yield db_1.default.query(queries.getTransactionForTicket, [results.rows[0]["transaction_id"]])).rows;
                 results.rows[0]["event"] = (yield db_1.default.query(queries.getEventForTicket, [results.rows[0]["event_id"]])).rows;
-                res.status(200).json(results.rows);
+                res.status(200).json(results.rows[0]);
             }
             else {
                 res.status(400).json({ message: "Ticket does not exist. (Non existent id)" });
@@ -212,7 +212,7 @@ const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
                 yield db_1.default.query(queries.changeCurrentlyTakenAndAvailableTickets, [availableTickets.rows[0]["availabletickets"] - 1, currentlytakentickets.rows[0]["currentlytakentickets"] + 1, ticket.rows[0]["event_id"]]);
             }
             const newTicket = yield db_1.default.query(queries.updateTicket, [price, isAvailable, transactionID, id]);
-            res.json(newTicket.rows);
+            res.status(200).json(newTicket.rows[0]);
         }
     }
     catch (err) {

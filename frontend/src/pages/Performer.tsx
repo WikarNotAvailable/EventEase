@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { PageContainer } from '../components/shared/containers/PageContainer'
 import { PerformerInfo } from '../components/pages/Performer/PerformerInfo'
-import { Flex, Grid, Text, useBreakpointValue } from '@chakra-ui/react'
+import { Flex, Grid, useBreakpointValue } from '@chakra-ui/react'
 import { SimilarPerformers } from '../components/pages/Performer/SimilarPerformers'
 import { PerformerEvents } from '../components/pages/Performer/PerformerEvents'
 import api from '../api/api'
 import { useNavigate, useParams } from 'react-router-dom'
-import { PacmanLoader } from 'react-spinners'
 import { PacmanPageLoader } from '../components/shared/Loaders/PacmanPageLoader'
 
 export const Performer = () => {
@@ -49,7 +48,7 @@ export const Performer = () => {
           <Flex justify={'space-between'}>
             <PerformerInfo name={artist[0].name} url={artist[0].url} description={artist[0].description}/>
 
-            {isWideScreen && ( <SimilarPerformers performertype_id={artist[0].performertype_id}/>)}
+            {isWideScreen && ( <SimilarPerformers performertype_id={artist[0].performertype_id} performer_name={artist[0].name}/>)}
             
           
           </Flex>

@@ -10,7 +10,7 @@ interface ISimilarPerformersItemProps
 
 export const SimilarPerformersItem: FC<ISimilarPerformersItemProps> = ({name, url}) => {
   return (
-    <Link to={`/artists/${name}`} reloadDocument>
+    <Link to={`/artist/${name}`} reloadDocument>
       <Flex alignItems={'center'}       
           cursor={'pointer'} 
           paddingX={'5'}

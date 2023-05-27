@@ -20,7 +20,7 @@ export const Navbar = () => {
         <Text fontSize="24px" fontWeight="600" color="primary">EventEase</Text>
         <Flex align="center" gap="16px">
             <NavLink text="Events" location='events'/>
-            <NavLink text="Artists" location='artists'/>
+            <NavLink text="Artists" location='artists/all'/>
             <NavLink text="Places" location='places'/>
             <NavSearch />
             <NavProfile signInOpen={onSingInOpen} signUpOpen={onSingUpOpen} />
