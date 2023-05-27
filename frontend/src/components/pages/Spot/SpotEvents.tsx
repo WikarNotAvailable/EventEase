@@ -1,22 +1,22 @@
 import { Flex, Grid, Text, Link, useBreakpointValue } from '@chakra-ui/react'
-import { PerformerEventsItem } from './PerformerEventsItem'
 import { FC, useEffect, useState } from 'react';
 import api from '../../../api/api';
+import { SpotEventsItem } from './SpotEventsItem';
 
-interface IPerformerEventsProps{
-  artist_id:number
+interface ISpotEventsProps{
+  spot_id:number
 }
 
-export const PerformerEvents : FC<IPerformerEventsProps> = ({artist_id}) => {
+export const SpotEvents : FC<ISpotEventsProps> = ({spot_id: artist_id}) => {
   const isWideScreen = useBreakpointValue({ base: false, lg: true });
-  const [artistEvents, setArtistEvents] = useState<any>()
+  const [spotEvents, setSpotEvents] = useState<any>()
   const [isLoading, setIsLoading] = useState<boolean>(true)
 
   useEffect(() => {
-    const getArtistEvents = async () => {
+    const getSpotEvents = async () => {
       try {
         setIsLoading(true)
-        setArtistEvents(await api.getArtistEvents(artist_id))
+        setSpotEvents(await api.getSpotEvents(artist_id))
         
       } catch(error)
       {
@@ -25,7 +25,7 @@ export const PerformerEvents : FC<IPerformerEventsProps> = ({artist_id}) => {
     
     } 
 
-    getArtistEvents().then(() => setIsLoading(false))
+    getSpotEvents().then(() => setIsLoading(false))
   }  , []
   )
 
@@ -48,9 +48,9 @@ export const PerformerEvents : FC<IPerformerEventsProps> = ({artist_id}) => {
           </Link>
         </Flex>
   
-        {artistEvents?.map((event:any) => (
-          <PerformerEventsItem key={event.event_id} name={event.name} city={event.spot.address.city} 
-          start_date={new Date(event.begindate).toLocaleDateString()} end_date={new Date(event.enddate).toLocaleDateString()}/>
+        {spotEvents?.map((event:any) => (
+          <SpotEventsItem key={event.event_id} name={event.name}
+            start_date={new Date(event.begindate).toLocaleDateString()} end_date={new Date(event.enddate).toLocaleDateString()} />
         ))}
   
       </Grid>

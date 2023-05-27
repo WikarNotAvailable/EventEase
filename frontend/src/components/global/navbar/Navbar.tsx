@@ -21,7 +21,7 @@ export const Navbar = () => {
         <Flex align="center" gap="16px">
             <NavLink text="Events" location='events'/>
             <NavLink text="Artists" location='artists/all'/>
-            <NavLink text="Places" location='places'/>
+            <NavLink text="Spots" location='spots/all'/>
             <NavSearch />
             <NavProfile signInOpen={onSingInOpen} signUpOpen={onSingUpOpen} />
         </Flex>

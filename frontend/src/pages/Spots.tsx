@@ -1,25 +1,25 @@
 import { useEffect, useState } from 'react'
 import { PageContainer } from '../components/shared/containers/PageContainer'
 import { Flex, Grid } from '@chakra-ui/react'
-import { ArtistItem } from '../components/pages/Artists/ArtistItem'
+import { SpotItem } from '../components/pages/Spots/SpotItem'
 import api from '../api/api'
 import { PacmanPageLoader } from '../components/shared/Loaders/PacmanPageLoader'
-import { ArtistsTypeSideBar } from '../components/pages/Artists/ArtistsTypeSideBar'
+import { SpotsTypeSideBar } from '../components/pages/Spots/SpotsTypeSideBar'
 import { useNavigate, useParams } from 'react-router-dom'
 
-export const Artists = () => {
-  const [artists, setArtists] = useState([])
+export const Spots = () => {
+  const [spots, setSpots] = useState([])
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const navigate = useNavigate()
   const {type} = useParams()
  
   useEffect(() => {
 
-      const getArtists = async () => {
+      const getSpots = async () => {
         try {
           setIsLoading(true)
           if(type === "all")
-            setArtists(await api.getArtists())
+            setSpots(await api.getSpots())
         } catch(error)
         {
           console.log(error)
@@ -28,7 +28,7 @@ export const Artists = () => {
         
        
       }
-      getArtists().then(() => setIsLoading(false))
+      getSpots().then(() => setIsLoading(false))
     
 
 
@@ -36,17 +36,17 @@ export const Artists = () => {
    }, []
   )
 
-  const getArtistsByType = async (type_id:number) => {
+  const getSpotsByType = async (type_id:number) => {
 
     try {
       if(type_id !== 0)
       {      
-        setArtists(await api.getArtistsByType(type_id))
+        setSpots(await api.getSpotsByType(type_id))
 
       }
       else
       {
-        setArtists(await api.getArtists())
+        setSpots(await api.getSpots())
 
       }
 
@@ -70,12 +70,12 @@ export const Artists = () => {
       <PageContainer isCentered>
         <Flex>
           <Grid templateColumns={'repeat(auto-fill, minmax(300px, 1fr))'} gap={'5'}>
-              {artists.map((artist: any) => (
-                <ArtistItem key={artist.performer_id} name={artist.name} imageUrl={artist.url}/>
+              {spots.map((spot: any) => (
+                <SpotItem key={spot.spot_id} name={spot.name} imageUrl={spot.spotimage}/>
               ))}
 
           </Grid>
-          <ArtistsTypeSideBar changeType={getArtistsByType}/>
+          <SpotsTypeSideBar changeType={getSpotsByType} />
         </Flex>
           
         
@@ -83,3 +83,5 @@ export const Artists = () => {
     )
   }
 }
+
+

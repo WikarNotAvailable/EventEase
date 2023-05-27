@@ -6,6 +6,8 @@ import { Error } from '../../../pages/Error';
 import { Navbar } from '../navbar/Navbar';
 import { Performer } from '../../../pages/Performer';
 import { Artists } from '../../../pages/Artists';
+import { Spots } from '../../../pages/Spots';
+import { Spot } from '../../../pages/Spot';
 
 export const Wrapper = () => {
   const pages = [
@@ -18,8 +20,16 @@ export const Wrapper = () => {
       element: <Artists/>
     },
     {
+      path: '/spots/:type',
+      element: <Spots/>
+    },
+    {
       path: '/artist/:name',
       element: <Performer/>
+    },
+    {
+      path: '/spot/:name',
+      element: <Spot/>
     }
   ].map((element, index) => ({ ...element, id: `${element.path}_${index}` }));
 

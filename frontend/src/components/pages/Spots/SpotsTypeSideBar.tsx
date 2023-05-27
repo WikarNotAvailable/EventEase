@@ -3,23 +3,23 @@ import React, { FC, useEffect, useState } from 'react'
 import api from '../../../api/api'
 import { Link, useParams } from 'react-router-dom'
 
-interface IArtistsTypeSideBarProps
+interface ISpotsTypeSideBarProps
 {
   changeType: any
 }
 
-export const ArtistsTypeSideBar : FC<IArtistsTypeSideBarProps> = ({changeType: onClick}) => {
+export const SpotsTypeSideBar : FC<ISpotsTypeSideBarProps> = ({changeType: onClick}) => {
 
-    const [artistTypes, setArtistTypes] = useState<any>()
+    const [spotTypes, setSpotTypes] = useState<any>()
     const [currentIndex, setCurrentIndex] = useState<number>()
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const {type} = useParams()
     
     useEffect(() => {
-        const getArtistTypes = async () => {
+        const getSpotTypes = async () => {
         try {
             setIsLoading(true)
-            setArtistTypes(await api.getArtistTypes())
+            setSpotTypes(await api.getSpotTypes())
             
         } catch(error)
         {
@@ -29,7 +29,7 @@ export const ArtistsTypeSideBar : FC<IArtistsTypeSideBarProps> = ({changeType: o
         } 
 
 
-        getArtistTypes().then(() => {
+        getSpotTypes().then(() => {
           
           setIsLoading(false)
         })
@@ -37,15 +37,15 @@ export const ArtistsTypeSideBar : FC<IArtistsTypeSideBarProps> = ({changeType: o
     )
 
     useEffect(() => {
-      if(artistTypes)
-        setCurrentIndex(artistTypes.findIndex((artistType: { type: string | undefined }) => artistType.type === type) + 1)
+      if(spotTypes)
+        setCurrentIndex(spotTypes.findIndex((spotType: { name: string | undefined }) => spotType.name === type) + 1)
 
-    }, [artistTypes])
+    }, [spotTypes])
 
     useEffect(() => {
 
       if(currentIndex)
-        onClick(currentIndex)
+        onClick(currentIndex, spotTypes[currentIndex! - 1]?.type)
     }, [currentIndex])
 
 
@@ -60,14 +60,14 @@ export const ArtistsTypeSideBar : FC<IArtistsTypeSideBarProps> = ({changeType: o
   {
     return (
       <Tabs marginLeft={"20"} orientation='vertical' width={"10%"}
-      defaultIndex={artistTypes.findIndex((artistType: { type: string | undefined }) => artistType.type === type) + 1}>
+      defaultIndex={spotTypes.findIndex((spotType: { name: string | undefined }) => spotType.name === type) + 1}>
         <TabList>
-          <Link  to="/artists/all" reloadDocument>
-            <Tab onClick={() => onClick(0)}>All artists</Tab>
+          <Link  to="/spots/all" reloadDocument>
+            <Tab onClick={() => onClick(0)}>All spots</Tab>
           </Link>
-          {artistTypes.map((type:any) => (
-            <Link key={type.performertype_id} to={`/artists/${type.type}`} reloadDocument>
-              <Tab  onClick={() => onClick(type.performertype_id)}>{type.type}</Tab>
+          {spotTypes.map((type:any) => (
+            <Link key={type.spottype_id} to={`/spots/${type.name}`} reloadDocument>
+              <Tab  onClick={() => onClick(type.spottype_id)}>{type.name}</Tab>
             </Link>
             ))}
         </TabList>
@@ -77,3 +77,6 @@ export const ArtistsTypeSideBar : FC<IArtistsTypeSideBarProps> = ({changeType: o
     )
   }
 }
+
+
+

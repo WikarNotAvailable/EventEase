@@ -49,6 +49,31 @@ class ApiService {
       const req = await axios.get(`${this.baseUrl}/performerTypes`, this.config)
       return req.data
     }
+
+    public async getSpots() {
+      const req = await axios.get(`${this.baseUrl}/spots`, this.config)
+      return req.data
+    }
+
+    public async getSpotByName(name: string) {
+      const req = await axios.get(`${this.baseUrl}/spots/name/${name}`, this.config)
+      return req.data
+    }
+
+    public async getSpotsByType(type_id: number) {
+      const req = await axios.get(`${this.baseUrl}/spots/type/${type_id}`, this.config)
+      return req.data
+    }
+
+    public async getSpotEvents(artist_id: number) {
+      const req = await axios.get(`${this.baseUrl}/events/spot/${artist_id}`, this.config)
+      return req.data
+    }
+
+    public async getSpotTypes() {
+      const req = await axios.get(`${this.baseUrl}/spotTypes`, this.config)
+      return req.data
+    }
 }
 
 const api = new ApiService();
