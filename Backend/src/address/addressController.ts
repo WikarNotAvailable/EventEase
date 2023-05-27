@@ -7,7 +7,7 @@ export const postAddress = async (req: any, res: any) => {
         const {country, city, street, number} = req.body;
         const newAddress: QueryResult<any> = await pool.query(queries.addAddress, [country, city, street, number]);
         
-        res.json(newAddress.rows);
+        res.json(newAddress.rows[0]);
     }catch(err: any){
         return res.status(500).json(err);
     }
@@ -33,7 +33,7 @@ export const getAddressById = async (req: any, res: any) => {
             if(error) throw error;
 
             if(result.rows.length){
-                res.status(200).json(result.rows);
+                res.status(200).json(result.rows[0]);
             }
             else{
                 res.status(400).json({message: "Address does not exist."})
@@ -84,7 +84,7 @@ export const updateAddress = async (req: any, res: any) => {
         }
         else{
             const newAddress: QueryResult<any> = await pool.query(queries.updateAddress, [country, city, street, number, id]);
-            res.json(newAddress.rows);
+            res.json(newAddress.rows[0]);
         }
     }catch(err: any){
         return res.status(400).json(err);
