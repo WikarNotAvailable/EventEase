@@ -14,7 +14,7 @@ export const Wrapper = () => {
       element: <Home />,
     },
     {
-      path: '/artists',
+      path: '/artists/all',
       element: <Artists/>
     },
     {

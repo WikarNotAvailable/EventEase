@@ -80,6 +80,7 @@ const getTransactionById = (req, res) => __awaiter(void 0, void 0, void 0, funct
                 throw error;
             if (results.rows.length) {
                 results.rows[0]["user"] = (yield db_1.default.query(queries.getUserForTransaction, [results.rows[0]["user_id"]])).rows[0];
+                results.rows[0]["tickets"] = (yield db_1.default.query(queries.getTicketsForTransaction, [results.rows[0]["transaction_id"]])).rows;
                 res.status(200).json(results.rows);
             }
             else {

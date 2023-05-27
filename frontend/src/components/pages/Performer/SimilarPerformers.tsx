@@ -10,12 +10,14 @@ interface ISimilarPerformersProps
 
 export const SimilarPerformers: FC<ISimilarPerformersProps> = ({performertype_id}) => {
 
-  const [similiarArtists, setSimiliarArtists] = useState<any>([])
+  const [similarArtists, setSimilarArtists] = useState<any>([])
+  const [isLoading, setIsLoading] = useState<boolean>(true)
 
   useEffect(() => {
       const getArtistsByType = async () => {
       try {
-        setSimiliarArtists(await api.getArtistsByType(performertype_id))
+        setIsLoading(true)
+        setSimilarArtists(await api.getArtistsByType(performertype_id))
         
       } catch(error)
       {
@@ -24,9 +26,10 @@ export const SimilarPerformers: FC<ISimilarPerformersProps> = ({performertype_id
       
     } 
 
-    getArtistsByType()
+    getArtistsByType().then(() => setIsLoading(false))
    }, []
   )
+
   return (
     <Grid  marginLeft={'10'} alignItems={'flex-start'} maxHeight={'900'} flex={'3 1 0 '}>
         <Text fontSize={'25'} 
@@ -37,7 +40,7 @@ export const SimilarPerformers: FC<ISimilarPerformersProps> = ({performertype_id
             You may also like
         </Text>
 
-        {similiarArtists.map((artist:any) => (
+        {similarArtists.map((artist:any) => (
           <SimilarPerformersItem key={artist.performer_id} name={artist.name} url={artist.url}></SimilarPerformersItem>
         ))}
 
