@@ -1,4 +1,4 @@
-export const addEvent = "INSERT INTO events (name, description, begindate, enddate, availabletickets, currentlytakentickets, spot_id, eventtype_id, company_id, discussion_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *";
+export const addEvent = "INSERT INTO events (name, description, BeginDate, EndDate, AvailableTickets, CurrentlyTakenTickets, spot_id, eventtype_id, company_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *";
 export const getEvents = `SELECT
   e.event_id,
   e.name,
@@ -99,7 +99,7 @@ export const getEventById = `SELECT
 `;
 
 export const deleteEvent = "DELETE FROM events WHERE event_id = $1";
-export const updateEvent = "UPDATE events SET name = $1, description = $2, begindate = $3, enddate = $4, availabletickets = $5, currentlytakentickets = $6, spot_id = $7, eventtype_id = $8, company_id = $9, discussion_id = $10 WHERE event_id = $11 RETURNING *";
+export const updateEvent = "UPDATE events SET name = $1, description = $2, begindate = $3, enddate = $4, availabletickets = $5, currentlytakentickets = $6, spot_id = $7, eventtype_id = $8, company_id = $9 WHERE event_id = $10 RETURNING *";
 export const getEventsBySpotId = "SELECT * FROM events WHERE spot_id = $1";
 export const getEventsByEventTypeId = "SELECT * FROM events WHERE eventtype_id = $1";
 export const getEventsWithinDateRange = "SELECT * FROM events WHERE begindate >= $1 AND enddate <= $2";
@@ -143,6 +143,24 @@ export const getEventsByPerformerId = `
     ep.performer_id = $1
 `;
 
+export const  getEventByDiscussionId = `
+  SELECT
+    e.*,
+    et.name AS eventtype_name,
+    json_build_object(
+      'discussion_id', d.discussion_id,
+      'name', d.name,
+      'description', d.description,
+      'comments', COALESCE(json_agg(c), '[]'::json)
+    ) AS discussion
+  FROM events AS e
+  JOIN eventtypes AS et ON e.eventtype_id = et.eventtype_id
+  LEFT JOIN discussions AS d ON e.discussion_id = d.discussion_id
+  LEFT JOIN comments AS c ON d.discussion_id = c.discussion_id
+  WHERE e.discussion_id = $1
+  GROUP BY e.event_id, et.name, d.discussion_id, d.name, d.description
+  `;
+
 /*
 Request Body for addEvent:
 {
@@ -154,8 +172,7 @@ Request Body for addEvent:
     "currentlytakentickets": integer,
     "spot_id": integer,
     "eventtype_id": integer,
-    "company_id": integer,
-    "discussion_id": integer
+    "company_id": integer
 }
 
 Request Body for updateEvent:
@@ -168,7 +185,6 @@ Request Body for updateEvent:
     "currentlytakentickets": integer,
     "spot_id": integer,
     "eventtype_id": integer,
-    "company_id": integer,
-    "discussion_id": integer
+    "company_id": integer
 }
 */

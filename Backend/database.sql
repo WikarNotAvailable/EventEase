@@ -60,13 +60,8 @@ CREATE TABLE companies(
 
 CREATE TABLE discussions(
     discussion_id SERIAL PRIMARY KEY,
-    name VARCHAR(100) NOT NULL UNIQUE,
-    description text,
     company_id INTEGER,
-    event_id INTEGER,
-    CONSTRAINT fk_company FOREIGN KEY(company_id)
-        REFERENCES companies(company_id)
-        ON DELETE SET NULL
+    event_id INTEGER
 );
 
 ALTER TABLE companies 
@@ -167,7 +162,7 @@ CREATE TABLE events(
     spot_id INTEGER NOT NULL,
     eventtype_id INTEGER NOT NULL,
     company_id INTEGER,
-    discussion_id INTEGER,
+    discussion_id SERIAL UNIQUE,
 	CONSTRAINT fk_spot FOREIGN KEY(spot_id)
         REFERENCES spots(spot_id)
         ON DELETE SET NULL
@@ -211,3 +206,32 @@ ALTER TABLE discussions
 ADD CONSTRAINT fk_event FOREIGN KEY(event_id)
         REFERENCES events(event_id)
         ON DELETE CASCADE;
+
+CREATE OR REPLACE FUNCTION create_discussion()
+RETURNS TRIGGER AS $$
+BEGIN
+  INSERT INTO discussions (company_id, event_id)
+  VALUES (NULL, NEW.event_id)
+  RETURNING discussion_id INTO NEW.discussion_id;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER insert_discussion_trigger
+AFTER INSERT ON events
+FOR EACH ROW
+EXECUTE FUNCTION create_discussion();
+
+CREATE OR REPLACE FUNCTION delete_discussion()
+RETURNS TRIGGER AS $$
+BEGIN
+    DELETE FROM discussions WHERE discussion_id = OLD.discussion_id;
+    RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER delete_discussion_trigger
+AFTER DELETE ON events
+FOR EACH ROW
+EXECUTE FUNCTION delete_discussion();
+
