@@ -141,6 +141,7 @@ export const getEventsByPerformerId = `
     JOIN performertypes AS pt ON p.performertype_id = pt.performertype_id
   WHERE
     ep.performer_id = $1
+    LIMIT $2
 `;
 
 export const  getEventByDiscussionId = `

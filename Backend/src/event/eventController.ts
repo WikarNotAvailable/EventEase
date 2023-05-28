@@ -128,8 +128,11 @@ export const getEventsBySpotId = async (req: any, res: any) => {
 
 export const getEventsByPerformerId = async (req: any, res: any) => {
   try {
-    const id = req.params.id;  
-    const events: QueryResult<any> = await pool.query(queries.getEventsByPerformerId, [id]);
+    const { id, limit } = req.params;
+    const parsedId = req.params.id;  
+    const parsedLimit: number | null = limit ? parseInt(limit) : null;
+
+    const events: QueryResult<any> = await pool.query(queries.getEventsByPerformerId, [parsedId, parsedLimit]);
     return res.status(200).json(events.rows);
   } catch (err) {
     return res.status(400).json(err);

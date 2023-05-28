@@ -13,7 +13,7 @@ eventRoutes.put("/:id", controller.updateEvent);
 eventRoutes.get("/spot/:id", controller.getEventsBySpotId);
 eventRoutes.get("/type/:id", controller.getEventsByEventTypeId);
 eventRoutes.get("/discussion/:id", controller.getEventByDiscussionId);
-eventRoutes.get("/performer/:id", controller.getEventsByPerformerId);
+eventRoutes.get("/performer/:id/:limit?", controller.getEventsByPerformerId);
 eventRoutes.get("/date/:begin/:end", controller.getEventsWithinDateRange);
 eventRoutes.get("/limited-availability/:limit", controller.getEventsWithLimitedAvailability);
 
