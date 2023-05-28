@@ -1,16 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getEventsWithSoldOutTickets = exports.getEventsWithLimitedAvailability = exports.getEventsWithAvailableTickets = exports.getEventsWithinDateRange = exports.getEventsByEventTypeId = exports.getEventsBySpotId = exports.updateEvent = exports.deleteEvent = exports.getEventById = exports.getEvents = exports.addEvent = void 0;
-exports.addEvent = "INSERT INTO events (name, description, begindate, enddate, availabletickets, currentlytakentickets, spot_id, eventtype_id, company_id, discussion_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *";
-exports.getEvents = "SELECT * FROM events";
-exports.getEventById = `SELECT
     e.event_id,
     e.name,
     e.description,
     e.begindate,
     e.enddate,
-    e.availabletickets,
-    e.currentlytakentickets,
     json_build_object(
       'spot_id', s.spot_id,
       'spot_name', s.name,

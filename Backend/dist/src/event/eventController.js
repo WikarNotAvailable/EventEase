@@ -75,7 +75,6 @@ const getEventById = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         const id = parseInt(req.params.id);
         const event = yield db_1.default.query(queries.getEventById, [id]);
         if (event.rows.length) {
-            return res.status(200).json(event.rows);
         }
         else {
             return res.status(400).json({ message: "Event does not exist. (Nonexistent id)" });
@@ -135,8 +134,6 @@ const updateEvent = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 exports.updateEvent = updateEvent;
 const getEventsBySpotId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const spotId = parseInt(req.params.spotid);
-        const events = yield db_1.default.query(queries.getEventsBySpotId, [spotId]);
         return res.status(200).json(events.rows);
     }
     catch (err) {
@@ -144,10 +141,6 @@ const getEventsBySpotId = (req, res) => __awaiter(void 0, void 0, void 0, functi
     }
 });
 exports.getEventsBySpotId = getEventsBySpotId;
-const getEventsByEventTypeId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const eventTypeId = parseInt(req.params.eventtypeid);
-        const events = yield db_1.default.query(queries.getEventsByEventTypeId, [eventTypeId]);
         return res.status(200).json(events.rows);
     }
     catch (err) {
@@ -157,8 +150,6 @@ const getEventsByEventTypeId = (req, res) => __awaiter(void 0, void 0, void 0, f
 exports.getEventsByEventTypeId = getEventsByEventTypeId;
 const getEventsWithinDateRange = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { startdate, enddate } = req.params;
-        const events = yield db_1.default.query(queries.getEventsWithinDateRange, [startdate, enddate]);
         return res.status(200).json(events.rows);
     }
     catch (err) {
