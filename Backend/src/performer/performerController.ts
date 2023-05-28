@@ -51,14 +51,21 @@ export const addPerformer = async (req: Request, res: Response): Promise<Respons
   };
 
   export const getPerformersByType = async (req: Request, res: Response): Promise<Response> => {
-    try {
-      const performertype_id: number = parseInt(req.params.id);
-      const performers: QueryResult<any> = await pool.query(queries.getPerformersByType, [performertype_id]);
-      return res.status(200).json(performers.rows);
-    } catch (err: any) {
-      return res.status(400).json(err);
-    }
-  };
+  try {
+    const { id, limit } = req.params;
+    const parsedId: number = parseInt(id);
+    const parsedLimit: number | null = limit ? parseInt(limit) : null;
+
+    const performers: QueryResult<any> = await pool.query(queries.getPerformersByType, [
+      parsedId,
+      parsedLimit,
+    ]);
+
+    return res.status(200).json(performers.rows);
+  } catch (err: any) {
+    return res.status(400).json(err);
+  }
+};
 
   export const getPerformerByName = async (req: any, res: any) => {
     try {

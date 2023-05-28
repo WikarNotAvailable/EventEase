@@ -1,9 +1,10 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { Home } from '../../../pages/Home';
-import { Flex } from '@chakra-ui/react';
-import { ScrollToTop } from '../../shared/scrollToTop/ScrollToTop';
-import { Error } from '../../../pages/Error';
-import { Navbar } from '../navbar/Navbar';
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Home } from "../../../pages/Home";
+import { Flex } from "@chakra-ui/react";
+import { ScrollToTop } from "../../shared/scrollToTop/ScrollToTop";
+import { Error } from "../../../pages/Error";
+import { Navbar } from "../navbar/Navbar";
+import { Events } from "../../../pages/Events";
 import { Performer } from '../../../pages/Performer';
 import { Artists } from '../../../pages/Artists';
 import { Spots } from '../../../pages/Spots';
@@ -12,8 +13,16 @@ import { Spot } from '../../../pages/Spot';
 export const Wrapper = () => {
   const pages = [
     {
-      path: '/',
-      element: <Home />,
+      path: "/",
+      element: <Home />
+    },
+    {
+      path: "/events",
+      element: <Events />
+    },
+    {
+      path: "/events/:id",
+      element: <>event details</>
     },
     {
       path: '/artists/:type',

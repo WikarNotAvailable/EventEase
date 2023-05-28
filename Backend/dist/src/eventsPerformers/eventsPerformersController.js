@@ -42,7 +42,11 @@ const addEventPerformer = (req, res) => __awaiter(void 0, void 0, void 0, functi
     try {
         const { event_id, performer_id } = req.body;
         const newEventPerformer = yield db_1.default.query(queries.addEventPerformer, [event_id, performer_id]);
+<<<<<<< HEAD
         return res.status(201).json(newEventPerformer.rows[0]);
+=======
+        return res.status(201).json(newEventPerformer.rows);
+>>>>>>> main
     }
     catch (err) {
         res.status(500).json(err);
@@ -92,7 +96,11 @@ const updateEventPerformer = (req, res) => __awaiter(void 0, void 0, void 0, fun
         }
         else {
             const newEventPerformer = yield db_1.default.query(queries.updateEventPerformer, [new_event_id, new_performer_id, event_id, performer_id]);
+<<<<<<< HEAD
             res.json(newEventPerformer.rows[0]);
+=======
+            res.json(newEventPerformer.rows);
+>>>>>>> main
         }
     }
     catch (err) {

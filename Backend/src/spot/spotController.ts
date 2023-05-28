@@ -61,6 +61,21 @@ export const getSpotById = async (req: any, res: any) => {
     }
 }
 
+export const getSpotByName = async (req: any, res: any) => {
+    try{
+        const name = req.params.name;
+        const spot: QueryResult<any> = await pool.query(queries.getSpotByName,[name]);
+
+        if(spot.rows.length){
+            return res.status(200).json(spot.rows);
+        }else{
+            return res.status(400).json({message: "Spot does not exist."});
+        }
+    }catch(err: any){
+        return res.status(400).json(err);
+    }
+}
+
 export const getSpotByType = async (req: any, res: any) => {
     try{
         const spottype_id = parseInt(req.params.id);
