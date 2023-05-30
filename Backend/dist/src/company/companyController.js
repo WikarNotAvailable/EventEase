@@ -68,7 +68,7 @@ const getCompanyById = (req, res) => __awaiter(void 0, void 0, void 0, function*
             if (error)
                 throw error;
             if (results.rows.length) {
-                res.status(200).json(results.rows);
+                res.status(200).json(results.rows[0]);
             }
             else {
                 res.status(400).json({ message: "Company does not exist. Non existent id." });
@@ -114,7 +114,7 @@ const updateCompany = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         }
         else {
             const newCompany = yield db_1.default.query(queries.updateCompany, [name, description, id]);
-            res.json(newCompany.rows);
+            res.json(newCompany.rows[0]);
         }
     }
     catch (err) {

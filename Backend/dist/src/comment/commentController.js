@@ -51,7 +51,7 @@ const postComment = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         }
         else {
             const newComment = yield db_1.default.query(queries.addComment, [content, post_date, user_id, discussion_id]);
-            return res.status(201).json(newComment.rows);
+            return res.status(201).json(newComment.rows[0]);
         }
     }
     catch (err) {
@@ -79,7 +79,7 @@ const getCommentById = (req, res) => __awaiter(void 0, void 0, void 0, function*
             if (error)
                 throw error;
             if (results.rows.length) {
-                res.status(200).json(results.rows);
+                res.status(200).json(results.rows[0]);
             }
             else {
                 res.status(400).json({ message: "Comment does not exist." });
@@ -143,7 +143,8 @@ const updateComment = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         }
         else {
             const newComment = yield db_1.default.query(queries.updateComment, [content, post_date, user_id, discussion_id, id]);
-            return res.json(newComment.rows);
+            return res.json(newComment.rows[0]);
+
         }
     }
     catch (err) {

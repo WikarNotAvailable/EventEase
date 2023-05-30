@@ -42,7 +42,7 @@ const postTransactionStatus = (req, res) => __awaiter(void 0, void 0, void 0, fu
     try {
         const { status } = req.body;
         const newTransactionStatus = yield db_1.default.query(queries.addTransactionStatus, [status]);
-        res.json(newTransactionStatus.rows);
+        res.json(newTransactionStatus.rows[0]);
     }
     catch (err) {
         res.status(500).json(err);
@@ -69,7 +69,7 @@ const getTransactionStatusById = (req, res) => __awaiter(void 0, void 0, void 0,
             if (error)
                 throw error;
             if (results.rows.length) {
-                res.status(200).json(results.rows);
+                res.status(200).json(results.rows[0]);
             }
             else {
                 res.status(400).json({ message: "Transaction status does not exist. (Non existent id)" });
@@ -111,7 +111,7 @@ const updateTransactionStatus = (req, res) => __awaiter(void 0, void 0, void 0, 
         }
         else {
             const newTransactionStatus = yield db_1.default.query(queries.updateTransactionStatus, [status, id]);
-            res.json(newTransactionStatus.rows);
+            res.status(200).json(newTransactionStatus.rows[0]);
         }
     }
     catch (err) {

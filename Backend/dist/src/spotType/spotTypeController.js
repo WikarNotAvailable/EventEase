@@ -42,7 +42,7 @@ const postSpotType = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     try {
         const { spotTypeName } = req.body;
         const newSpotType = yield db_1.default.query(queries.addSpotType, [spotTypeName]);
-        res.json(newSpotType.rows);
+        res.json(newSpotType.rows[0]);
     }
     catch (err) {
         res.status(500).json(err);
@@ -70,7 +70,7 @@ const getSpotTypeById = (req, res) => __awaiter(void 0, void 0, void 0, function
             if (error)
                 throw error;
             if (result.rows.length) {
-                res.status(200).json(result.rows);
+                res.status(200).json(result.rows[0]);
             }
             else {
                 res.status(400).json({ message: "Spot Type does not exist. (Non existent id)" });
@@ -112,7 +112,7 @@ const updateSpotType = (req, res) => __awaiter(void 0, void 0, void 0, function*
         }
         else {
             const newSpotType = yield db_1.default.query(queries.updateSpotType, [spotTypeName, id]);
-            res.json(newSpotType.rows);
+            res.json(newSpotType.rows[0]);
         }
     }
     catch (err) {

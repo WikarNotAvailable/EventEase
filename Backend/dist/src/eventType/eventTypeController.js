@@ -42,7 +42,7 @@ const postEventType = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     try {
         const { eventTypeName } = req.body;
         const newEventType = yield db_1.default.query(queries.addEventType, [eventTypeName]);
-        res.json(newEventType.rows);
+        res.json(newEventType.rows[0]);
     }
     catch (err) {
         res.status(500).json(err);
@@ -69,7 +69,7 @@ const getEventTypeByID = (req, res) => __awaiter(void 0, void 0, void 0, functio
             if (error)
                 throw error;
             if (results.rows.length) {
-                res.status(200).json(results.rows);
+                res.status(200).json(results.rows[0]);
             }
             else {
                 res.status(400).json({ message: "Event Type does not exist. (Non existent id)" });
@@ -111,7 +111,7 @@ const updateEventType = (req, res) => __awaiter(void 0, void 0, void 0, function
         }
         else {
             const newEventType = yield db_1.default.query(queries.updateEventType, [eventTypeName, id]);
-            res.json(newEventType.rows);
+            res.json(newEventType.rows[0]);
         }
     }
     catch (err) {

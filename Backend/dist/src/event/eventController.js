@@ -35,7 +35,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getEventsWithSoldOutTickets = exports.getEventsWithLimitedAvailability = exports.getEventsWithAvailableTickets = exports.getEventsWithinDateRange = exports.getEventsByEventTypeId = exports.getEventsBySpotId = exports.updateEvent = exports.deleteEvent = exports.getEventById = exports.getEvents = exports.addEvent = void 0;
+exports.getEventsWithSoldOutTickets = exports.getEventsWithLimitedAvailability = exports.getEventsWithAvailableTickets = exports.getEventsWithinDateRange = exports.getEventsByEventTypeId = exports.getEventsByPerformerId = exports.getEventsBySpotId = exports.updateEvent = exports.deleteEvent = exports.getEventById = exports.getEvents = exports.addEvent = void 0;
 const db_1 = __importDefault(require("../../db"));
 const queries = __importStar(require("./eventQueries"));
 const addEvent = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -53,7 +53,7 @@ const addEvent = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             company_id,
             discussion_id,
         ]);
-        return res.status(201).json(newEvent.rows);
+        return res.status(201).json(newEvent.rows[0]);
     }
     catch (err) {
         return res.status(400).json(err);
@@ -124,7 +124,7 @@ const updateEvent = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
                 discussion_id,
                 id,
             ]);
-            return res.status(200).json(updatedEvent.rows);
+            return res.status(200).json(updatedEvent.rows[0]);
         }
     }
     catch (err) {

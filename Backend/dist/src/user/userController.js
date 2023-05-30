@@ -57,7 +57,7 @@ const postUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         else {
             let newUser = yield db_1.default.query(queries.addUser, [userTypeID, name, surname, email, phoneNumber, birthday, password]);
             newUser.rows[0]["password"] = passwordHash.generate(newUser.rows[0]["password"]);
-            return res.status(201).json(newUser.rows);
+            return res.status(201).json(newUser.rows[0]);
         }
     }
     catch (err) {
@@ -87,7 +87,7 @@ const getUserById = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             if (results.rows.length) {
                 results.rows[0]["transactions"] = (yield db_1.default.query(queries.getTransactionsForUser, [results.rows[0]["user_id"]])).rows;
                 results.rows[0]["password"] = passwordHash.generate(results.rows[0]["password"]);
-                res.status(200).json(results.rows);
+                res.status(200).json(results.rows[0]);
             }
             else {
                 res.status(400).json({ message: "User does not exist. (Non existent id)" });
@@ -153,7 +153,7 @@ const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         }
         else {
             const newUser = yield db_1.default.query(queries.updateUser, [name, surname, email, phoneNumber, birthday, password, id]);
-            res.json(newUser.rows);
+            res.status(200).json(newUser.rows[0]);
         }
     }
     catch (err) {

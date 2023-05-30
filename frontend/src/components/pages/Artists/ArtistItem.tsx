@@ -15,7 +15,7 @@ export const ArtistItem : FC<IArtistItemProps> = ({name, imageUrl}) => {
         _hover={{transform: "scale(1.03)", transition:"transform 0.2s ease-in-out"}}
         cursor={'pointer'}
        >
-        <Link to={`/artists/${name}`}> 
+        <Link to={`/artist/${name}`}> 
             <Image src={imageUrl} borderTopRadius={'10'} objectFit={'fill'} height={'85%'} width={'100%'} overflow={'hidden'}>
 
             </Image>

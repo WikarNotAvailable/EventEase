@@ -15,17 +15,21 @@ export const Wrapper = () => {
       element: <Home />
     },
     {
+      path: '/artists/:type',
+      element: <>artist type</>
+    },
       path: "/events",
       element: <Events />
     },
     {
       path: "/events/:id",
       element: <>event details</>
+    },
       path: '/artists',
       element: <Artists/>
     },
     {
-      path: '/artists/:name',
+      path: '/artist/:name',
       element: <Performer/>
     }
   ].map((element, index) => ({ ...element, id: `${element.path}_${index}` }));

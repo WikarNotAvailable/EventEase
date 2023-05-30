@@ -42,7 +42,7 @@ const postPerformerType = (req, res) => __awaiter(void 0, void 0, void 0, functi
     try {
         const { performerTypeName } = req.body;
         const newPerformerType = yield db_1.default.query(queries.addPerformerType, [performerTypeName]);
-        res.json(newPerformerType.rows);
+        res.json(newPerformerType.rows[0]);
     }
     catch (err) {
         res.status(500).json(err);
@@ -69,7 +69,7 @@ const getPerformerTypeById = (req, res) => __awaiter(void 0, void 0, void 0, fun
             if (error)
                 throw error;
             if (results.rows.length) {
-                res.status(200).json(results.rows);
+                res.status(200).json(results.rows[0]);
             }
             else {
                 res.status(400).json({ message: "Performer Type does not exist. (Non existent id)" });
@@ -111,7 +111,7 @@ const updatePerformerType = (req, res) => __awaiter(void 0, void 0, void 0, func
         }
         else {
             const newPerformerType = yield db_1.default.query(queries.updatePerformerType, [performerTypeName, id]);
-            res.json(newPerformerType.rows);
+            res.json(newPerformerType.rows[0]);
         }
     }
     catch (err) {

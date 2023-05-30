@@ -48,6 +48,16 @@ class ApiService {
       const req = await axios.get(`${this.baseUrl}/performers/type/${type_id}`, this.config)
       return req.data
     }
+
+    public async getArtistEvents(artist_id: number) {
+      const req = await axios.get(`${this.baseUrl}/events/performer/${artist_id}`, this.config)
+      return req.data
+    }
+
+    public async getArtistTypes() {
+      const req = await axios.get(`${this.baseUrl}/performerTypes`, this.config)
+      return req.data
+    }
 }
 
 const api = new ApiService();

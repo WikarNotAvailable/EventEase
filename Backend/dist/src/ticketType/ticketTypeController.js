@@ -42,7 +42,7 @@ const postTicketType = (req, res) => __awaiter(void 0, void 0, void 0, function*
     try {
         const { type } = req.body;
         const newTicketType = yield db_1.default.query(queries.addTicketType, [type]);
-        res.json(newTicketType.rows);
+        res.json(newTicketType.rows[0]);
     }
     catch (err) {
         res.status(500).json(err);
@@ -69,7 +69,7 @@ const getTicketTypeById = (req, res) => __awaiter(void 0, void 0, void 0, functi
             if (error)
                 throw error;
             if (results.rows.length) {
-                res.status(200).json(results.rows);
+                res.status(200).json(results.rows[0]);
             }
             else {
                 res.status(400).json({ message: "Ticket type does not exist. (Non existent id)" });
@@ -111,7 +111,7 @@ const updateTicketType = (req, res) => __awaiter(void 0, void 0, void 0, functio
         }
         else {
             const newTicketType = yield db_1.default.query(queries.updateTicketType, [type, id]);
-            res.json(newTicketType.rows);
+            res.status(200).json(newTicketType.rows[0]);
         }
     }
     catch (err) {
