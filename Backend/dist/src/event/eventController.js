@@ -75,10 +75,6 @@ const getEventById = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         const id = parseInt(req.params.id);
         const event = yield db_1.default.query(queries.getEventById, [id]);
         if (event.rows.length) {
-<<<<<<<<< Temporary merge branch 1
-            return res.status(200).json(event.rows[0]);
-=========
->>>>>>>>> Temporary merge branch 2
         }
         else {
             return res.status(400).json({ message: "Event does not exist. (Nonexistent id)" });
@@ -138,11 +134,6 @@ const updateEvent = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 exports.updateEvent = updateEvent;
 const getEventsBySpotId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-<<<<<<<<< Temporary merge branch 1
-        const id = parseInt(req.params.id);
-        const events = yield db_1.default.query(queries.getEventsBySpotId, [id]);
-=========
->>>>>>>>> Temporary merge branch 2
         return res.status(200).json(events.rows);
     }
     catch (err) {
@@ -150,24 +141,6 @@ const getEventsBySpotId = (req, res) => __awaiter(void 0, void 0, void 0, functi
     }
 });
 exports.getEventsBySpotId = getEventsBySpotId;
-<<<<<<<<< Temporary merge branch 1
-const getEventsByPerformerId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const id = req.params.id;
-        const events = yield db_1.default.query(queries.getEventsByPerformerId, [id]);
-        return res.status(200).json(events.rows);
-    }
-    catch (err) {
-        return res.status(400).json(err);
-    }
-});
-exports.getEventsByPerformerId = getEventsByPerformerId;
-const getEventsByEventTypeId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const id = parseInt(req.params.id);
-        const events = yield db_1.default.query(queries.getEventsByEventTypeId, [id]);
-=========
->>>>>>>>> Temporary merge branch 2
         return res.status(200).json(events.rows);
     }
     catch (err) {
@@ -177,13 +150,6 @@ const getEventsByEventTypeId = (req, res) => __awaiter(void 0, void 0, void 0, f
 exports.getEventsByEventTypeId = getEventsByEventTypeId;
 const getEventsWithinDateRange = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-<<<<<<<<< Temporary merge branch 1
-        const { begin, end } = req.params;
-        const beginDate = new Date(begin);
-        const endDate = new Date(end);
-        const events = yield db_1.default.query(queries.getEventsWithinDateRange, [beginDate, endDate]);
-=========
->>>>>>>>> Temporary merge branch 2
         return res.status(200).json(events.rows);
     }
     catch (err) {

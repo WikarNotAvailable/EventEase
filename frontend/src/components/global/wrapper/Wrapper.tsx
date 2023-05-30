@@ -5,8 +5,8 @@ import { ScrollToTop } from "../../shared/scrollToTop/ScrollToTop";
 import { Error } from "../../../pages/Error";
 import { Navbar } from "../navbar/Navbar";
 import { Events } from "../../../pages/Events";
-import { Performer } from '../../../pages/Performer';
-import { Artists } from '../../../pages/Artists';
+import { Performer } from "../../../pages/Performer";
+import { Artists } from "../../../pages/Artists";
 import { Spots } from '../../../pages/Spots';
 import { Spot } from '../../../pages/Spot';
 
@@ -17,7 +17,7 @@ export const Wrapper = () => {
       element: <Home />
     },
     {
-      path: '/artists/:type',
+      path: "/artists/:type",
       element: <>artist type</>
     },
     {
@@ -28,17 +28,18 @@ export const Wrapper = () => {
       path: "/events/:id",
       element: <>event details</>
     },
+    
     {
-      path: '/artists/:type',
-      element: <Artists/>
+      path: "/artists/:type",
+      element: <Artists />
     },
     {
       path: '/spots/:type',
       element: <Spots/>
     },
     {
-      path: '/artist/:name',
-      element: <Performer/>
+      path: "/artist/:name",
+      element: <Performer />
     },
     {
       path: '/spot/:name',
