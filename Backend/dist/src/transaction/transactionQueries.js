@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getTicketsForTransaction = exports.getUserForTransaction = exports.updateTransaction = exports.deleteTransaction = exports.getTransactionById = exports.getTransactions = exports.checkUserExists = exports.checkTransactionStatusExists = exports.addTransaction = void 0;
@@ -10,3 +11,5 @@ exports.deleteTransaction = "DELETE FROM transactions WHERE transaction_id = $1"
 exports.updateTransaction = "UPDATE transactions SET transactionstatus_id = $1, value = $2, transactiondate = $3 WHERE transaction_id = $4 RETURNING *";
 exports.getUserForTransaction = "SELECT usertypes.name as usertype, users.name, users.surname, users.email, users.phone_number, users.birthday FROM users INNER JOIN usertypes on users.usertype_id = usertypes.usertype_id WHERE user_id = $1";
 exports.getTicketsForTransaction = "SELECT * FROM tickets INNER JOIN tickettypes on tickettypes.tickettype_id = tickets.tickettype_id WHERE tickets.transaction_id = $1";
+=======
+>>>>>>> e1410fad82aefd898704b932ecccc0efc7a476b0

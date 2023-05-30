@@ -48,8 +48,6 @@ export const updateEventPerformer = async (req: any,res: any) => {
       const event_id = parseInt(req.params.event_id);
       const performer_id = parseInt(req.params.performer_id);
       const { new_event_id, new_performer_id }: Record<any, any> = req.body;
-      console.log("event: " + new_event_id + "\nperformer: " + new_performer_id);
-
       const eventPerformer: QueryResult<any> = await pool.query(queries.getEventPerformerById, [event_id, performer_id]);
       
       if(!eventPerformer.rows.length){

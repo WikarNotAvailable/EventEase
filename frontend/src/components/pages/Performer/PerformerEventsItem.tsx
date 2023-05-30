@@ -1,6 +1,14 @@
 import { Text, Flex, Button } from '@chakra-ui/react'
+import { FC } from 'react'
 
-export const PerformerEventsItem = () => {
+interface IPerformerEventsItemProps {
+  name:string,
+  city:string,
+  start_date:string
+  end_date:string
+}
+
+export const PerformerEventsItem : FC<IPerformerEventsItemProps> = ({name, city, start_date, end_date}) => {
     
   return (
     <Flex  
@@ -16,7 +24,7 @@ export const PerformerEventsItem = () => {
                 fontFamily={"monospace"}
                 fontSize={25}
                 fontWeight={'light'}>
-                Loolapalooza - Rio de Janeiro - 31.12.2023
+                {`${name} - ${city} - ${start_date}-${end_date}`}
             </Text>
             <Button textColor={"#101828"} backgroundColor="primary" _hover={{backgroundColor: "secondary"}} 
                   isTruncated textOverflow={'ellipsis'} >
