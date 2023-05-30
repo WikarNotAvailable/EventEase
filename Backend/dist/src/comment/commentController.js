@@ -144,6 +144,7 @@ const updateComment = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         else {
             const newComment = yield db_1.default.query(queries.updateComment, [content, post_date, user_id, discussion_id, id]);
             return res.json(newComment.rows[0]);
+
         }
     }
     catch (err) {
