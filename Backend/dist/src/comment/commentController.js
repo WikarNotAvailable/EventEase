@@ -51,11 +51,11 @@ const postComment = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         }
         else {
             const newComment = yield db_1.default.query(queries.addComment, [content, post_date, user_id, discussion_id]);
-<<<<<<< HEAD
+<<<<<<<<< Temporary merge branch 1
             return res.status(201).json(newComment.rows[0]);
-=======
+=========
             return res.status(201).json(newComment.rows);
->>>>>>> main
+>>>>>>>>> Temporary merge branch 2
         }
     }
     catch (err) {
@@ -83,11 +83,11 @@ const getCommentById = (req, res) => __awaiter(void 0, void 0, void 0, function*
             if (error)
                 throw error;
             if (results.rows.length) {
-<<<<<<< HEAD
+<<<<<<<<< Temporary merge branch 1
                 res.status(200).json(results.rows[0]);
-=======
+=========
                 res.status(200).json(results.rows);
->>>>>>> main
+>>>>>>>>> Temporary merge branch 2
             }
             else {
                 res.status(400).json({ message: "Comment does not exist." });
@@ -151,11 +151,11 @@ const updateComment = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         }
         else {
             const newComment = yield db_1.default.query(queries.updateComment, [content, post_date, user_id, discussion_id, id]);
-<<<<<<< HEAD
+<<<<<<<<< Temporary merge branch 1
             return res.json(newComment.rows[0]);
-=======
+=========
             return res.json(newComment.rows);
->>>>>>> main
+>>>>>>>>> Temporary merge branch 2
         }
     }
     catch (err) {
