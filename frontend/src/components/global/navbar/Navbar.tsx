@@ -52,8 +52,12 @@ export const Navbar = () => {
         <Link to="/events">
           <NavLink text="Events" />
         </Link>
-        <NavLink text="Artists" />
-        <NavLink text="Places" />
+        <Link to="/artists">
+          <NavLink text="Artists" />
+        </Link>
+        <Link to="/places">
+          <NavLink text="Places" />
+        </Link>
         <NavSearch />
         <NavProfile signInOpen={onSingInOpen} signUpOpen={onSingUpOpen} />
       </Flex>
