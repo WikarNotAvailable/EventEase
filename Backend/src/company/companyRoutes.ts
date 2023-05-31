@@ -9,8 +9,6 @@ companyRoutes.get("/", controller.getCompany);
 
 companyRoutes.get("/:id", controller.getCompanyById);
 
-companyRoutes.get("/discussion/:id", controller.getCompanyByDiscussion);
-
 companyRoutes.delete("/:id", controller.deleteCompany);
 
 companyRoutes.put("/:id", controller.updateCompany);
@@ -18,37 +16,24 @@ companyRoutes.put("/:id", controller.updateCompany);
 export default companyRoutes;
 
 /*
-Get All response:
+Reponse get
 {
     "company_id": int,
     "name": string,
     "description": string,
-    "discussion_id": int
+    "discussion_id": int,
+
 }
 
-Get by id response:
+Body for Post
 {
-    "company_id": int,
     "name": string,
-    "description": string,
-    "discussion": {
-        "discussion_id": int,
-        "name": string,
-        "description": string
-    }
+    "description": string
 }
 
-Post body:
+Body for Update //all fields optional 
 {
     "name": string,
-    "description": string,
-    "discussion_id": int
-}
-
-Update response:
-{
-    "name": string,
-    "description": string,
-    "discussion_id": int
+    "description": string
 }
 */

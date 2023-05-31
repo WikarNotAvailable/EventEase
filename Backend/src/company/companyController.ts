@@ -50,15 +50,6 @@ export const getCompanyById = async (req: any,res: any) => {
     }
 }
 
-export const getCompanyByDiscussion = async(req: any,res: any) => {
-    try{
-        const id = parseInt(req.params.id);
-        const company: QueryResult<any> = await pool.query(queries.getCompanyByDiscussion, [id]);
-        return res.status(200).json(company.rows[0]);
-    }catch(err: any){
-        return res.status(400).json(err);
-    }
-}
 export const deleteCompany = async (req: any,res: any) => {
     try{
         const id = parseInt(req.params.id);
