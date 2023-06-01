@@ -14,7 +14,6 @@ export const addEvent = async (req: any, res: any) => {
       spot_id,
       eventtype_id,
       company_id,
-      discussion_id,
     } = req.body;
 
     const newEvent: QueryResult<any> = await pool.query(queries.addEvent, [
@@ -27,10 +26,9 @@ export const addEvent = async (req: any, res: any) => {
       spot_id,
       eventtype_id,
       company_id,
-      discussion_id,
     ]);
 
-    return res.status(201).json(newEvent.rows);
+    return res.status(201).json(newEvent.rows[0]);
   } catch (err: any) {
     return res.status(400).json(err);
   }
@@ -51,7 +49,8 @@ export const getEventById = async (req: any, res: any) => {
     const event: QueryResult<any> = await pool.query(queries.getEventById, [id]);
     
     if (event.rows.length) {
-      return res.status(200).json(event.rows);
+      return res.status(200).json(event.rows[0]);
+
     } else {
       return res.status(400).json({ message: "Event does not exist. (Nonexistent id)" });
     }
@@ -88,8 +87,7 @@ export const updateEvent = async (req: any, res: any) => {
       currentlytakentickets,
       spot_id,
       eventtype_id,
-      company_id,
-      discussion_id,
+      company_id
     } = req.body;
 
     const event: QueryResult<any> = await pool.query(queries.getEventById, [id]);
@@ -107,11 +105,10 @@ export const updateEvent = async (req: any, res: any) => {
         spot_id,
         eventtype_id,
         company_id,
-        discussion_id,
         id,
       ]);
 
-      return res.status(200).json(updatedEvent.rows);
+      return res.status(200).json(updatedEvent.rows[0]);
     }
   } catch (err: any) {
     return res.status(400).json(err);
@@ -120,28 +117,60 @@ export const updateEvent = async (req: any, res: any) => {
 
 export const getEventsBySpotId = async (req: any, res: any) => {
   try {
-    const spotId = parseInt(req.params.spotid);
-    const events: QueryResult<any> = await pool.query(queries.getEventsBySpotId, [spotId]);
+    const id = parseInt(req.params.id);
+    const events: QueryResult<any> = await pool.query(queries.getEventsBySpotId, [id]);
+
     return res.status(200).json(events.rows);
   } catch (err: any) {
+    return res.status(400).json(err);
+  }
+};
+
+export const getEventsByPerformerId = async (req: any, res: any) => {
+  try {
+    const { id, limit } = req.params;
+    const parsedId = req.params.id;  
+    const parsedLimit: number | null = limit ? parseInt(limit) : null;
+
+    const events: QueryResult<any> = await pool.query(queries.getEventsByPerformerId, [parsedId, parsedLimit]);
+    return res.status(200).json(events.rows);
+  } catch (err) {
     return res.status(400).json(err);
   }
 };
 
 export const getEventsByEventTypeId = async (req: any, res: any) => {
   try {
-    const eventTypeId = parseInt(req.params.eventtypeid);
-    const events: QueryResult<any> = await pool.query(queries.getEventsByEventTypeId, [eventTypeId]);
+    const id = parseInt(req.params.id);
+    const events: QueryResult<any> = await pool.query(queries.getEventsByEventTypeId, [id]);
     return res.status(200).json(events.rows);
   } catch (err: any) {
     return res.status(400).json(err);
   }
 };
 
+export const getEventByDiscussionId = async (req: any, res: any) => {
+  try {
+    const { id } = req.params;
+    const event: QueryResult<any> = await pool.query(queries.getEventByDiscussionId, [id]);
+
+    if (event.rows.length === 0) {
+      return res.status(404).json({ message: "Event not found" });
+    }
+
+    return res.status(200).json(event.rows[0]);
+  } catch (error) {
+    return res.status(400).json(error);
+  }
+};
+
+
 export const getEventsWithinDateRange = async (req: any, res: any) => {
   try {
-    const { startdate, enddate } = req.params;
-    const events: QueryResult<any> = await pool.query(queries.getEventsWithinDateRange, [startdate, enddate]);
+    const { begin, end } = req.params;
+    const beginDate = new Date(begin);
+    const endDate = new Date(end);
+    const events: QueryResult<any> = await pool.query(queries.getEventsWithinDateRange, [beginDate, endDate]);
     return res.status(200).json(events.rows);
   } catch (err: any) {
     return res.status(400).json(err);
