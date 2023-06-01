@@ -53,9 +53,9 @@ CREATE TABLE tickettypes(
 
 CREATE TABLE companies(
     company_id SERIAL PRIMARY KEY,
-    name VARCHAR(100) NOT NULL UNIQUE,
+    name VARCHAR(100) NOT NULL,
     description text,
-    discussion_id INTEGER
+    discussion_id SERIAL UNIQUE
 );
 
 CREATE TABLE discussions(
@@ -63,11 +63,6 @@ CREATE TABLE discussions(
     company_id INTEGER,
     event_id INTEGER
 );
-
-ALTER TABLE companies 
-ADD CONSTRAINT fk_discussion FOREIGN KEY(discussion_id)
-REFERENCES discussions(discussion_id)
-ON DELETE CASCADE;
 
 CREATE TABLE comments(
     comments_id SERIAL PRIMARY KEY,
@@ -205,6 +200,9 @@ CREATE TABLE eventsperformers (
 ALTER TABLE discussions
 ADD CONSTRAINT fk_event FOREIGN KEY(event_id)
         REFERENCES events(event_id)
+        ON DELETE CASCADE,
+ADD CONSTRAINT fk_company FOREIGN KEY(company_id)
+        REFERENCES companies(company_id)
         ON DELETE CASCADE;
 
 CREATE OR REPLACE FUNCTION create_discussion()
@@ -234,4 +232,32 @@ CREATE TRIGGER delete_discussion_trigger
 AFTER DELETE ON events
 FOR EACH ROW
 EXECUTE FUNCTION delete_discussion();
+
+CREATE OR REPLACE FUNCTION create_discussion_for_company()
+RETURNS TRIGGER AS $$
+BEGIN
+  INSERT INTO discussions (company_id, event_id)
+  VALUES (NEW.company_id, NULL)
+  RETURNING discussion_id INTO NEW.discussion_id;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER insert_discussion_trigger_for_company
+AFTER INSERT ON companies
+FOR EACH ROW
+EXECUTE FUNCTION create_discussion_for_company();
+
+CREATE OR REPLACE FUNCTION delete_discussion_for_company()
+RETURNS TRIGGER AS $$
+BEGIN
+    DELETE FROM discussions WHERE discussion_id = OLD.discussion_id;
+    RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER delete_discussion_trigger_for_company
+AFTER DELETE ON companies
+FOR EACH ROW
+EXECUTE FUNCTION delete_discussion_for_company();
 
