@@ -8,7 +8,7 @@ interface IArtistsTypeSideBarProps
   changeType: any
 }
 
-export const ArtistsTypeSideBar : FC<IArtistsTypeSideBarProps> = ({changeType: onClick}) => {
+export const ArtistsTypeSideBar : FC<IArtistsTypeSideBarProps> = ({changeType}) => {
 
     const [artistTypes, setArtistTypes] = useState<any>()
     const [currentIndex, setCurrentIndex] = useState<number>()
@@ -45,7 +45,7 @@ export const ArtistsTypeSideBar : FC<IArtistsTypeSideBarProps> = ({changeType: o
     useEffect(() => {
 
       if(currentIndex)
-        onClick(currentIndex)
+      changeType(currentIndex)
     }, [currentIndex])
 
 
@@ -60,14 +60,14 @@ export const ArtistsTypeSideBar : FC<IArtistsTypeSideBarProps> = ({changeType: o
   {
     return (
       <Tabs marginLeft={"20"} orientation='vertical' width={"10%"}
-      defaultIndex={artistTypes.findIndex((artistType: { type: string | undefined }) => artistType.type === type) + 1}>
+      defaultIndex={artistTypes?.findIndex((artistType: { type: string | undefined }) => artistType.type === type) + 1}>
         <TabList>
           <Link  to="/artists/all" reloadDocument>
-            <Tab onClick={() => onClick(0)}>All artists</Tab>
+            <Tab onClick={() => changeType(0)}>All artists</Tab>
           </Link>
-          {artistTypes.map((type:any) => (
+          {artistTypes?.map((type:any) => (
             <Link key={type.performertype_id} to={`/artists/${type.type}`} reloadDocument>
-              <Tab  onClick={() => onClick(type.performertype_id)}>{type.type}</Tab>
+              <Tab  onClick={() => changeType(type.performertype_id)}>{type.type}</Tab>
             </Link>
             ))}
         </TabList>

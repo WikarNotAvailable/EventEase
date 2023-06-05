@@ -48,7 +48,7 @@ export const Spot = () => {
             <SpotInfo name={spot[0].name} url={spot[0].spotimage} description={spot[0].description}/>
 
           </Flex>
-          <SpotEvents spot_id={spot[0].performer_id}/>
+          <SpotEvents spot_id={spot[0].spot_id}/>
         </Grid>   
       </PageContainer>
         

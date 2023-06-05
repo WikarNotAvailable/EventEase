@@ -60,12 +60,12 @@ export const SpotsTypeSideBar : FC<ISpotsTypeSideBarProps> = ({changeType: onCli
   {
     return (
       <Tabs marginLeft={"20"} orientation='vertical' width={"10%"}
-      defaultIndex={spotTypes.findIndex((spotType: { name: string | undefined }) => spotType.name === type) + 1}>
+      defaultIndex={spotTypes?.findIndex((spotType: { name: string | undefined }) => spotType.name === type) + 1}>
         <TabList>
           <Link  to="/spots/all" reloadDocument>
             <Tab onClick={() => onClick(0)}>All spots</Tab>
           </Link>
-          {spotTypes.map((type:any) => (
+          {spotTypes?.map((type:any) => (
             <Link key={type.spottype_id} to={`/spots/${type.name}`} reloadDocument>
               <Tab  onClick={() => onClick(type.spottype_id)}>{type.name}</Tab>
             </Link>

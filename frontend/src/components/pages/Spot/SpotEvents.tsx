@@ -7,8 +7,8 @@ interface ISpotEventsProps{
   spot_id:number
 }
 
-export const SpotEvents : FC<ISpotEventsProps> = ({spot_id: artist_id}) => {
-  const isWideScreen = useBreakpointValue({ base: false, lg: true });
+export const SpotEvents : FC<ISpotEventsProps> = ({spot_id}) => {
+  //const isWideScreen = useBreakpointValue({ base: false, lg: true });
   const [spotEvents, setSpotEvents] = useState<any>()
   const [isLoading, setIsLoading] = useState<boolean>(true)
 
@@ -16,7 +16,7 @@ export const SpotEvents : FC<ISpotEventsProps> = ({spot_id: artist_id}) => {
     const getSpotEvents = async () => {
       try {
         setIsLoading(true)
-        setSpotEvents(await api.getSpotEvents(artist_id))
+        setSpotEvents(await api.getSpotEvents(spot_id))
         
       } catch(error)
       {
@@ -38,7 +38,7 @@ export const SpotEvents : FC<ISpotEventsProps> = ({spot_id: artist_id}) => {
   else
   {
     return (
-      <Grid width ={isWideScreen ? "70%" : "100%"}>
+      <Grid width =/*{isWideScreen ? "70%" : */"100%"/*}*/>
         <Flex marginTop={'10'} align={'end'} textColor={"#101828"}>
           <Text fontSize={'31'} >
             Upcoming events

@@ -74,8 +74,8 @@ class ApiService {
       return req.data
     }
 
-    public async getSpotEvents(artist_id: number) {
-      const req = await axios.get(`${this.baseUrl}/events/spot/${artist_id}`, this.config)
+    public async getSpotEvents(spot_id: number) {
+      const req = await axios.get(`${this.baseUrl}/events/spot/${spot_id}`, this.config)
       return req.data
     }
 

@@ -52,10 +52,10 @@ export const Navbar = () => {
         <Link to="/events">
           <NavLink text="Events" />
         </Link>
-        <Link to="/artists">
+        <Link to="/artists/all">
           <NavLink text="Artists" />
         </Link>
-        <Link to="/places">
+        <Link to="/spots/all">
           <NavLink text="Places" />
         </Link>
         <NavSearch />

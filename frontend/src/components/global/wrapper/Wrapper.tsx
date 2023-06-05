@@ -17,10 +17,6 @@ export const Wrapper = () => {
       element: <Home />
     },
     {
-      path: "/artists/:type",
-      element: <>artist type</>
-    },
-    {
       path: "/events",
       element: <Events />
     },
