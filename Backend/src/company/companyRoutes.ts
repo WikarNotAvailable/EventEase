@@ -27,7 +27,6 @@ Reponse get
 
 Body for Post
 {
-    "discussionID": int,
     "name": string,
     "description": string
 }
