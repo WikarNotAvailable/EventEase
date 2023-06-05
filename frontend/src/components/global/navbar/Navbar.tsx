@@ -49,15 +49,14 @@ export const Navbar = () => {
         EventEase
       </Text>
       <Flex align="center" gap="16px">
-        <Link to="/events">
-          <NavLink text="Events" />
-        </Link>
-        <Link to="/artists/all">
-          <NavLink text="Artists" />
-        </Link>
-        <Link to="/spots/all">
-          <NavLink text="Places" />
-        </Link>
+          <NavLink text="Events" location="events"/>
+
+
+          <NavLink text="Artists" location="artists/all" />
+
+
+          <NavLink text="Places" location="spots/all"/>
+
         <NavSearch />
         <NavProfile signInOpen={onSingInOpen} signUpOpen={onSingUpOpen} />
       </Flex>
