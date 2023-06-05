@@ -24,7 +24,7 @@ export const Performer = () => {
       } catch(error)
       {
         console.log(error)
-        navigate("*")
+        navigate("")
       }
       
     } 

@@ -7,16 +7,14 @@ import { Navbar } from "../navbar/Navbar";
 import { Events } from "../../../pages/Events";
 import { Performer } from "../../../pages/Performer";
 import { Artists } from "../../../pages/Artists";
+import { Spots } from '../../../pages/Spots';
+import { Spot } from '../../../pages/Spot';
 
 export const Wrapper = () => {
   const pages = [
     {
       path: "/",
       element: <Home />
-    },
-    {
-      path: "/artists/:type",
-      element: <>artist type</>
     },
     {
       path: "/events",
@@ -26,13 +24,22 @@ export const Wrapper = () => {
       path: "/events/:id",
       element: <>event details</>
     },
+    
     {
-      path: "/artists",
+      path: "/artists/:type",
       element: <Artists />
+    },
+    {
+      path: '/spots/:type',
+      element: <Spots/>
     },
     {
       path: "/artist/:name",
       element: <Performer />
+    },
+    {
+      path: '/spot/:name',
+      element: <Spot/>
     }
   ].map((element, index) => ({ ...element, id: `${element.path}_${index}` }));
 
