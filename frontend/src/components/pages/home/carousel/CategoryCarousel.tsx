@@ -7,6 +7,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import { FC, useEffect, useState } from 'react';
 import api from '../../../../api/api';
+import { Link } from 'react-router-dom';
 
 interface ICategoryCarouselProps {
 	typeID: string;
@@ -74,17 +75,19 @@ export const CategoryCarousel: FC<ICategoryCarouselProps> = ({ typeID }) => {
 					modules={[Navigation, Autoplay]}>
 					{events?.map((event: any) => (
 						<SwiperSlide key={event?.event_id}>
-							<CarouselPhoto
-								image={
-									'https://goingapp.pl/more/wp-content/uploads/2023/02/Metallica-1600x996.jpeg'
-								}
-								eventName={event?.name}
-								eventSpotName={event?.spot?.spot_name}
-								eventSpotCity={event?.spot?.address?.city}
-								eventDate={
-									new Date(event?.begindate).toLocaleString().split(',')[0]
-								}
-							/>
+							<Link to={`/events/${event?.event_id}`}>
+								<CarouselPhoto
+									image={
+										'https://goingapp.pl/more/wp-content/uploads/2023/02/Metallica-1600x996.jpeg'
+									}
+									eventName={event?.name}
+									eventSpotName={event?.spot?.spot_name}
+									eventSpotCity={event?.spot?.address?.city}
+									eventDate={
+										new Date(event?.begindate).toLocaleString().split(',')[0]
+									}
+								/>
+							</Link>
 							<Text cursor={'default'} textColor={'#F9FAFB'}>
 								coś się zbugowało i nie renderuje bez tekstu a wcześniej
 								działało xd

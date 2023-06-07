@@ -38,10 +38,7 @@ export const CarouselPhoto: FC<ICarouselProps> = ({
 				width={'100%'}
 				backgroundColor={isHovered ? 'whiteAlpha.600' : 'whiteAlpha.400'}>
 				<Text textColor={'white'} fontSize={15} fontWeight={'light'}>
-					{eventName} - {eventSpotName}
-				</Text>
-				<Text textColor={'black'} fontSize={14}>
-					{eventSpotCity} - {eventDate}
+					{eventName} - {eventDate}
 				</Text>
 			</Grid>
 		</Box>
