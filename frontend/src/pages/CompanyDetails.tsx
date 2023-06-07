@@ -1,16 +1,75 @@
-import { Flex, Grid, Link, Spinner, Text, useToast } from '@chakra-ui/react';
+import {
+	Button,
+	Flex,
+	Grid,
+	Input,
+	Link,
+	Spinner,
+	Text,
+	useToast,
+} from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import api from '../api/api';
 import { PageContainer } from '../components/shared/containers/PageContainer';
+import useUserContext from '../provider/user';
 
 export const CompanyDetails = () => {
 	const [company, setCompany] = useState<any>();
+	const [discussion, setDiscussion] = useState<any>();
+	const [commentInput, setCommentInput] = useState<string>('');
 	const [loading, setLoading] = useState(true);
 	const [descriptionFull, setDescriptionFull] = useState(false);
 
 	const { id } = useParams();
 	const toast = useToast();
+
+	const { userID, isLoggedIn } = useUserContext();
+
+	const handleCommentInput = (e: any) => {
+		setCommentInput(e.target.value);
+	};
+
+	const postComment = async () => {
+		if (isLoggedIn) {
+			setCommentInput('');
+			setLoading(true);
+			// console.log({
+			// 	userID: userID,
+			// 	content: commentInput,
+			// 	post_date: new Date().toLocaleString().split(',')[0],
+			// 	discussion_id: discussion?.discussion_id,
+			// });
+			const res = await api.postCommentToDiscussion(
+				discussion?.discussion_id,
+				commentInput,
+				new Date().toLocaleString(),
+				userID
+			);
+			if (res.status === 201) {
+				console.log(res.data);
+				await getCompany();
+				setLoading(false);
+			} else {
+				setLoading(false);
+				toast({
+					title: 'Something went wrong...',
+					status: 'error',
+					duration: 9000,
+					isClosable: true,
+					position: 'top',
+				});
+			}
+		} else {
+			toast({
+				title: 'You must be logged in...',
+				status: 'error',
+				duration: 9000,
+				isClosable: true,
+				position: 'top',
+			});
+		}
+	};
 
 	const getCompany = async () => {
 		const res = await api.getCompanyById(id!);
@@ -19,6 +78,21 @@ export const CompanyDetails = () => {
 			console.log(res.data);
 			setCompany(res.data);
 			setLoading(false);
+			const res2 = await getDiscussion(res.data?.discussion?.discussion_id);
+			if (res2.status === 200) {
+				console.log(res2.data);
+				setDiscussion(res2.data);
+				setLoading(false);
+			} else {
+				setLoading(false);
+				toast({
+					title: 'Something went wrong...',
+					status: 'error',
+					duration: 9000,
+					isClosable: true,
+					position: 'top',
+				});
+			}
 		} else {
 			setLoading(false);
 			toast({
@@ -29,6 +103,11 @@ export const CompanyDetails = () => {
 				position: 'top',
 			});
 		}
+	};
+
+	const getDiscussion = async (id: string) => {
+		const res = await api.getDiscussionById(id!);
+		return res;
 	};
 
 	useEffect(() => {
@@ -65,6 +144,61 @@ export const CompanyDetails = () => {
 							<Text fontSize='24px' fontWeight='600' mt='128px'>
 								Discussion
 							</Text>
+							<Flex align='center' gap='8px' w='100%'>
+								<Input
+									placeholder='Post your opinion...'
+									value={commentInput}
+									onChange={handleCommentInput}
+									onKeyDown={(e: any) => {
+										if (e.key === 'Enter') postComment();
+									}}
+								/>
+								<Button
+									bgColor='primary'
+									_hover={{ bgColor: 'primary', opacity: '0.9' }}
+									color='white'
+									onClick={() => postComment()}>
+									Post
+								</Button>
+							</Flex>
+							<Flex flexDir='column' gap='4px'>
+								{discussion?.comment !== undefined &&
+									Array.from(discussion?.comment)
+										?.reverse()
+										?.map((comment: any) => (
+											<Flex
+												justify='space-between'
+												align='center'
+												bgColor='backgroundTernary'
+												p='12px 16px'
+												borderRadius='8px'
+												key={comment?.comment_id}>
+												<Flex gap='32px'>
+													<Flex
+														justify='center'
+														align='center'
+														fontSize='12px'
+														fontWeight='300'
+														borderRadius='50%'
+														boxSize='40px'
+														bgColor='secondary'
+														color='white'>
+														{'A'}
+													</Flex>
+													<Text fontSize='12px' fontWeight='600' maxW='75%'>
+														{comment?.content}
+													</Text>
+												</Flex>
+												<Text>
+													{
+														new Date(comment?.post_date)
+															.toLocaleString()
+															.split(',')[0]
+													}
+												</Text>
+											</Flex>
+										))}
+							</Flex>
 						</Flex>
 						<Flex flexDir='column' gap='16px'>
 							<Text fontSize='24px' fontWeight='600'>

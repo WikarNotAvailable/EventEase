@@ -92,6 +92,33 @@ class ApiService {
 		return req;
 	}
 
+	public async getDiscussionById(id: string) {
+		const req = await axios.get(
+			`${this.baseUrl}/discussions/${id}`,
+			this.config
+		);
+		return req;
+	}
+
+	public async postCommentToDiscussion(
+		discussionID: string,
+		content: string,
+		date: string,
+		userID: string
+	) {
+		const req = await axios.post(
+			`${this.baseUrl}/comments`,
+			{
+				content: content,
+				post_date: date,
+				user_id: userID,
+				discussion_id: discussionID,
+			},
+			this.config
+		);
+		return req;
+	}
+
 	public async getArtists() {
 		const req = await axios.get(`${this.baseUrl}/performers`, this.config);
 		return req.data;
