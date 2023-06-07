@@ -19,6 +19,7 @@ import useUserContext from '../provider/user';
 export const CompanyDetails = () => {
 	const [company, setCompany] = useState<any>();
 	const [discussion, setDiscussion] = useState<any>();
+	const [events, setEvents] = useState<any>();
 	const [commentInput, setCommentInput] = useState<string>('');
 	const [loading, setLoading] = useState(true);
 	const [descriptionFull, setDescriptionFull] = useState(false);
@@ -78,7 +79,21 @@ export const CompanyDetails = () => {
 			if (res2.status === 200) {
 				console.log(res2.data);
 				setDiscussion(res2.data);
-				setLoading(false);
+				const res3 = await getEvents(res.data?.company_id);
+				if (res3.status === 200) {
+					console.log('events', res3.data);
+					setEvents(res3.data?.slice(0, 5));
+					setLoading(false);
+				} else {
+					setLoading(false);
+					toast({
+						title: 'Something went wrong...',
+						status: 'error',
+						duration: 9000,
+						isClosable: true,
+						position: 'top',
+					});
+				}
 			} else {
 				setLoading(false);
 				toast({
@@ -103,6 +118,11 @@ export const CompanyDetails = () => {
 
 	const getDiscussion = async (id: string) => {
 		const res = await api.getDiscussionById(id!);
+		return res;
+	};
+
+	const getEvents = async (id: string) => {
+		const res = await api.getEventsByCompany(id!);
 		return res;
 	};
 
@@ -157,7 +177,7 @@ export const CompanyDetails = () => {
 									Post
 								</Button>
 							</Flex>
-							<Flex flexDir='column' gap='4px'>
+							<Flex flexDir='column' gap='4px' maxH='70vh' overflow='auto'>
 								{discussion?.comment !== undefined &&
 									Array.from(discussion?.comment)
 										?.reverse()
@@ -200,30 +220,40 @@ export const CompanyDetails = () => {
 							<Text fontSize='24px' fontWeight='600'>
 								Company events
 							</Text>
-							<RouterLink to='/events/1'>
-								<Flex
-									p='6px 8px'
-									borderRadius='8px'
-									w='100%'
-									flexDir='column'
-									gap='8px'
-									bgColor='backgroundTernary'>
-									<Image
-										src='https://goingapp.pl/more/wp-content/uploads/2023/02/Metallica-1600x996.jpeg'
+							{events?.map((event: any) => (
+								<RouterLink
+									to={`/events/${event?.event_id}`}
+									key={event?.event_id}>
+									<Flex
+										p='6px 8px'
+										borderRadius='8px'
 										w='100%'
-										borderRadius='4px'
-									/>
-									<Flex flexDir='column'>
-										<Text fontSize='14px' color='primary' fontWeight='700'>
-											Koncert Metallici
-										</Text>
-										<Text fontSize='12px'>27.07.2023</Text>
-										<Text fontSize='12px' fontWeight='700'>
-											Spodek - Katowice
-										</Text>
+										flexDir='column'
+										gap='8px'
+										bgColor='backgroundTernary'>
+										<Image
+											src='https://goingapp.pl/more/wp-content/uploads/2023/02/Metallica-1600x996.jpeg'
+											w='100%'
+											borderRadius='4px'
+										/>
+										<Flex flexDir='column'>
+											<Text fontSize='14px' color='primary' fontWeight='700'>
+												{event?.name}
+											</Text>
+											<Text fontSize='12px'>
+												{
+													new Date(event?.begindate)
+														.toLocaleString()
+														.split(',')[0]
+												}
+											</Text>
+											<Text fontSize='12px' fontWeight='700'>
+												{event?.spot?.spot_name} - {event?.spot?.address?.city}
+											</Text>
+										</Flex>
 									</Flex>
-								</Flex>
-							</RouterLink>
+								</RouterLink>
+							))}
 						</Flex>
 					</Grid>
 				)}

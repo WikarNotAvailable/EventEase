@@ -369,7 +369,7 @@ export const EventDetails = () => {
 									Post
 								</Button>
 							</Flex>
-							<Flex flexDir='column' gap='4px'>
+							<Flex flexDir='column' gap='4px' maxH='70vh' overflow='auto'>
 								{Array.from(discussion?.comment)
 									?.reverse()
 									?.map((comment: any) => (
