@@ -17,10 +17,12 @@ import eventRoutes from "./src/event/eventRoutes";
 import addressRoutes from "./src/address/addressRoutes";
 import spotRoutes from "./src/spot/spotRoutes";
 import discussionRoutes from "./src/discussion/discussionRoutes";
+var cors = require('cors');
 
 const app: Express = express();
 
-app.use(express.json())
+app.use(express.json());
+app.use(cors());
 
 app.use("/api/users", userRoutes);
 app.use("/api/userTypes", userTypeRoutes);
@@ -41,6 +43,6 @@ app.use("/api/addresses", addressRoutes);
 app.use("/api/spots", spotRoutes);
 app.use("/api/discussions", discussionRoutes);
 
-app.listen(8000, () =>{
-  console.log("Server is listening on port 8000");
-})
+app.listen(8000, () => {
+	console.log('Server is listening on port 8000');
+});
