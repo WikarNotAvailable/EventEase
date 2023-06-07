@@ -162,6 +162,45 @@ export const  getEventByDiscussionId = `
   GROUP BY e.event_id, et.name, d.discussion_id, d.name, d.description
   `;
 
+  export const getEventsByCompanyId = `SELECT
+  e.event_id,
+  e.name,
+  e.description,
+  e.begindate,
+  e.enddate,
+  e.availabletickets,
+  e.currentlytakentickets,
+  json_build_object(
+    'spot_id', s.spot_id,
+    'spot_name', s.name,
+    'spot_type', st.name,
+    'address', json_build_object(
+      'address_id', a.address_id,
+      'country', a.country,
+      'city', a.city,
+      'street', a.street,
+      'number', a.number
+    )
+  ) AS spot,
+  et.name AS eventtype_name,
+  e.company_id,
+  e.discussion_id,
+  (
+    SELECT COALESCE(json_agg(json_build_object(
+        'eventimage_id', ei.eventimage_id,
+        'image_url', ei.url
+      )), '[]'::json)
+    FROM eventimages AS ei
+    WHERE ei.event_id = e.event_id
+  ) AS event_images
+  FROM events AS e
+  JOIN spots AS s ON e.spot_id = s.spot_id
+  JOIN spottypes AS st ON s.spottype_id = st.spottype_id
+  JOIN addresses AS a ON s.address_id = a.address_id
+  JOIN eventtypes AS et ON e.eventtype_id = et.eventtype_id
+  WHERE e.company_id = $1;
+`;
+
 /*
 Request Body for addEvent:
 {
