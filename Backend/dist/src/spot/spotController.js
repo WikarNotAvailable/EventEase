@@ -35,7 +35,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateSpot = exports.deleteSpot = exports.getSpotByType = exports.getSpotById = exports.getSpot = exports.postSpot = void 0;
+exports.updateSpot = exports.deleteSpot = exports.getSpotByType = exports.getSpotByName = exports.getSpotById = exports.getSpot = exports.postSpot = void 0;
 const db_1 = __importDefault(require("../../db"));
 const queries = __importStar(require("./spotQueries"));
 const postSpot = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -95,6 +95,22 @@ const getSpotById = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.getSpotById = getSpotById;
+const getSpotByName = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const name = req.params.name;
+        const spot = yield db_1.default.query(queries.getSpotByName, [name]);
+        if (spot.rows.length) {
+            return res.status(200).json(spot.rows);
+        }
+        else {
+            return res.status(400).json({ message: "Spot does not exist." });
+        }
+    }
+    catch (err) {
+        return res.status(400).json(err);
+    }
+});
+exports.getSpotByName = getSpotByName;
 const getSpotByType = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const spottype_id = parseInt(req.params.id);

@@ -10,6 +10,7 @@ const performerRoutes_1 = __importDefault(require("./src/performer/performerRout
 const spotTypeRoutes_1 = __importDefault(require("./src/spotType/spotTypeRoutes"));
 const transactionStatusRoutes_1 = __importDefault(require("./src/transactionStatus/transactionStatusRoutes"));
 const ticketTypeRoutes_1 = __importDefault(require("./src/ticketType/ticketTypeRoutes"));
+const eventImagesRoutes_1 = __importDefault(require("./src/eventImages/eventImagesRoutes"));
 const eventsPerformersRoutes_1 = __importDefault(require("./src/eventsPerformers/eventsPerformersRoutes"));
 const companyRoutes_1 = __importDefault(require("./src/company/companyRoutes"));
 const eventTypeRoutes_1 = __importDefault(require("./src/eventType/eventTypeRoutes"));
@@ -28,6 +29,7 @@ app.use("/api/performers", performerRoutes_1.default);
 app.use("/api/spotTypes", spotTypeRoutes_1.default);
 app.use("/api/transactionStatuses", transactionStatusRoutes_1.default);
 app.use("/api/ticketTypes", ticketTypeRoutes_1.default);
+app.use("/api/eventImages", eventImagesRoutes_1.default);
 app.use("/api/eventsPerformers", eventsPerformersRoutes_1.default);
 app.use("/api/companies", companyRoutes_1.default);
 app.use("/api/eventTypes", eventTypeRoutes_1.default);
