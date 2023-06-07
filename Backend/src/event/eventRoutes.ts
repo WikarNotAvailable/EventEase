@@ -12,6 +12,7 @@ eventRoutes.delete("/:id", controller.deleteEvent);
 eventRoutes.put("/:id", controller.updateEvent);
 eventRoutes.get("/spot/:id", controller.getEventsBySpotId);
 eventRoutes.get("/type/:id", controller.getEventsByEventTypeId);
+eventRoutes.get("/company/:id", controller.getEventsByCompanyId);
 eventRoutes.get("/discussion/:id", controller.getEventByDiscussionId);
 eventRoutes.get("/performer/:id/:limit?", controller.getEventsByPerformerId);
 eventRoutes.get("/date/:begin/:end", controller.getEventsWithinDateRange);
