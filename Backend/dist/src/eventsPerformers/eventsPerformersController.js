@@ -42,11 +42,7 @@ const addEventPerformer = (req, res) => __awaiter(void 0, void 0, void 0, functi
     try {
         const { event_id, performer_id } = req.body;
         const newEventPerformer = yield db_1.default.query(queries.addEventPerformer, [event_id, performer_id]);
-<<<<<<<<< Temporary merge branch 1
         return res.status(201).json(newEventPerformer.rows[0]);
-=========
-        return res.status(201).json(newEventPerformer.rows);
->>>>>>>>> Temporary merge branch 2
     }
     catch (err) {
         res.status(500).json(err);
@@ -89,18 +85,13 @@ const updateEventPerformer = (req, res) => __awaiter(void 0, void 0, void 0, fun
         const event_id = parseInt(req.params.event_id);
         const performer_id = parseInt(req.params.performer_id);
         const { new_event_id, new_performer_id } = req.body;
-        console.log("event: " + new_event_id + "\nperformer: " + new_performer_id);
         const eventPerformer = yield db_1.default.query(queries.getEventPerformerById, [event_id, performer_id]);
         if (!eventPerformer.rows.length) {
             res.status(400).json({ message: "eventPerformer does not exist. (Non existent id)" });
         }
         else {
             const newEventPerformer = yield db_1.default.query(queries.updateEventPerformer, [new_event_id, new_performer_id, event_id, performer_id]);
-<<<<<<<<< Temporary merge branch 1
             res.json(newEventPerformer.rows[0]);
-=========
-            res.json(newEventPerformer.rows);
->>>>>>>>> Temporary merge branch 2
         }
     }
     catch (err) {

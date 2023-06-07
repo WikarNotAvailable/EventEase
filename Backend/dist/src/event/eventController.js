@@ -35,12 +35,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getEventsWithSoldOutTickets = exports.getEventsWithLimitedAvailability = exports.getEventsWithAvailableTickets = exports.getEventsWithinDateRange = exports.getEventsByEventTypeId = exports.getEventsByPerformerId = exports.getEventsBySpotId = exports.updateEvent = exports.deleteEvent = exports.getEventById = exports.getEvents = exports.addEvent = void 0;
+exports.getEventsWithSoldOutTickets = exports.getEventsWithLimitedAvailability = exports.getEventsWithAvailableTickets = exports.getEventsWithinDateRange = exports.getEventByDiscussionId = exports.getEventsByEventTypeId = exports.getEventsByPerformerId = exports.getEventsBySpotId = exports.updateEvent = exports.deleteEvent = exports.getEventById = exports.getEvents = exports.addEvent = void 0;
 const db_1 = __importDefault(require("../../db"));
 const queries = __importStar(require("./eventQueries"));
 const addEvent = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { name, description, begindate, enddate, availabletickets, currentlytakentickets, spot_id, eventtype_id, company_id, discussion_id, } = req.body;
+        const { name, description, begindate, enddate, availabletickets, currentlytakentickets, spot_id, eventtype_id, company_id, } = req.body;
         const newEvent = yield db_1.default.query(queries.addEvent, [
             name,
             description,
@@ -51,7 +51,6 @@ const addEvent = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             spot_id,
             eventtype_id,
             company_id,
-            discussion_id,
         ]);
         return res.status(201).json(newEvent.rows[0]);
     }
@@ -75,6 +74,7 @@ const getEventById = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         const id = parseInt(req.params.id);
         const event = yield db_1.default.query(queries.getEventById, [id]);
         if (event.rows.length) {
+            return res.status(200).json(event.rows[0]);
         }
         else {
             return res.status(400).json({ message: "Event does not exist. (Nonexistent id)" });
@@ -105,7 +105,7 @@ exports.deleteEvent = deleteEvent;
 const updateEvent = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = parseInt(req.params.id);
-        const { name, description, begindate, enddate, availabletickets, currentlytakentickets, spot_id, eventtype_id, company_id, discussion_id, } = req.body;
+        const { name, description, begindate, enddate, availabletickets, currentlytakentickets, spot_id, eventtype_id, company_id } = req.body;
         const event = yield db_1.default.query(queries.getEventById, [id]);
         if (!event.rows.length) {
             return res.status(400).json({ message: "Event does not exist. (Nonexistent id)" });
@@ -121,7 +121,6 @@ const updateEvent = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
                 spot_id,
                 eventtype_id,
                 company_id,
-                discussion_id,
                 id,
             ]);
             return res.status(200).json(updatedEvent.rows[0]);
@@ -134,6 +133,8 @@ const updateEvent = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 exports.updateEvent = updateEvent;
 const getEventsBySpotId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        const id = parseInt(req.params.id);
+        const events = yield db_1.default.query(queries.getEventsBySpotId, [id]);
         return res.status(200).json(events.rows);
     }
     catch (err) {
@@ -141,6 +142,23 @@ const getEventsBySpotId = (req, res) => __awaiter(void 0, void 0, void 0, functi
     }
 });
 exports.getEventsBySpotId = getEventsBySpotId;
+const getEventsByPerformerId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id, limit } = req.params;
+        const parsedId = req.params.id;
+        const parsedLimit = limit ? parseInt(limit) : null;
+        const events = yield db_1.default.query(queries.getEventsByPerformerId, [parsedId, parsedLimit]);
+        return res.status(200).json(events.rows);
+    }
+    catch (err) {
+        return res.status(400).json(err);
+    }
+});
+exports.getEventsByPerformerId = getEventsByPerformerId;
+const getEventsByEventTypeId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const id = parseInt(req.params.id);
+        const events = yield db_1.default.query(queries.getEventsByEventTypeId, [id]);
         return res.status(200).json(events.rows);
     }
     catch (err) {
@@ -148,8 +166,26 @@ exports.getEventsBySpotId = getEventsBySpotId;
     }
 });
 exports.getEventsByEventTypeId = getEventsByEventTypeId;
+const getEventByDiscussionId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id } = req.params;
+        const event = yield db_1.default.query(queries.getEventByDiscussionId, [id]);
+        if (event.rows.length === 0) {
+            return res.status(404).json({ message: "Event not found" });
+        }
+        return res.status(200).json(event.rows[0]);
+    }
+    catch (error) {
+        return res.status(400).json(error);
+    }
+});
+exports.getEventByDiscussionId = getEventByDiscussionId;
 const getEventsWithinDateRange = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        const { begin, end } = req.params;
+        const beginDate = new Date(begin);
+        const endDate = new Date(end);
+        const events = yield db_1.default.query(queries.getEventsWithinDateRange, [beginDate, endDate]);
         return res.status(200).json(events.rows);
     }
     catch (err) {

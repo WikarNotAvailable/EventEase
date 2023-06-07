@@ -44,7 +44,6 @@ Reponse get
 
 Body for Post
 {
-    "discussionID": int,
     "name": string,
     "description": string
 }
@@ -54,4 +53,4 @@ Body for Update //all fields optional
     "name": string,
     "description": string
 }
-*/ 
+*/

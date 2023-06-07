@@ -40,8 +40,9 @@ const db_1 = __importDefault(require("../../db"));
 const queries = __importStar(require("./companyQueries"));
 const postCompany = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { discussionID, name, description } = req.body;
-        const newCompany = yield db_1.default.query(queries.addCompany, [discussionID, name, description]);
+        const { name, description } = req.body;
+        const newCompany = yield db_1.default.query(queries.addCompany, [name, description]);
+        res.status(201).json(newCompany.rows[0]);
     }
     catch (err) {
         return res.status(400).json(err);
@@ -105,10 +106,6 @@ const updateCompany = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         const id = parseInt(req.params.id);
         let { name, description } = req.body;
         const company = yield db_1.default.query(queries.getCompanyById, [id]);
-        if (name == null)
-            name = company.rows[0]["name"];
-        if (description == null)
-            description = company.rows[0]["description"];
         if (!company.rows.length) {
             res.status(400).json({ message: "Company does not exist. (Non existent id)" });
         }

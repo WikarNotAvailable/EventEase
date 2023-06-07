@@ -88,8 +88,13 @@ const getPerformerById = (req, res) => __awaiter(void 0, void 0, void 0, functio
 exports.getPerformerById = getPerformerById;
 const getPerformersByType = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const performertype_id = parseInt(req.params.id);
-        const performers = yield db_1.default.query(queries.getPerformersByType, [performertype_id]);
+        const { id, limit } = req.params;
+        const parsedId = parseInt(id);
+        const parsedLimit = limit ? parseInt(limit) : null;
+        const performers = yield db_1.default.query(queries.getPerformersByType, [
+            parsedId,
+            parsedLimit,
+        ]);
         return res.status(200).json(performers.rows);
     }
     catch (err) {
