@@ -29,7 +29,7 @@ const performerRoutes = (0, express_1.Router)();
 performerRoutes.post('/', controller.addPerformer);
 performerRoutes.get('/', controller.getPerformers);
 performerRoutes.get('/:id', controller.getPerformerById);
-performerRoutes.get('/type/:id', controller.getPerformersByType);
+performerRoutes.get('/type/:id/:limit?', controller.getPerformersByType);
 performerRoutes.get('/name/:name', controller.getPerformerByName);
 performerRoutes.get('/event/:id', controller.getPerformersByEventId);
 performerRoutes.delete('/:id', controller.deletePerformer);
