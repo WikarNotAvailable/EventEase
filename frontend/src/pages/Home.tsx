@@ -1,36 +1,60 @@
-import { CategoryCarousel } from '../components/pages/home/carousel/CategoryCarousel'
-
+import { CategoryCarousel } from '../components/pages/home/carousel/CategoryCarousel';
 
 import 'swiper/css';
 import { CategoryName } from '../components/pages/home/carousel/CategoryName';
 import { PageContainer } from '../components/shared/containers/PageContainer';
-import { Flex } from '@chakra-ui/react';
+import { Flex, Spinner, useToast } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
+import api from '../api/api';
 
 export const Home = () => {
-  return (
-    <PageContainer isCentered> 
-      <Flex flexDir="column" w="100%" align="center">
-        <CategoryName text='Music'></CategoryName>     
-        <CategoryCarousel />
+	const [eventTypes, setEventTypes] = useState<any>();
+	const [loading, setLoading] = useState(true);
 
-        <CategoryName text='Sport'></CategoryName>     
-        <CategoryCarousel />
+	const toast = useToast();
 
-        <CategoryName text='Festivals'></CategoryName>     
-        <CategoryCarousel />
+	const getEventTypes = async () => {
+		const res = await api.getEventTypes();
 
-        <CategoryName text='Art and theater'></CategoryName>     
-        <CategoryCarousel />
+		if (res.status === 200) {
+			console.log(res.data);
+			setEventTypes(res.data);
+			setLoading(false);
+		} else {
+			setLoading(false);
+			toast({
+				title: 'Something went wrong...',
+				status: 'error',
+				duration: 9000,
+				isClosable: true,
+				position: 'top',
+			});
+		}
+	};
 
-        <CategoryName text='Special'></CategoryName>     
-        <CategoryCarousel />
+	useEffect(() => {
+		getEventTypes();
+		//eslint-disable-next-line
+	}, []);
 
-        <CategoryName text='Cabaret'></CategoryName>     
-        <CategoryCarousel />
-
-        <CategoryName text='Family'></CategoryName>     
-        <CategoryCarousel />
-      </Flex>
-    </PageContainer>
-  )
-}
+	return (
+		<PageContainer isCentered>
+			<Flex flexDir='column' w='100%' align='center' minH='80vh'>
+				{loading ? (
+					<Spinner />
+				) : (
+					eventTypes.map((eventType: any) => (
+						<Flex
+							key={eventType?.eventtype_id}
+							flexDir='column'
+							w='100%'
+							align='center'>
+							<CategoryName text={eventType?.name}></CategoryName>
+							<CategoryCarousel typeID={eventType?.eventtype_id} />
+						</Flex>
+					))
+				)}
+			</Flex>
+		</PageContainer>
+	);
+};

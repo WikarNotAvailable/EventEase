@@ -11,6 +11,7 @@ import { Spots } from '../../../pages/Spots';
 import { Spot } from '../../../pages/Spot';
 import { EventDetails } from '../../../pages/EventDetails';
 import { Footer } from '../footer/Footer';
+import { CompanyDetails } from '../../../pages/CompanyDetails';
 
 export const Wrapper = () => {
 	const pages = [
@@ -26,7 +27,10 @@ export const Wrapper = () => {
 			path: '/events/:id',
 			element: <EventDetails />,
 		},
-
+		{
+			path: '/companies/:id',
+			element: <CompanyDetails />,
+		},
 		{
 			path: '/artists/:type',
 			element: <Artists />,
