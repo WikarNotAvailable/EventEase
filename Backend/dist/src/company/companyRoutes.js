@@ -26,11 +26,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const controller = __importStar(require("./companyController"));
 const companyRoutes = (0, express_1.Router)();
-companyRoutes.post("/", controller.postCompany);
-companyRoutes.get("/", controller.getCompany);
-companyRoutes.get("/:id", controller.getCompanyById);
-companyRoutes.delete("/:id", controller.deleteCompany);
-companyRoutes.put("/:id", controller.updateCompany);
+companyRoutes.post('/', controller.postCompany);
+companyRoutes.get('/', controller.getCompany);
+companyRoutes.get('/:id', controller.getCompanyById);
+companyRoutes.delete('/:id', controller.deleteCompany);
+companyRoutes.put('/:id', controller.updateCompany);
 exports.default = companyRoutes;
 /*
 Reponse get

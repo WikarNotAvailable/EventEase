@@ -21,6 +21,7 @@ enum Views {
 
 export const EventDetails = () => {
 	const [event, setEvent] = useState<any>();
+	const [company, setCompany] = useState<any>();
 	const [loading, setLoading] = useState(true);
 	const [descriptionFull, setDescriptionFull] = useState(false);
 	const [view, setView] = useState<Views>(Views.MAIN);
@@ -118,8 +119,22 @@ export const EventDetails = () => {
 		if (res.status === 200) {
 			console.log(res.data);
 			setEvent(res.data);
+			const res2 = await getCompany(res.data?.company_id);
+			if (res2.status === 200) {
+				console.log(res2.data);
+				setCompany(res2.data);
+				setLoading(false);
+			} else {
+				setLoading(false);
+				toast({
+					title: 'Something went wrong...',
+					status: 'error',
+					duration: 9000,
+					isClosable: true,
+					position: 'top',
+				});
+			}
 			setLoading(false);
-			setDescriptionFull(res.data?.description?.length > 100 ? false : true);
 		} else {
 			setLoading(false);
 			toast({
@@ -130,6 +145,11 @@ export const EventDetails = () => {
 				position: 'top',
 			});
 		}
+	};
+
+	const getCompany = async (id: string) => {
+		const res = await ApiService.getCompanyById(id!);
+		return res;
 	};
 
 	useEffect(() => {
@@ -151,8 +171,10 @@ export const EventDetails = () => {
 									</Text>
 									<Flex fontSize='14px' fontWeight='600' gap='4px'>
 										<Text>Organizer: </Text>
-										<RouterLink to={`/company/todo`} color='primary'>
-											<Text color='primary'>COMPANY TODO</Text>
+										<RouterLink
+											to={`/companies/${event?.company_id}`}
+											color='primary'>
+											<Text color='primary'>{company?.name}</Text>
 										</RouterLink>
 									</Flex>
 									<Text fontSize='14px' fontWeight='500'>

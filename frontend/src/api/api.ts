@@ -39,6 +39,19 @@ class ApiService {
 		return req;
 	}
 
+	public async getEventTypes() {
+		const req = await axios.get(`${this.baseUrl}/eventTypes`, this.config);
+		return req;
+	}
+
+	public async getEventsByType(id: string) {
+		const req = await axios.get(
+			`${this.baseUrl}/events/type/${id}`,
+			this.config
+		);
+		return req;
+	}
+
 	public async getTicketsForEvent(id: string, price: number) {
 		const req = await axios.get(
 			`${this.baseUrl}/tickets/forEvent?eventID=${id}&price=${price}`,
@@ -71,6 +84,11 @@ class ApiService {
 			},
 			this.config
 		);
+		return req;
+	}
+
+	public async getCompanyById(id: string) {
+		const req = await axios.get(`${this.baseUrl}/companies/${id}`, this.config);
 		return req;
 	}
 
