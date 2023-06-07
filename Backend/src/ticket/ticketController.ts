@@ -211,7 +211,9 @@ export const getTicketsForEvent = async (req: any,res: any) => {
         res.status(400).json({message: "You did not pass eventID."})
        }
        else if(price == null){
-        res.status(400).json({message: "You did not pass price."})
+        let tickets: QueryResult<any> = await pool.query(queries.getAllTicketsForEvent, [eventID]);
+
+        res.status(200).json(tickets.rows);
        }
        else{
         let tickets: QueryResult<any> = await pool.query(queries.getTicketsForEvent, [eventID, price]);
