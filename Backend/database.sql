@@ -55,7 +55,10 @@ CREATE TABLE companies(
     company_id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     description text,
-    discussion_id SERIAL UNIQUE
+    discussion_id INTEGER UNIQUE,
+    CONSTRAINT fk_discussion FOREIGN KEY(discussion_id)
+        REFERENCES discussions(discussion_id)
+        ON DELETE CASCADE
 );
 
 CREATE TABLE discussions(
@@ -157,7 +160,7 @@ CREATE TABLE events(
     spot_id INTEGER NOT NULL,
     eventtype_id INTEGER NOT NULL,
     company_id INTEGER,
-    discussion_id SERIAL UNIQUE,
+    discussion_id INTEGER UNIQUE,
 	CONSTRAINT fk_spot FOREIGN KEY(spot_id)
         REFERENCES spots(spot_id)
         ON DELETE SET NULL
@@ -169,7 +172,10 @@ CREATE TABLE events(
     CONSTRAINT fk_company FOREIGN KEY(company_id)
         REFERENCES companies(company_id)
         ON DELETE SET NULL
-        ON UPDATE NO ACTION
+        ON UPDATE NO ACTION,
+    CONSTRAINT fk_discussion FOREIGN KEY(discussion_id)
+        REFERENCES discussions(discussion_id)
+        ON DELETE CASCADE
 );
 
 CREATE TABLE eventImages(
@@ -203,6 +209,11 @@ ADD CONSTRAINT fk_event FOREIGN KEY(event_id)
         ON DELETE CASCADE,
 ADD CONSTRAINT fk_company FOREIGN KEY(company_id)
         REFERENCES companies(company_id)
+        ON DELETE CASCADE;
+
+ALTER TABLE companies
+ADD CONSTRAINT fk_discussion FOREIGN KEY(discussion_id) 
+        REFERENCES discussions(discussion_id)
         ON DELETE CASCADE;
 
 CREATE OR REPLACE FUNCTION create_discussion()
@@ -261,3 +272,32 @@ AFTER DELETE ON companies
 FOR EACH ROW
 EXECUTE FUNCTION delete_discussion_for_company();
 
+CREATE OR REPLACE FUNCTION update_discussion_id_in_companies()
+RETURNS TRIGGER AS $$
+BEGIN
+  UPDATE companies
+  SET discussion_id = NEW.discussion_id
+  WHERE company_id = NEW.company_id;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER update_discussion_id_in_company_trigger
+AFTER INSERT ON discussions
+FOR EACH ROW
+EXECUTE FUNCTION update_discussion_id_in_companies();
+
+CREATE OR REPLACE FUNCTION update_discussion_id_in_events()
+RETURNS TRIGGER AS $$
+BEGIN
+  UPDATE events
+  SET discussion_id = NEW.discussion_id
+  WHERE event_id = NEW.event_id;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER update_discussion_id_in_events_trigger
+AFTER INSERT ON discussions
+FOR EACH ROW
+EXECUTE FUNCTION update_discussion_id_in_events();
