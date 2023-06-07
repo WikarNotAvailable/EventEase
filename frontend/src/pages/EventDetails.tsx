@@ -22,6 +22,7 @@ enum Views {
 export const EventDetails = () => {
 	const [event, setEvent] = useState<any>();
 	const [company, setCompany] = useState<any>();
+
 	const [loading, setLoading] = useState(true);
 	const [descriptionFull, setDescriptionFull] = useState(false);
 	const [view, setView] = useState<Views>(Views.MAIN);
