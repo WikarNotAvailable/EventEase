@@ -12,6 +12,8 @@ import { Spot } from '../../../pages/Spot';
 import { EventDetails } from '../../../pages/EventDetails';
 import { Footer } from '../footer/Footer';
 import { CompanyDetails } from '../../../pages/CompanyDetails';
+import { AdminPanel } from '../../../pages/AdminPanel';
+import { ArtistsPanel } from '../../pages/Admin/ArtistsPanel';
 
 export const Wrapper = () => {
 	const pages = [
@@ -47,6 +49,10 @@ export const Wrapper = () => {
 			path: '/spot/:name',
 			element: <Spot />,
 		},
+		{
+			path: '/admin',
+			element: <AdminPanel />,
+		}
 	].map((element, index) => ({ ...element, id: `${element.path}_${index}` }));
 
 	return (

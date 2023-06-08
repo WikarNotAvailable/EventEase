@@ -94,7 +94,7 @@ class ApiService {
 
 	public async getArtists() {
 		const req = await axios.get(`${this.baseUrl}/performers`, this.config);
-		return req.data;
+		return req;
 	}
 
 	public async getArtistByName(name: string) {
@@ -123,7 +123,7 @@ class ApiService {
 
 	public async getArtistTypes() {
 		const req = await axios.get(`${this.baseUrl}/performerTypes`, this.config);
-		return req.data;
+		return req;
 	}
 
 	public async getSpots() {
@@ -158,6 +158,31 @@ class ApiService {
 	public async getSpotTypes() {
 		const req = await axios.get(`${this.baseUrl}/spotTypes`, this.config);
 		return req.data;
+	}
+
+	public async createArtist(artist:any) {
+		const req = await axios.post(
+			`${this.baseUrl}/performers`,
+			artist,
+			this.config
+		);
+		return req;
+	}
+
+	public async updateArtist(artist:any, id:number) {
+		const req = await axios.put(
+			`${this.baseUrl}/performers/${id}`,
+			artist,
+			this.config
+		);
+		return req;
+	}
+
+	public async deleteArtist(id:number) {
+		const req = await axios.delete(
+			`${this.baseUrl}/performers/${id}`,this.config
+		);
+		return req;
 	}
 }
 

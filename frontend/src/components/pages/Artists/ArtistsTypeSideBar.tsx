@@ -12,27 +12,31 @@ export const ArtistsTypeSideBar : FC<IArtistsTypeSideBarProps> = ({changeType}) 
 
     const [artistTypes, setArtistTypes] = useState<any>()
     const [currentIndex, setCurrentIndex] = useState<number>()
-    const [isLoading, setIsLoading] = useState<boolean>(true)
+    const [isLoading, setLoading] = useState<boolean>(true)
     const {type} = useParams()
+
+    const getArtistsTypes = async () => {
+      const res = await api.getArtistTypes();
+      if (res.status === 200) 
+      {
+          console.log(res.data);
+          setArtistTypes(res.data);
+
+      } 
+      else 
+      {
+          toast({
+              title: "Something went wrong...",
+              status: "error",
+              duration: 9000,
+              isClosable: true,
+              position: "top"
+          });
+      }
+  }
     
     useEffect(() => {
-        const getArtistTypes = async () => {
-        try {
-            setIsLoading(true)
-            setArtistTypes(await api.getArtistTypes())
-            
-        } catch(error)
-        {
-            console.log(error)
-        }
-        
-        } 
-
-
-        getArtistTypes().then(() => {
-          
-          setIsLoading(false)
-        })
+        getArtistsTypes()
     }  , []
     )
 
@@ -77,3 +81,7 @@ export const ArtistsTypeSideBar : FC<IArtistsTypeSideBarProps> = ({changeType}) 
     )
   }
 }
+function toast(arg0: { title: string; status: string; duration: number; isClosable: boolean; position: string }) {
+  throw new Error('Function not implemented.')
+}
+

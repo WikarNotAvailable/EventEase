@@ -19,7 +19,7 @@ export const Artists = () => {
         try {
           setIsLoading(true)
           if(type === "all")
-            setArtists(await api.getArtists())
+            setArtists((await api.getArtists()).data)
         } catch(error)
         {
           console.log(error)
@@ -46,7 +46,7 @@ export const Artists = () => {
       }
       else
       {
-        setArtists(await api.getArtists())
+        setArtists((await api.getArtists()).data)
 
       }
 
