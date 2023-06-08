@@ -34,6 +34,38 @@ class ApiService {
 		return req;
 	}
 
+	public async addEvent(data: any) {
+		const req = await axios.post(`${this.baseUrl}/events`, data, this.config);
+		return req;
+	}
+
+	public async addEventImage(data: any) {
+		const req = await axios.post(
+			`${this.baseUrl}/eventImages`,
+			data,
+			this.config
+		);
+		return req;
+	}
+
+	public async createDiscussion(data: any) {
+		const req = await axios.post(
+			`${this.baseUrl}/discussions`,
+			data,
+			this.config
+		);
+		return req;
+	}
+
+	public async addTickets(data: any, number: number) {
+		const req = await axios.post(
+			`${this.baseUrl}/tickets/${number}`,
+			data,
+			this.config
+		);
+		return req;
+	}
+
 	public async getEventById(id: string) {
 		const req = await axios.get(`${this.baseUrl}/events/${id}`, this.config);
 		return req;
@@ -60,7 +92,16 @@ class ApiService {
 		return req;
 	}
 
-	public async getTicketsForEvent(id: string, price: number) {
+	public async asignArtistToEvent(data: any) {
+		const req = await axios.post(
+			`${this.baseUrl}/eventsPerformers`,
+			data,
+			this.config
+		);
+		return req;
+	}
+
+	public async getTicketsForEvent(id: string, price?: number) {
 		const req = await axios.get(
 			`${this.baseUrl}/tickets/forEvent?eventID=${id}&price=${price}`,
 			this.config
@@ -100,6 +141,15 @@ class ApiService {
 		return req;
 	}
 
+	public async createCompany(data: any) {
+		const req = await axios.post(
+			`${this.baseUrl}/companies`,
+			data,
+			this.config
+		);
+		return req;
+	}
+
 	public async getDiscussionById(id: string) {
 		const req = await axios.get(
 			`${this.baseUrl}/discussions/${id}`,
@@ -124,6 +174,11 @@ class ApiService {
 			},
 			this.config
 		);
+		return req;
+	}
+
+	public async getCompanies() {
+		const req = await axios.get(`${this.baseUrl}/companies`, this.config);
 		return req;
 	}
 

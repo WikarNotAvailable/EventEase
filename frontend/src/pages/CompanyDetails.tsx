@@ -232,7 +232,7 @@ export const CompanyDetails = () => {
 										gap='8px'
 										bgColor='backgroundTernary'>
 										<Image
-											src='https://goingapp.pl/more/wp-content/uploads/2023/02/Metallica-1600x996.jpeg'
+											src={event?.event_images[0]?.image_url}
 											w='100%'
 											borderRadius='4px'
 										/>

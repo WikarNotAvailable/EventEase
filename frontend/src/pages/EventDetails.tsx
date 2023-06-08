@@ -253,12 +253,12 @@ export const EventDetails = () => {
 											: ''}
 									</Text>
 									<Flex gap='8px' mt='8px'>
-										{event?.performers.map((performer: any) => (
+										{event?.performers?.map((performer: any) => (
 											<RouterLink
-												to={`/artist/${performer?.name}`}
+												to={`/artist/${performer?.performer_name}`}
 												key={performer?.performer_id}>
 												<Text fontSize='16px' fontWeight='700' color='primary'>
-													{performer?.name}
+													{performer?.performer_name}
 												</Text>
 											</RouterLink>
 										))}
@@ -288,7 +288,7 @@ export const EventDetails = () => {
 							</Flex>
 							<Flex position='relative' mt='50px'>
 								<Flex
-									bgImage='https://goingapp.pl/more/wp-content/uploads/2023/02/Metallica-1600x996.jpeg'
+									bgImage={event?.event_images[0]?.image_url}
 									w='100%'
 									h='40vh'
 									backgroundPosition='center'
@@ -297,7 +297,7 @@ export const EventDetails = () => {
 									borderRadius='16px'
 								/>
 								<Flex
-									bgImage='https://goingapp.pl/more/wp-content/uploads/2023/02/Metallica-1600x996.jpeg'
+									bgImage={event?.event_images[0]?.image_url}
 									h='40vh'
 									w='100%'
 									backgroundPosition='center'
