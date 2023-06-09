@@ -14,6 +14,7 @@ import { Footer } from '../footer/Footer';
 import { CompanyDetails } from '../../../pages/CompanyDetails';
 import { AdminPanel } from '../../../pages/AdminPanel';
 import { ArtistsPanel } from '../../pages/Admin/ArtistsPanel';
+import { CreateEvent } from '../../../pages/CreateEvent';
 
 export const Wrapper = () => {
 	const pages = [
@@ -52,7 +53,11 @@ export const Wrapper = () => {
 		{
 			path: '/admin',
 			element: <AdminPanel />,
-		}
+		},
+		{
+			path: '/createEvent',
+			element: <CreateEvent />,
+		},
 	].map((element, index) => ({ ...element, id: `${element.path}_${index}` }));
 
 	return (

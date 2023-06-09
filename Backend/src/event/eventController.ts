@@ -149,6 +149,16 @@ export const getEventsByEventTypeId = async (req: any, res: any) => {
   }
 };
 
+export const getEventsByCompanyId = async (req: any, res: any) => {
+  try {
+    const id = parseInt(req.params.id);
+    const events: QueryResult<any> = await pool.query(queries.getEventsByCompanyId, [id]);
+    return res.status(200).json(events.rows);
+  } catch (err: any) {
+    return res.status(400).json(err);
+  }
+};
+
 export const getEventByDiscussionId = async (req: any, res: any) => {
   try {
     const { id } = req.params;
@@ -163,7 +173,6 @@ export const getEventByDiscussionId = async (req: any, res: any) => {
     return res.status(400).json(error);
   }
 };
-
 
 export const getEventsWithinDateRange = async (req: any, res: any) => {
   try {

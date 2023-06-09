@@ -15,3 +15,4 @@ export const getTicketsCount = "SELECT COUNT(ticket_id) as ticketscount FROM tic
 export const getMaxTicketPlace = "SELECT MAX(ticket_place) as maxplace FROM tickets WHERE event_id = $1";
 export const getTransactionByID = "SELECT * FROM transactions WHERE transaction_id = $1";
 export const getTicketsForEvent = "SELECT * FROM tickets INNER JOIN tickettypes on tickettypes.tickettype_id = tickets.tickettype_id WHERE event_id = $1 AND price = $2";
+export const getAllTicketsForEvent = "SELECT * FROM tickets INNER JOIN tickettypes on tickettypes.tickettype_id = tickets.tickettype_id WHERE event_id = $1";

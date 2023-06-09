@@ -6,6 +6,7 @@ import { SingInModal } from './modals/SingInModal';
 import { NavLink } from './NavLink';
 import { NavProfile } from './NavProfile';
 import { Link } from 'react-router-dom';
+import useUserContext from '../../../provider/user';
 
 export const Navbar = () => {
 	const {
@@ -18,6 +19,8 @@ export const Navbar = () => {
 		onOpen: onSingUpOpen,
 		onClose: onSignUpClose,
 	} = useDisclosure();
+
+	const { userTypeID } = useUserContext();
 
 	return (
 		<Flex
@@ -50,6 +53,10 @@ export const Navbar = () => {
 				</Text>
 			</Link>
 			<Flex align='center' gap='16px'>
+				{userTypeID === 2 && (
+					<NavLink text='Create&nbsp;event' location='createEvent' />
+				)}
+
 				<NavLink text='Events' location='events' />
 
 				<NavLink text='Artists' location='artists/all' />

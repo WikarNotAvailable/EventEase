@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import useLocalStorage from 'use-local-storage';
 
 const UserContext = createContext({
 	isLoggedIn: false,
@@ -9,6 +10,7 @@ const UserContext = createContext({
 	dateOfBirth: '',
 	phoneNumber: '',
 	userID: '',
+	userTypeID: null,
 	logIn: (d: any) => {},
 	logOut: () => {},
 });
@@ -18,6 +20,8 @@ export const UserContextProvider = ({
 }: {
 	children: React.ReactNode;
 }) => {
+	const [user, setUser] = useLocalStorage<any>('user', null);
+
 	const handleLogin = (data: any) => {
 		setIsLoggedIn(true);
 		setFirstName(data.name);
@@ -27,7 +31,24 @@ export const UserContextProvider = ({
 		setDateOfBirth(data.birthday);
 		setPhoneNumber(data.phone_number);
 		setUserID(data.user_id);
+		setUserTypeID(data.usertype_id);
+		setUser(data);
 	};
+
+	useEffect(() => {
+		if (user !== null) {
+			setIsLoggedIn(true);
+			setFirstName(user.name);
+			setSurname(user.surname);
+			setEmail(user.email);
+			setPassword(user.password);
+			setDateOfBirth(user.birthday);
+			setPhoneNumber(user.phone_number);
+			setUserID(user.user_id);
+			setUserTypeID(user.usertype_id);
+		}
+		console.log('user', user);
+	}, []);
 
 	const handleLogout = () => {
 		setIsLoggedIn(false);
@@ -38,6 +59,8 @@ export const UserContextProvider = ({
 		setDateOfBirth('');
 		setPhoneNumber('');
 		setUserID('');
+		setUserTypeID(null);
+		setUser(null);
 	};
 
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -48,6 +71,7 @@ export const UserContextProvider = ({
 	const [dateOfBirth, setDateOfBirth] = useState('');
 	const [phoneNumber, setPhoneNumber] = useState('');
 	const [userID, setUserID] = useState('');
+	const [userTypeID, setUserTypeID] = useState(null);
 
 	const data = {
 		isLoggedIn: isLoggedIn,
@@ -58,6 +82,7 @@ export const UserContextProvider = ({
 		dateOfBirth: dateOfBirth,
 		phoneNumber: phoneNumber,
 		userID: userID,
+		userTypeID: userTypeID,
 		logIn: handleLogin,
 		logOut: handleLogout,
 	};
