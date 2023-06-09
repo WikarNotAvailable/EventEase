@@ -222,7 +222,7 @@ export const EventDetails = () => {
 	useEffect(() => {
 		getEvent();
 		// eslint-disable-next-line
-	}, []);
+	}, [id]);
 
 	return (
 		<PageContainer>
