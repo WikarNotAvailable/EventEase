@@ -1,4 +1,4 @@
-import { Grid, Text } from '@chakra-ui/react'
+import { Grid, Text, useToast } from '@chakra-ui/react'
 import { FC, useEffect, useState } from 'react'
 import { SimilarPerformersItem } from './SimilarPerformersItem'
 import api from '../../../api/api'
@@ -13,21 +13,40 @@ export const SimilarPerformers: FC<ISimilarPerformersProps> = ({performertype_id
 
   const [similarArtists, setSimilarArtists] = useState<any>([])
   const [isLoading, setIsLoading] = useState<boolean>(true)
+  const toast = useToast();
 
-  useEffect(() => {
-      const getArtistsByType = async () => {
-      try {
-        setIsLoading(true)
-        setSimilarArtists(await api.getArtistsByType(performertype_id))
-        
-      } catch(error)
+  const errorToast = () => {
+		toast({
+			title: 'Something went wrong...',
+			status: 'error',
+			duration: 9000,
+			isClosable: true,
+			position: 'top',
+		});
+	};
+  
+  const getArtistsByType = async () => {
+    try {
+      setIsLoading(true)
+      const res = await api.getArtistsByType(performertype_id, 6)
+      if(res.status === 200)
       {
-        console.log(error)
+        setIsLoading(false)
+        setSimilarArtists(res.data)
       }
-      
-    } 
-
-    getArtistsByType().then(() => setIsLoading(false))
+      else
+      {
+        setIsLoading(false)
+        errorToast()
+      }
+    } catch(error)
+    {
+      console.log(error)
+    }
+    
+  } 
+  useEffect(() => {    
+    getArtistsByType()
    }, []
   )
 
@@ -57,4 +76,5 @@ export const SimilarPerformers: FC<ISimilarPerformersProps> = ({performertype_id
     )
   }
 }
+
 

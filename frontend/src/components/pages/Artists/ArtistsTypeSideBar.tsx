@@ -1,4 +1,4 @@
-import { Grid, Tab, TabList, Tabs } from '@chakra-ui/react'
+import { Grid, Tab, TabList, Tabs, useToast } from '@chakra-ui/react'
 import React, { FC, useEffect, useState } from 'react'
 import api from '../../../api/api'
 import { Link, useParams } from 'react-router-dom'
@@ -14,24 +14,32 @@ export const ArtistsTypeSideBar : FC<IArtistsTypeSideBarProps> = ({changeType}) 
     const [currentIndex, setCurrentIndex] = useState<number>()
     const [isLoading, setLoading] = useState<boolean>(true)
     const {type} = useParams()
+    const toast = useToast();
+
+    const errorToast = () => {
+      toast({
+        title: 'Something went wrong...',
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+        position: 'top',
+      });
+    };
 
     const getArtistsTypes = async () => {
+      setLoading(true)
       const res = await api.getArtistTypes();
       if (res.status === 200) 
       {
           console.log(res.data);
+          setLoading(false)
           setArtistTypes(res.data);
 
       } 
       else 
       {
-          toast({
-              title: "Something went wrong...",
-              status: "error",
-              duration: 9000,
-              isClosable: true,
-              position: "top"
-          });
+        setLoading(false)
+         errorToast()
       }
   }
     
@@ -80,8 +88,5 @@ export const ArtistsTypeSideBar : FC<IArtistsTypeSideBarProps> = ({changeType}) 
       </Tabs>
     )
   }
-}
-function toast(arg0: { title: string; status: string; duration: number; isClosable: boolean; position: string }) {
-  throw new Error('Function not implemented.')
 }
 

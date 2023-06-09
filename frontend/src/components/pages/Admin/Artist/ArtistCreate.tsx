@@ -1,6 +1,5 @@
 import { Button, Flex, Input, Select, Textarea, Image, FormControl, FormLabel, Box } from '@chakra-ui/react'
 import React, { FC, useRef, useState } from 'react'
-import api from '../../../api/api'
 import { Form, Formik } from 'formik'
 
 interface IArtistCreateProps

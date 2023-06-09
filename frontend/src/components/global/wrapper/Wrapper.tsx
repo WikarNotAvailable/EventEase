@@ -13,7 +13,6 @@ import { EventDetails } from '../../../pages/EventDetails';
 import { Footer } from '../footer/Footer';
 import { CompanyDetails } from '../../../pages/CompanyDetails';
 import { AdminPanel } from '../../../pages/AdminPanel';
-import { ArtistsPanel } from '../../pages/Admin/ArtistsPanel';
 import { CreateEvent } from '../../../pages/CreateEvent';
 
 export const Wrapper = () => {

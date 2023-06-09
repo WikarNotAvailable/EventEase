@@ -1,9 +1,10 @@
 import { Flex, useToast } from "@chakra-ui/react"
 import { useEffect,useState } from 'react'
-import api from "../../../api/api"
-import { PacmanPageLoader } from "../../shared/Loaders/PacmanPageLoader"
+import { PacmanPageLoader } from "../../../shared/Loaders/PacmanPageLoader"
 import { ArtistItem } from "./ArtistItem"
 import { ArtistCreateUpdatePanel } from "./ArtistCreateUpdatePanel"
+import api from "../../../../api/api"
+import { ArtistsTypePanel } from "../ArtistType/ArtistsTypePanel"
 
 export const ArtistsPanel = () => {
     const [artists, setArtists] = useState<any>([])
@@ -12,25 +13,28 @@ export const ArtistsPanel = () => {
     const [loading, setLoading] = useState(false);
     const toast = useToast();
 
+    const errorToast = (message: string) => {
+        toast({
+            title: message,
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+            position: "top"
+        });
+    }
+
     const getArtists = async () => {
         setLoading(true)
         const res = await api.getArtists();
         if (res.status === 200) 
         {
-            console.log(res.data);
             setArtists(res.data);
             setLoading(false);
         } 
         else 
         {
             setLoading(false);
-            toast({
-                title: "Something went wrong...",
-                status: "error",
-                duration: 9000,
-                isClosable: true,
-                position: "top"
-            });
+            errorToast("Something went wrong...")
         }
     }
 
@@ -38,19 +42,12 @@ export const ArtistsPanel = () => {
         const res = await api.getArtistTypes();
         if (res.status === 200) 
         {
-            console.log(res.data);
             setArtistsTypes(res.data);
 
         } 
         else 
         {
-            toast({
-                title: "Something went wrong...",
-                status: "error",
-                duration: 9000,
-                isClosable: true,
-                position: "top"
-            });
+            errorToast("Something went wrong...")
         }
     }
     useEffect(() => {
@@ -59,18 +56,27 @@ export const ArtistsPanel = () => {
     }, [])
 
     const handleDelete = async (id: number) => {
-        await api.deleteArtist(id).then((res: any) => {
-            console.log(res);
+        try
+        {
+            const res = await api.deleteArtist(id)
             setArtists(artists.filter((artist: any) => artist.performer_id !== id))
-        })
+        }
+        catch(e: any)
+        {
+            errorToast(e.response.data.message)
+        }
     }
 
     const handleSubmit = async (artist: any) => {
-        console.log(artist);
-        await api.createArtist(artist).then((res: any) => {
-            console.log(res);
+        try
+        {
+            const res = await api.createArtist(artist)
             setArtists((previousData: any) => [res.data, ...previousData])
-        })
+        }
+        catch(e: any)
+        {
+            errorToast(e.response.data.message)
+        }
     }
 
     const handleSubmitUpdate = async (name:string, type: number, description: string, url: string, id: number) => {
@@ -80,25 +86,29 @@ export const ArtistsPanel = () => {
             description: description,
             url: url
         }
-        console.log(artist)
-        console.log(id)
-        await api.updateArtist(artist, id).then((res: any) => {
-            console.log(res);
-            //setArtists((previousData: any) => [res.data, ...previousData])
-        })
+        
+        try
+        {
+            const res = await api.updateArtist(artist, id)
+            setArtists((previousData: any) => [res.data, ...previousData.filter((artist: any) => artist.performer_id !== id)])
+        }
+        catch(e: any)
+        {
+            errorToast(e.response.data.message)
+        }
+
     }
 
     const handleSelect = async (artist: any) => {
         setArtistToUpdate(artist)
-        console.log(artist)
     }
 
   return (
-    <Flex>
+    <Flex padding={2}  height={'min-content'}>
         {loading && <PacmanPageLoader/>}
         {!loading && (
-            <Flex>
-                <Flex w="50%" flexDir="column" gap="16px">
+            <Flex >
+                <Flex w="30%" flexDir="column" gap="16px">
                     {artists.map((artist: any) => (
                     <ArtistItem key={artist.performer_id} artist={artist}  handleDelete={handleDelete} handleSelect={handleSelect}></ArtistItem>
                     ))}
@@ -106,6 +116,7 @@ export const ArtistsPanel = () => {
                     <ArtistCreateUpdatePanel types={artistsTypes} handleSubmitUpdate={handleSubmitUpdate} 
                     handleSubmit={handleSubmit} artistToUpdate={artistToUpdate}></ArtistCreateUpdatePanel>
                     
+                    <ArtistsTypePanel/>
             </Flex>)
         }
     </Flex>

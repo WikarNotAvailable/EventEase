@@ -1,7 +1,8 @@
 import React from 'react'
 import { PageContainer } from '../components/shared/containers/PageContainer'
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react'
-import { ArtistsPanel } from '../components/pages/Admin/ArtistsPanel'
+import { ArtistsPanel } from '../components/pages/Admin/Artist/ArtistsPanel'
+import { SpotsPanel } from '../components/pages/Admin/Spot/SpotsPanel'
 
 export const AdminPanel = () => {
   return (
@@ -18,7 +19,7 @@ export const AdminPanel = () => {
             <ArtistsPanel></ArtistsPanel>
             </TabPanel>
             <TabPanel>
-            Spots
+            <SpotsPanel></SpotsPanel>
             </TabPanel>
         </TabPanels>
       </Tabs>

@@ -60,9 +60,6 @@ useEffect(() => {
  const handleChangeDescription = (e:any)=>{
     setDescription(e.target.value); 
  }
- const handleChangeUrl = (e:any)=>{
-    setUrl(e.target.value); 
- }
     
   return (
     <Formik onSubmit={() => handleSubmitUpdate(name, type, description, url, artistToUpdate.performer_id)} initialValues={initialValues}>

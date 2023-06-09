@@ -123,7 +123,7 @@ export const CreateEvent = () => {
 		setLoading(true);
 		const res = await api.getArtists();
 
-		if (res?.length > 0) {
+		if (res.status === 0) {
 			console.log(res);
 			setArtists(res);
 			setLoading(false);
@@ -136,7 +136,7 @@ export const CreateEvent = () => {
 		setLoading(true);
 		const res = await api.getSpots();
 		console.log(res);
-		if (res?.length > 0) {
+		if (res.status === 0) {
 			console.log(res);
 			setVenues(res);
 			setLoading(false);

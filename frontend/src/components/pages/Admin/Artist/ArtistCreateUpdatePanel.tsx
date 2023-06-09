@@ -1,5 +1,5 @@
-import { Flex, Input, Select, Textarea, Text, Image, Tabs, TabList, TabPanel, TabPanels, Tab, Button } from '@chakra-ui/react'
-import React, {FC, useRef, useState} from 'react'
+import { Tabs, TabList, TabPanel, TabPanels, Tab, Button } from '@chakra-ui/react'
+import React, {FC} from 'react'
 import { ArtistCreate } from './ArtistCreate'
 import { ArtistUpdate } from './ArtistUpdate'
 
@@ -15,7 +15,7 @@ interface IArtistCreateUpdatePanelProps
 export const ArtistCreateUpdatePanel :FC<IArtistCreateUpdatePanelProps> = ({types, handleSubmit, handleSubmitUpdate, artistToUpdate}) => {
 
   return (
-    <Tabs margin={4}>
+    <Tabs margin={4} height={'min-content'}>
         <TabList>
             <Tab>Add new artist</Tab>
             <Tab>Update artist</Tab>

@@ -1,4 +1,4 @@
-import { Grid, Tab, TabList, Tabs } from '@chakra-ui/react'
+import { Tab, TabList, Tabs, useToast } from '@chakra-ui/react'
 import React, { FC, useEffect, useState } from 'react'
 import api from '../../../api/api'
 import { Link, useParams } from 'react-router-dom'
@@ -8,31 +8,48 @@ interface ISpotsTypeSideBarProps
   changeType: any
 }
 
-export const SpotsTypeSideBar : FC<ISpotsTypeSideBarProps> = ({changeType: onClick}) => {
+export const SpotsTypeSideBar : FC<ISpotsTypeSideBarProps> = ({changeType}) => {
 
     const [spotTypes, setSpotTypes] = useState<any>()
     const [currentIndex, setCurrentIndex] = useState<number>()
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const {type} = useParams()
+    const toast = useToast();
+
+    const errorToast = () => {
+      toast({
+        title: 'Something went wrong...',
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+        position: 'top',
+      });
+    };
     
+    const getSpotTypes = async () => {
+      try {
+          setIsLoading(true)
+          const res = await api.getSpotTypes()
+          if(res.status === 200)
+          {
+            setIsLoading(false)
+            setSpotTypes(res.data)
+          }
+          else
+          {
+            console.log(res)
+            setIsLoading(false)
+            errorToast()
+          }
+      } catch(error)
+      {
+          console.log(error)
+      }
+      
+      } 
+
     useEffect(() => {
-        const getSpotTypes = async () => {
-        try {
-            setIsLoading(true)
-            setSpotTypes(await api.getSpotTypes())
-            
-        } catch(error)
-        {
-            console.log(error)
-        }
-        
-        } 
-
-
-        getSpotTypes().then(() => {
-          
-          setIsLoading(false)
-        })
+        getSpotTypes()
     }  , []
     )
 
@@ -43,9 +60,8 @@ export const SpotsTypeSideBar : FC<ISpotsTypeSideBarProps> = ({changeType: onCli
     }, [spotTypes])
 
     useEffect(() => {
-
       if(currentIndex)
-        onClick(currentIndex, spotTypes[currentIndex! - 1]?.type)
+        changeType(currentIndex)
     }, [currentIndex])
 
 
@@ -63,11 +79,11 @@ export const SpotsTypeSideBar : FC<ISpotsTypeSideBarProps> = ({changeType: onCli
       defaultIndex={spotTypes?.findIndex((spotType: { name: string | undefined }) => spotType.name === type) + 1}>
         <TabList>
           <Link  to="/spots/all" reloadDocument>
-            <Tab onClick={() => onClick(0)}>All spots</Tab>
+            <Tab onClick={() => changeType(0)}>All spots</Tab>
           </Link>
           {spotTypes?.map((type:any) => (
             <Link key={type.spottype_id} to={`/spots/${type.name}`} reloadDocument>
-              <Tab  onClick={() => onClick(type.spottype_id)}>{type.name}</Tab>
+              <Tab  onClick={() => changeType(type.spottype_id)}>{type.name}</Tab>
             </Link>
             ))}
         </TabList>
@@ -77,6 +93,7 @@ export const SpotsTypeSideBar : FC<ISpotsTypeSideBarProps> = ({changeType: onCli
     )
   }
 }
+
 
 
 
