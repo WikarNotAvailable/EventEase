@@ -122,6 +122,11 @@ export const getPerformersByEventId = async (req: Request, res: Response) => {
       if (!performer.rows.length) {
         return res.status(400).json({ message: 'Performer does not exist.' });
       } else {
+        const performerNameExists: QueryResult<any> = await pool.query(queries.checkPerformerNameExists, [name]);
+        if (performerNameExists.rows.length) {
+          return res.status(400).json({ message: 'Performer name already exists.' });
+        }
+        
         const updatedPerformer: QueryResult<any> = await pool.query(queries.updatePerformer, [
           performertype_id,
           name,
