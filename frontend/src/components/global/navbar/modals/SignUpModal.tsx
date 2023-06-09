@@ -111,6 +111,7 @@ export const SingUpModal: FC<ISignUpModalProps> = ({
 					}>
 					<option value={1}>User</option>
 					<option value={2}>Organizer</option>
+					<option value={3}>Admin</option>
 				</Select>
 				<Flex justify='space-between' w='100%'>
 					<Input
