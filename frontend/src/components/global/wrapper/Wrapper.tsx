@@ -12,6 +12,7 @@ import { Spot } from '../../../pages/Spot';
 import { EventDetails } from '../../../pages/EventDetails';
 import { Footer } from '../footer/Footer';
 import { CompanyDetails } from '../../../pages/CompanyDetails';
+import { AdminPanel } from '../../../pages/AdminPanel';
 import { CreateEvent } from '../../../pages/CreateEvent';
 import { MyProfile } from '../../../pages/MyProfile';
 import { ChangePassowrd } from '../../../pages/ChangePassword';
@@ -49,6 +50,10 @@ export const Wrapper = () => {
 		{
 			path: '/spot/:name',
 			element: <Spot />,
+		},
+		{
+			path: '/admin',
+			element: <AdminPanel />,
 		},
 		{
 			path: '/createEvent',

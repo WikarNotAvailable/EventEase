@@ -19,7 +19,7 @@ export const Artists = () => {
         try {
           setIsLoading(true)
           if(type === "all")
-            setArtists(await api.getArtists())
+            setArtists((await api.getArtists()).data)
         } catch(error)
         {
           console.log(error)
@@ -30,23 +30,48 @@ export const Artists = () => {
       }
       getArtists().then(() => setIsLoading(false))
     
-
-
-    
    }, []
   )
+
+  const errorToast = () => {
+		toast({
+			title: 'Something went wrong...',
+			status: 'error',
+			duration: 9000,
+			isClosable: true,
+			position: 'top',
+		});
+	};
 
   const getArtistsByType = async (type_id:number) => {
 
     try {
       if(type_id !== 0)
-      {      
-        setArtists(await api.getArtistsByType(type_id))
+      { 
+        const res = await api.getArtistsByType(type_id, 100)  
+        if(res.status === 200)
+        {
+          setArtists(res.data)
+        }
+        else
+        {
+          errorToast()
+        }
+        
 
       }
       else
       {
-        setArtists(await api.getArtists())
+        const res = await api.getArtists()  
+        if(res.status === 200)
+        {
+          setArtists(res.data)
+        }
+        else
+        {
+          errorToast()
+        }
+
 
       }
 
@@ -83,3 +108,7 @@ export const Artists = () => {
     )
   }
 }
+function toast(arg0: { title: string; status: string; duration: number; isClosable: boolean; position: string }) {
+  throw new Error('Function not implemented.')
+}
+

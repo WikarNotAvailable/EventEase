@@ -1,4 +1,4 @@
-import { Grid, Tab, TabList, Tabs } from '@chakra-ui/react'
+import { Grid, Tab, TabList, Tabs, useToast } from '@chakra-ui/react'
 import React, { FC, useEffect, useState } from 'react'
 import api from '../../../api/api'
 import { Link, useParams } from 'react-router-dom'
@@ -12,27 +12,39 @@ export const ArtistsTypeSideBar : FC<IArtistsTypeSideBarProps> = ({changeType}) 
 
     const [artistTypes, setArtistTypes] = useState<any>()
     const [currentIndex, setCurrentIndex] = useState<number>()
-    const [isLoading, setIsLoading] = useState<boolean>(true)
+    const [isLoading, setLoading] = useState<boolean>(true)
     const {type} = useParams()
+    const toast = useToast();
+
+    const errorToast = () => {
+      toast({
+        title: 'Something went wrong...',
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+        position: 'top',
+      });
+    };
+
+    const getArtistsTypes = async () => {
+      setLoading(true)
+      const res = await api.getArtistTypes();
+      if (res.status === 200) 
+      {
+          console.log(res.data);
+          setLoading(false)
+          setArtistTypes(res.data);
+
+      } 
+      else 
+      {
+        setLoading(false)
+         errorToast()
+      }
+  }
     
     useEffect(() => {
-        const getArtistTypes = async () => {
-        try {
-            setIsLoading(true)
-            setArtistTypes(await api.getArtistTypes())
-            
-        } catch(error)
-        {
-            console.log(error)
-        }
-        
-        } 
-
-
-        getArtistTypes().then(() => {
-          
-          setIsLoading(false)
-        })
+        getArtistsTypes()
     }  , []
     )
 
@@ -77,3 +89,4 @@ export const ArtistsTypeSideBar : FC<IArtistsTypeSideBarProps> = ({changeType}) 
     )
   }
 }
+

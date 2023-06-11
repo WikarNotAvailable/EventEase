@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { PageContainer } from '../components/shared/containers/PageContainer'
-import { Flex, Grid } from '@chakra-ui/react'
+import { Flex, Grid, useToast } from '@chakra-ui/react'
 import { SpotItem } from '../components/pages/Spots/SpotItem'
 import api from '../api/api'
 import { PacmanPageLoader } from '../components/shared/Loaders/PacmanPageLoader'
@@ -12,41 +12,68 @@ export const Spots = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const navigate = useNavigate()
   const {type} = useParams()
+  const toast = useToast();
+
+  const errorToast = () => {
+		toast({
+			title: 'Something went wrong...',
+			status: 'error',
+			duration: 9000,
+			isClosable: true,
+			position: 'top',
+		});
+	};
+
  
   useEffect(() => {
-
-      const getSpots = async () => {
-        try {
-          setIsLoading(true)
-          if(type === "all")
-            setSpots(await api.getSpots())
-        } catch(error)
-        {
-          console.log(error)
-          navigate("")
-        }
-        
-       
+    const getSpots = async () => {
+      try {
+        setIsLoading(true)
+        if(type === "all")
+          setSpots((await api.getSpots()).data)
+      } catch(error)
+      {
+        console.log(error)
+        navigate("")
       }
-      getSpots().then(() => setIsLoading(false))
-    
-
-
-    
+      
+     
+    }
+    getSpots().then(() => setIsLoading(false))
    }, []
   )
 
   const getSpotsByType = async (type_id:number) => {
-
+    console.log(type_id)
     try {
+
       if(type_id !== 0)
       {      
-        setSpots(await api.getSpotsByType(type_id))
+        const res = await api.getSpotsByType(type_id)
+        if(res.status === 200)
+        {
 
+          setSpots(res.data)
+        }
+        else
+        {
+          console.log(res)
+
+          errorToast()
+        }
       }
       else
       {
-        setSpots(await api.getSpots())
+        const res = await api.getSpots()
+        if(res.status === 200)
+        {
+          console.log(res)
+          setSpots(res.data)
+        }
+        else
+        {
+          errorToast()
+        }
 
       }
 
@@ -58,17 +85,10 @@ export const Spots = () => {
 
   } 
 
-  if(isLoading)
-  {
-    return(
-      <PacmanPageLoader/>
-    )
-  }
-  else
-  {
     return (
       <PageContainer isCentered>
-        <Flex>
+        {isLoading && <PacmanPageLoader/>}
+        {!isLoading && (<Flex>
           <Grid templateColumns={'repeat(auto-fill, minmax(300px, 1fr))'} gap={'5'}>
               {spots.map((spot: any) => (
                 <SpotItem key={spot.spot_id} name={spot.name} imageUrl={spot.spotimage}/>
@@ -76,12 +96,13 @@ export const Spots = () => {
 
           </Grid>
           <SpotsTypeSideBar changeType={getSpotsByType} />
-        </Flex>
+        </Flex>)
+  }
           
         
       </PageContainer>
     )
   }
-}
+
 
 

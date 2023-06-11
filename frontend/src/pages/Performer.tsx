@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { PageContainer } from '../components/shared/containers/PageContainer'
 import { PerformerInfo } from '../components/pages/Performer/PerformerInfo'
-import { Flex, Grid, useBreakpointValue } from '@chakra-ui/react'
+import { Flex, Grid, useBreakpointValue, useToast } from '@chakra-ui/react'
 import { SimilarPerformers } from '../components/pages/Performer/SimilarPerformers'
 import { PerformerEvents } from '../components/pages/Performer/PerformerEvents'
 import api from '../api/api'
@@ -14,22 +14,41 @@ export const Performer = () => {
   const [artist, setArtist] = useState<any>(null)
   const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState<boolean>(true)
+  const toast = useToast();
+  
+  const errorToast = () => {
+		toast({
+			title: 'Something went wrong...',
+			status: 'error',
+			duration: 9000,
+			isClosable: true,
+			position: 'top',
+		});
+	};
 
-  useEffect(() => {
-    const getArtist = async () => {
-      try {
-        setIsLoading(true)
-        setArtist(await api.getArtistByName(name!))
-        
-      } catch(error)
+  const getArtist = async () => {
+    try {
+      setIsLoading(true)
+      const res = await api.getArtistByName(name!)
+      if(res.status === 200)
       {
-        console.log(error)
-        navigate("")
+        setIsLoading(false)
+        setArtist(res.data)
       }
-      
-    } 
-
-    getArtist().then(() => setIsLoading(false))
+      else
+      {
+        setIsLoading(false)
+        errorToast()
+      }
+    } catch(error)
+    {
+      console.log(error)
+      navigate("")
+    }
+    
+  } 
+  useEffect(() => {
+    getArtist()
     console.log(artist)
    }, []
   )
@@ -62,5 +81,6 @@ export const Performer = () => {
   }
   
 }
+
 
 
