@@ -101,7 +101,17 @@ export const getEventById = `SELECT
 export const deleteEvent = "DELETE FROM events WHERE event_id = $1";
 export const updateEvent = "UPDATE events SET name = $1, description = $2, begindate = $3, enddate = $4, availabletickets = $5, currentlytakentickets = $6, spot_id = $7, eventtype_id = $8, company_id = $9 WHERE event_id = $10 RETURNING *";
 export const getEventsBySpotId = "SELECT * FROM events WHERE spot_id = $1";
-export const getEventsByEventTypeId = "SELECT * FROM events WHERE eventtype_id = $1";
+
+export const getEventsByEventTypeId = `SELECT *,(
+  SELECT COALESCE(json_agg(json_build_object(
+      'eventimage_id', ei.eventimage_id,
+      'image_url', ei.url
+    )), '[]'::json)
+  FROM eventimages AS ei
+  WHERE ei.event_id = e.event_id
+) AS event_images
+FROM events as e WHERE eventtype_id = $1`;
+
 export const getEventsWithinDateRange = "SELECT * FROM events WHERE begindate >= $1 AND enddate <= $2";
 export const getEventsWithAvailableTickets = "SELECT * FROM events WHERE availabletickets > 0";
 export const getEventsWithLimitedAvailability = "SELECT * FROM events WHERE availabletickets <= $1";

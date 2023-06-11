@@ -1,5 +1,5 @@
 import { Flex, Text, useDisclosure } from '@chakra-ui/react';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavSearch } from './NavSearch';
 import { SingUpModal } from './modals/SignUpModal';
 import { SingInModal } from './modals/SingInModal';
@@ -7,6 +7,7 @@ import { NavLink } from './NavLink';
 import { NavProfile } from './NavProfile';
 import { Link } from 'react-router-dom';
 import useUserContext from '../../../provider/user';
+import api from '../../../api/api';
 
 export const Navbar = () => {
 	const {

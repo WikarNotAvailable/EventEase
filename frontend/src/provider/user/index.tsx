@@ -48,6 +48,7 @@ export const UserContextProvider = ({
 			setUserTypeID(user.usertype_id);
 		}
 		console.log('user', user);
+		//eslint-disable-next-line
 	}, []);
 
 	const handleLogout = () => {
