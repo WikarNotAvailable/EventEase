@@ -77,9 +77,7 @@ export const CategoryCarousel: FC<ICategoryCarouselProps> = ({ typeID }) => {
 						<SwiperSlide key={event?.event_id}>
 							<Link to={`/events/${event?.event_id}`}>
 								<CarouselPhoto
-									image={
-										'https://goingapp.pl/more/wp-content/uploads/2023/02/Metallica-1600x996.jpeg'
-									}
+									image={event?.event_images[0]?.image_url}
 									eventName={event?.name}
 									eventSpotName={event?.spot?.spot_name}
 									eventSpotCity={event?.spot?.address?.city}

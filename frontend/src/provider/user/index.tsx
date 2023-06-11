@@ -13,6 +13,7 @@ const UserContext = createContext({
 	userTypeID: null,
 	logIn: (d: any) => {},
 	logOut: () => {},
+	update: (d: any) => {},
 });
 
 export const UserContextProvider = ({
@@ -64,6 +65,21 @@ export const UserContextProvider = ({
 		setUser(null);
 	};
 
+	const handleUpdate = (user: any) => {
+		if (user !== null) {
+			setIsLoggedIn(true);
+			setFirstName(user.name);
+			setSurname(user.surname);
+			setEmail(user.email);
+			setPassword(user.password);
+			setDateOfBirth(user.birthday);
+			setPhoneNumber(user.phone_number);
+			setUserID(user.user_id);
+			setUserTypeID(user.usertype_id);
+		}
+		console.log('user', user);
+	};
+
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const [firstName, setFirstName] = useState('');
 	const [surname, setSurname] = useState('');
@@ -86,6 +102,7 @@ export const UserContextProvider = ({
 		userTypeID: userTypeID,
 		logIn: handleLogin,
 		logOut: handleLogout,
+		update: handleUpdate,
 	};
 
 	return <UserContext.Provider value={data}>{children}</UserContext.Provider>;

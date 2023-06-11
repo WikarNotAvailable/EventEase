@@ -124,9 +124,9 @@ export const CreateEvent = () => {
 		setLoading(true);
 		const res = await api.getArtists();
 
-		if (res.status === 0) {
+		if (res.status < 300) {
 			console.log(res);
-			setArtists(res);
+			setArtists(res.data);
 			setLoading(false);
 		} else {
 			setLoading(false);
@@ -137,9 +137,9 @@ export const CreateEvent = () => {
 		setLoading(true);
 		const res = await api.getSpots();
 		console.log(res);
-		if (res.status === 0) {
+		if (res.status < 300) {
 			console.log(res);
-			setVenues(res);
+			setVenues(res.data);
 			setLoading(false);
 		} else {
 			setLoading(false);
@@ -150,7 +150,7 @@ export const CreateEvent = () => {
 		setLoading(true);
 		const res = await api.getCompanies();
 
-		if (res.status === 200) {
+		if (res.status < 300) {
 			console.log(res.data);
 			setOrganizers(res.data);
 			setLoading(false);

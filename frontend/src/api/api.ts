@@ -29,6 +29,28 @@ class ApiService {
 		return req.data;
 	}
 
+	public async getUserById(id: string) {
+		const req = await axios.get(`${this.baseUrl}/users/${id}/`, this.config);
+		return req;
+	}
+
+	public async updateUser(data: any, id: string) {
+		const req = await axios.put(
+			`${this.baseUrl}/users/${id}/`,
+			data,
+			this.config
+		);
+		return req;
+	}
+
+	public async getTransactionById(id: string) {
+		const req = await axios.get(
+			`${this.baseUrl}/transactions/${id}/`,
+			this.config
+		);
+		return req;
+	}
+
 	public async getEvents() {
 		const req = await axios.get(`${this.baseUrl}/events`, this.config);
 		return req;
@@ -250,7 +272,7 @@ class ApiService {
 		return req;
 	}
 
-	public async createArtist(artist:any) {
+	public async createArtist(artist: any) {
 		const req = await axios.post(
 			`${this.baseUrl}/performers`,
 			artist,
@@ -259,7 +281,7 @@ class ApiService {
 		return req;
 	}
 
-	public async updateArtist(artist:any, id:number) {
+	public async updateArtist(artist: any, id: number) {
 		const req = await axios.put(
 			`${this.baseUrl}/performers/${id}`,
 			artist,
@@ -268,14 +290,15 @@ class ApiService {
 		return req;
 	}
 
-	public async deleteArtist(id:number) {
+	public async deleteArtist(id: number) {
 		const req = await axios.delete(
-			`${this.baseUrl}/performers/${id}`,this.config
+			`${this.baseUrl}/performers/${id}`,
+			this.config
 		);
 		return req;
 	}
 
-	public async createArtistType(type:any) {
+	public async createArtistType(type: any) {
 		const req = await axios.post(
 			`${this.baseUrl}/performerTypes`,
 			type,
@@ -284,7 +307,7 @@ class ApiService {
 		return req;
 	}
 
-	public async updateArtistType(type:any, id:number) {
+	public async updateArtistType(type: any, id: number) {
 		const req = await axios.put(
 			`${this.baseUrl}/performerTypes/${id}`,
 			type,
@@ -293,14 +316,15 @@ class ApiService {
 		return req;
 	}
 
-	public async deleteArtistType(id:number) {
+	public async deleteArtistType(id: number) {
 		const req = await axios.delete(
-			`${this.baseUrl}/performerTypes/${id}`,this.config
+			`${this.baseUrl}/performerTypes/${id}`,
+			this.config
 		);
 		return req;
 	}
 
-	public async createSpotType(type:any) {
+	public async createSpotType(type: any) {
 		const req = await axios.post(
 			`${this.baseUrl}/spotTypes`,
 			type,
@@ -309,7 +333,7 @@ class ApiService {
 		return req;
 	}
 
-	public async updateSpotType(type:any, id:number) {
+	public async updateSpotType(type: any, id: number) {
 		const req = await axios.put(
 			`${this.baseUrl}/spotTypes/${id}`,
 			type,
@@ -318,23 +342,20 @@ class ApiService {
 		return req;
 	}
 
-	public async deleteSpotType(id:number) {
+	public async deleteSpotType(id: number) {
 		const req = await axios.delete(
-			`${this.baseUrl}/spotTypes/${id}`,this.config
-		);
-		return req;
-	}
-
-	public async createSpot(spot:any) {
-		const req = await axios.post(
-			`${this.baseUrl}/spots`,
-			spot,
+			`${this.baseUrl}/spotTypes/${id}`,
 			this.config
 		);
 		return req;
 	}
 
-	public async updateSpot(spot:any, id:number) {
+	public async createSpot(spot: any) {
+		const req = await axios.post(`${this.baseUrl}/spots`, spot, this.config);
+		return req;
+	}
+
+	public async updateSpot(spot: any, id: number) {
 		const req = await axios.put(
 			`${this.baseUrl}/spots/${id}`,
 			spot,
@@ -343,14 +364,12 @@ class ApiService {
 		return req;
 	}
 
-	public async deleteSpot(id:number) {
-		const req = await axios.delete(
-			`${this.baseUrl}/spots/${id}`,this.config
-		);
+	public async deleteSpot(id: number) {
+		const req = await axios.delete(`${this.baseUrl}/spots/${id}`, this.config);
 		return req;
 	}
 
-	public async createAddress(address:any) {
+	public async createAddress(address: any) {
 		const req = await axios.post(
 			`${this.baseUrl}/addresses`,
 			address,
@@ -359,7 +378,7 @@ class ApiService {
 		return req;
 	}
 
-	public async updateAddress(address:any, id:number) {
+	public async updateAddress(address: any, id: number) {
 		const req = await axios.put(
 			`${this.baseUrl}/addresses/${id}`,
 			address,
@@ -368,9 +387,10 @@ class ApiService {
 		return req;
 	}
 
-	public async deleteAddress(id:number) {
+	public async deleteAddress(id: number) {
 		const req = await axios.delete(
-			`${this.baseUrl}/addresses/${id}`,this.config
+			`${this.baseUrl}/addresses/${id}`,
+			this.config
 		);
 		return req;
 	}
