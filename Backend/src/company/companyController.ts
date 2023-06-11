@@ -4,8 +4,11 @@ import * as queries from "./companyQueries";
 
 export const postCompany = async (req: any,res: any) => {
     try{
-        const {discussionID, name, description} = req.body;
-        const newCompany: QueryResult<any> = await pool.query(queries.addCompany,[discussionID, name, description]);
+        const {name, description} = req.body;
+        
+            const newCompany: QueryResult<any> = await pool.query(queries.addCompany, [name, description]);
+            res.status(201).json(newCompany.rows[0]);
+        
     }catch(err: any){
         return res.status(400).json(err);
     }
@@ -31,7 +34,7 @@ export const getCompanyById = async (req: any,res: any) => {
             if(error) throw error;
 
             if(results.rows.length){
-                res.status(200).json(results.rows);
+                res.status(200).json(results.rows[0]);
             }
             else{
                 res.status(400).json({message: "Company does not exist. Non existent id."})
@@ -68,17 +71,12 @@ export const updateCompany = async (req: any,res: any) => {
         let {name, description} = req.body;
         const company: QueryResult<any> = await pool.query(queries.getCompanyById, [id]);
 
-        if(name == null)
-            name = company.rows[0]["name"];
-        if(description == null)
-            description = company.rows[0]["description"];
-        
         if(!company.rows.length){
             res.status(400).json({message: "Company does not exist. (Non existent id)"})
         }
         else{
-            const newCompany: QueryResult<any> = await pool.query(queries.updateCompany, [name, description, id]);
-            res.json(newCompany.rows);
+            const newCompany: QueryResult<any> = await pool.query(queries.updateCompany, [name, description,id]);
+            res.json(newCompany.rows[0]);
         }
     }catch(err: any){
         return res.status(400).json(err);

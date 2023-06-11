@@ -23,7 +23,7 @@ export const postSpot = async (req: any, res: any) => {
         }
         else {
             const newSpot: QueryResult<any> = await pool.query(queries.addSpot, [spottype_id, address_id, name, description, capacity, isopen, spotimage]);
-            return res.status(201).json(newSpot.rows);
+            return res.status(201).json(newSpot.rows[0]);
         }
     }catch(err: any){
         return res.status(400).json(err);
@@ -50,12 +50,27 @@ export const getSpotById = async (req: any, res: any) => {
             if(error) throw error;
 
             if(results.rows.length){
-               res.status(200).json(results.rows);
+               res.status(200).json(results.rows[0]);
             }
             else{
                 res.status(400).json({message: "Spot does not exist"})
             }
         }) 
+    }catch(err: any){
+        return res.status(400).json(err);
+    }
+}
+
+export const getSpotByName = async (req: any, res: any) => {
+    try{
+        const name = req.params.name;
+        const spot: QueryResult<any> = await pool.query(queries.getSpotByName,[name]);
+
+        if(spot.rows.length){
+            return res.status(200).json(spot.rows);
+        }else{
+            return res.status(400).json({message: "Spot does not exist."});
+        }
     }catch(err: any){
         return res.status(400).json(err);
     }
@@ -103,7 +118,7 @@ export const updateSpot = async (req: any, res: any) => {
         }
         else{
             const newSpot: QueryResult<any> = await pool.query(queries.updateSpot, [spottype_id, address_id, name, description, capacity, isopen, spotimage, id]);
-            res.json(newSpot.rows);
+            res.json(newSpot.rows[0]);
         }
     }catch(err: any){
         return res.status(400).json(err);

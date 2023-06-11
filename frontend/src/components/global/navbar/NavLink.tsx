@@ -1,12 +1,18 @@
-import { Text } from '@chakra-ui/react'
-import React, { FC } from 'react'
+import { Text } from "@chakra-ui/react";
+import React, { FC } from "react";
+import { Link } from "react-router-dom";
 
 interface INavLinkProps {
-    text: string
+  text: string;
+  location: string
 }
 
-export const NavLink: FC<INavLinkProps> = ({text}) => {
+export const NavLink: FC<INavLinkProps> = ({ text, location }) => {
   return (
-      <Text color="textPrimary" fontSize="16px" _hover={{ opacity: '0.7' }}>{text}</Text>
-  )
-}
+    <Link to={`${location}`}>
+    <Text color="textPrimary" fontSize="16px" _hover={{ opacity: "0.7" }}>
+      {text}
+    </Text>
+    </Link>
+  );
+};

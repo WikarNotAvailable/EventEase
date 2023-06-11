@@ -53,26 +53,19 @@ CREATE TABLE tickettypes(
 
 CREATE TABLE companies(
     company_id SERIAL PRIMARY KEY,
-    name VARCHAR(100) NOT NULL UNIQUE,
+    name VARCHAR(100) NOT NULL,
     description text,
-    discussion_id INTEGER
+    discussion_id INTEGER UNIQUE,
+    CONSTRAINT fk_discussion FOREIGN KEY(discussion_id)
+        REFERENCES discussions(discussion_id)
+        ON DELETE CASCADE
 );
 
 CREATE TABLE discussions(
     discussion_id SERIAL PRIMARY KEY,
-    name VARCHAR(100) NOT NULL UNIQUE,
-    description text,
     company_id INTEGER,
-    event_id INTEGER,
-    CONSTRAINT fk_company FOREIGN KEY(company_id)
-        REFERENCES companies(company_id)
-        ON DELETE SET NULL
+    event_id INTEGER
 );
-
-ALTER TABLE companies 
-ADD CONSTRAINT fk_discussion FOREIGN KEY(discussion_id)
-REFERENCES discussions(discussion_id)
-ON DELETE CASCADE;
 
 CREATE TABLE comments(
     comments_id SERIAL PRIMARY KEY,
@@ -167,7 +160,7 @@ CREATE TABLE events(
     spot_id INTEGER NOT NULL,
     eventtype_id INTEGER NOT NULL,
     company_id INTEGER,
-    discussion_id INTEGER,
+    discussion_id INTEGER UNIQUE,
 	CONSTRAINT fk_spot FOREIGN KEY(spot_id)
         REFERENCES spots(spot_id)
         ON DELETE SET NULL
@@ -179,7 +172,10 @@ CREATE TABLE events(
     CONSTRAINT fk_company FOREIGN KEY(company_id)
         REFERENCES companies(company_id)
         ON DELETE SET NULL
-        ON UPDATE NO ACTION
+        ON UPDATE NO ACTION,
+    CONSTRAINT fk_discussion FOREIGN KEY(discussion_id)
+        REFERENCES discussions(discussion_id)
+        ON DELETE CASCADE
 );
 
 CREATE TABLE eventImages(
@@ -204,9 +200,104 @@ CREATE TABLE eventsperformers (
         REFERENCES performers (performer_id)
         ON DELETE CASCADE
         ON UPDATE NO ACTION
+
 );
 
 ALTER TABLE discussions
 ADD CONSTRAINT fk_event FOREIGN KEY(event_id)
         REFERENCES events(event_id)
+        ON DELETE CASCADE,
+ADD CONSTRAINT fk_company FOREIGN KEY(company_id)
+        REFERENCES companies(company_id)
         ON DELETE CASCADE;
+
+ALTER TABLE companies
+ADD CONSTRAINT fk_discussion FOREIGN KEY(discussion_id) 
+        REFERENCES discussions(discussion_id)
+        ON DELETE CASCADE;
+
+CREATE OR REPLACE FUNCTION create_discussion()
+RETURNS TRIGGER AS $$
+BEGIN
+  INSERT INTO discussions (company_id, event_id)
+  VALUES (NULL, NEW.event_id)
+  RETURNING discussion_id INTO NEW.discussion_id;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER insert_discussion_trigger
+AFTER INSERT ON events
+FOR EACH ROW
+EXECUTE FUNCTION create_discussion();
+
+CREATE OR REPLACE FUNCTION delete_discussion()
+RETURNS TRIGGER AS $$
+BEGIN
+    DELETE FROM discussions WHERE discussion_id = OLD.discussion_id;
+    RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER delete_discussion_trigger
+AFTER DELETE ON events
+FOR EACH ROW
+EXECUTE FUNCTION delete_discussion();
+
+CREATE OR REPLACE FUNCTION create_discussion_for_company()
+RETURNS TRIGGER AS $$
+BEGIN
+  INSERT INTO discussions (company_id, event_id)
+  VALUES (NEW.company_id, NULL)
+  RETURNING discussion_id INTO NEW.discussion_id;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER insert_discussion_trigger_for_company
+AFTER INSERT ON companies
+FOR EACH ROW
+EXECUTE FUNCTION create_discussion_for_company();
+
+CREATE OR REPLACE FUNCTION delete_discussion_for_company()
+RETURNS TRIGGER AS $$
+BEGIN
+    DELETE FROM discussions WHERE discussion_id = OLD.discussion_id;
+    RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER delete_discussion_trigger_for_company
+AFTER DELETE ON companies
+FOR EACH ROW
+EXECUTE FUNCTION delete_discussion_for_company();
+
+CREATE OR REPLACE FUNCTION update_discussion_id_in_companies()
+RETURNS TRIGGER AS $$
+BEGIN
+  UPDATE companies
+  SET discussion_id = NEW.discussion_id
+  WHERE company_id = NEW.company_id;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER update_discussion_id_in_company_trigger
+AFTER INSERT ON discussions
+FOR EACH ROW
+EXECUTE FUNCTION update_discussion_id_in_companies();
+
+CREATE OR REPLACE FUNCTION update_discussion_id_in_events()
+RETURNS TRIGGER AS $$
+BEGIN
+  UPDATE events
+  SET discussion_id = NEW.discussion_id
+  WHERE event_id = NEW.event_id;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER update_discussion_id_in_events_trigger
+AFTER INSERT ON discussions
+FOR EACH ROW
+EXECUTE FUNCTION update_discussion_id_in_events();

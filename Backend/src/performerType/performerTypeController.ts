@@ -5,9 +5,15 @@ import * as queries from "./performerTypeQueries";
 export const postPerformerType = async (req: any,res: any) => {
     try{
       const {performerTypeName} : Record<string, any> = req.body;
+      const performerTypeInDatabse: QueryResult<any> = await pool.query(queries.checkPerformerTypeExists, [performerTypeName]);
+
+      if(performerTypeInDatabse.rows.length) {
+        return res.status(400).json({message: "type arleady exists"});
+      }
+      
       const newPerformerType : QueryResult<any> = await pool.query(queries.addPerformerType, [performerTypeName]);
   
-      res.json(newPerformerType.rows);
+      res.json(newPerformerType.rows[0]);
     }catch(err: any){
       res.status(500).json(err);
     }
@@ -33,7 +39,7 @@ export const getPerformerTypeById = async (req: any,res: any) => {
           if (error) throw error;
 
           if (results.rows.length){
-              res.status(200).json(results.rows);
+              res.status(200).json(results.rows[0]);
           }
           else{
               res.status(400).json({message: "Performer Type does not exist. (Non existent id)"})
@@ -74,8 +80,14 @@ export const updatePerformerType = async (req: any,res: any) => {
             res.status(400).json({message: "Performer Type does not exist. (Non existent id)"})
         }
         else {
-            const newPerformerType: QueryResult<any>  = await pool.query(queries.updatePerformerType, [performerTypeName, id]);
-            res.json(newPerformerType.rows);
+            const performerTypeInDatabse: QueryResult<any> = await pool.query(queries.checkPerformerTypeExists, [performerTypeName]);
+            if (performerTypeInDatabse.rows.length) {
+                res.status(400).json({message: "type arleady exists"});
+            }
+            else {
+                const newPerformerType: QueryResult<any>  = await pool.query(queries.updatePerformerType, [performerTypeName, id]);
+                res.json(newPerformerType.rows[0]);
+            }
         }
     }catch(err: any){
         return res.status(400).json(err);

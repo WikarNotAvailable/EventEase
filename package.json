@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@chakra-ui/icons": "^2.0.19",
+    "use-local-storage": "^3.0.0"
+  }
+}
