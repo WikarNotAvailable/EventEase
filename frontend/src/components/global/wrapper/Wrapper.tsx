@@ -13,6 +13,8 @@ import { EventDetails } from '../../../pages/EventDetails';
 import { Footer } from '../footer/Footer';
 import { CompanyDetails } from '../../../pages/CompanyDetails';
 import { CreateEvent } from '../../../pages/CreateEvent';
+import { MyProfile } from '../../../pages/MyProfile';
+import { ChangePassowrd } from '../../../pages/ChangePassword';
 
 export const Wrapper = () => {
 	const pages = [
@@ -52,6 +54,14 @@ export const Wrapper = () => {
 			path: '/createEvent',
 			element: <CreateEvent />,
 		},
+     {
+      path: '/me',
+      element: <MyProfile/>
+    },
+    {
+      path: '/me/changepassword',
+      element: <ChangePassowrd/>
+    }
 	].map((element, index) => ({ ...element, id: `${element.path}_${index}` }));
 
 	return (
