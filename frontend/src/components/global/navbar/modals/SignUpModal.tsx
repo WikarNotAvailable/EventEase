@@ -109,9 +109,9 @@ export const SingUpModal: FC<ISignUpModalProps> = ({
 					onChange={(e: any) =>
 						dispatchForm({ type: 'USER_TYPE_CHANGE', val: e.target.value })
 					}>
-					<option value={1}>User</option>
+					<option value={3}>User</option>
 					<option value={2}>Organizer</option>
-					<option value={3}>Admin</option>
+					<option value={1}>Admin</option>
 				</Select>
 				<Flex justify='space-between' w='100%'>
 					<Input

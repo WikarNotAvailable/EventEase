@@ -54,19 +54,17 @@ export const Navbar = () => {
 				</Text>
 			</Link>
 			<Flex align='center' gap='16px'>
-				{(userTypeID === 2 || userTypeID === 3) && (
+				{(userTypeID === 2 || userTypeID === 1) && (
 					<NavLink text='Create&nbsp;event' location='createEvent' />
 				)}
-				{userTypeID === 3 && (
-					<NavLink text='Admin' location='admin' />
-				)}
+				{userTypeID === 1 && <NavLink text='Admin' location='admin' />}
 
 				<NavLink text='Events' location='events' />
 
 				<NavLink text='Artists' location='artists/all' />
 
 				<NavLink text='Places' location='spots/all' />
-				
+
 				<NavSearch />
 				<NavProfile signInOpen={onSingInOpen} signUpOpen={onSingUpOpen} />
 			</Flex>

@@ -6,22 +6,18 @@ import { Link } from 'react-router-dom';
 import { Button, Flex } from '@chakra-ui/react';
 
 export const MyProfile = () => {
-  return (
-    <PageContainer isCentered>
-      <ProfilePhoto />
-      <ProfileData />
-
-        <Flex position="absolute" top="300%">
-          <Link to="/me/changepassword">
-            <Button
-            marginTop="2" variant="outline"        
-            alignItems="center"
-            >Change password</Button>
-          </Link>
-        </Flex>
-
-      
-
-    </PageContainer>
-  );
+	return (
+		<PageContainer>
+			<Flex flexDir='column' minH='80vh'>
+				<ProfileData />
+				<Flex>
+					<Link to='/me/changepassword'>
+						<Button marginTop='2' variant='outline' alignItems='center'>
+							Change password
+						</Button>
+					</Link>
+				</Flex>
+			</Flex>
+		</PageContainer>
+	);
 };

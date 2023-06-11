@@ -16,6 +16,8 @@ import { AdminPanel } from '../../../pages/AdminPanel';
 import { CreateEvent } from '../../../pages/CreateEvent';
 import { MyProfile } from '../../../pages/MyProfile';
 import { ChangePassowrd } from '../../../pages/ChangePassword';
+import { MyTransactions } from '../../../pages/MyTransactions';
+import { Transaction } from '../../../pages/Transaction';
 
 export const Wrapper = () => {
 	const pages = [
@@ -59,14 +61,22 @@ export const Wrapper = () => {
 			path: '/createEvent',
 			element: <CreateEvent />,
 		},
-     {
-      path: '/me',
-      element: <MyProfile/>
-    },
-    {
-      path: '/me/changepassword',
-      element: <ChangePassowrd/>
-    }
+		{
+			path: '/me',
+			element: <MyProfile />,
+		},
+		{
+			path: '/me/changepassword',
+			element: <ChangePassowrd />,
+		},
+		{
+			path: '/me/mytransactions',
+			element: <MyTransactions />,
+		},
+		{
+			path: '/transaction/:id',
+			element: <Transaction />,
+		},
 	].map((element, index) => ({ ...element, id: `${element.path}_${index}` }));
 
 	return (
