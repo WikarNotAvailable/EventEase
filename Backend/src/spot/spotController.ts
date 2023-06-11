@@ -69,7 +69,7 @@ export const getSpotByName = async (req: any, res: any) => {
         if(spot.rows.length){
             return res.status(200).json(spot.rows);
         }else{
-            return res.status(400).json({message: "Spot does not exist."});
+            return res.status(400).json({message: "Spot does not exist."}); 
         }
     }catch(err: any){
         return res.status(400).json(err);
@@ -111,10 +111,14 @@ export const updateSpot = async (req: any, res: any) => {
         const id = parseInt(req.params.id);
         let {spottype_id, address_id, name, description, capacity, isopen, spotimage} = req.body;
 
+        const spotNameExist: QueryResult<any> = await pool.query(queries.checkSpotNameExist, [name]);
         const spot: QueryResult<any> = await pool.query(queries.getSpotById, [id]);
 
         if(!spot.rows.length){
             return res.status(400).json({message: "Spot does not exist"});
+        }
+        else if(spotNameExist.rows.length){
+            return res.status(400).json({message: "Spot name already exist"});
         }
         else{
             const newSpot: QueryResult<any> = await pool.query(queries.updateSpot, [spottype_id, address_id, name, description, capacity, isopen, spotimage, id]);
