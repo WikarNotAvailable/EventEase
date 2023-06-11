@@ -101,9 +101,9 @@ class ApiService {
 		return req;
 	}
 
-	public async getTicketsForEvent(id: string, price?: number) {
+	public async getTicketsForEvent(id: string) {
 		const req = await axios.get(
-			`${this.baseUrl}/tickets/forEvent?eventID=${id}&price=${price}`,
+			`${this.baseUrl}/tickets/forEvent?eventID=${id}`,
 			this.config
 		);
 		return req;

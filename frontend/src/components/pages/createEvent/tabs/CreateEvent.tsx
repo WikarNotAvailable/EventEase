@@ -3,6 +3,7 @@ import {
 	Flex,
 	Input,
 	Select,
+	Spinner,
 	Textarea,
 	useToast,
 } from '@chakra-ui/react';
@@ -184,101 +185,103 @@ export const CreateEvent = () => {
 		//eslint-disable-next-line
 	}, []);
 
-	return (
-		<Flex flexDir='column' gap='8px' w='100%'>
-			<Flex gap='8px'>
-				<Input
-					placeholder='Event name'
-					value={name}
-					onChange={(e: any) => setName(e.target.value)}
+	if (loading) return <Spinner />;
+	else
+		return (
+			<Flex flexDir='column' gap='8px' w='100%'>
+				<Flex gap='8px'>
+					<Input
+						placeholder='Event name'
+						value={name}
+						onChange={(e: any) => setName(e.target.value)}
+					/>
+					<Select
+						placeholder='Event type'
+						value={typeID}
+						onChange={(e: any) => {
+							console.log(e);
+							setTypeID(+e.target.value);
+						}}>
+						{eventTypes?.map((eventType: any) => (
+							<option value={eventType?.eventtype_id}>{eventType?.name}</option>
+						))}
+					</Select>
+				</Flex>
+				<Textarea
+					placeholder='Event description'
+					value={description}
+					onChange={(e: any) => setDescription(e.target.value)}
 				/>
-				<Select
-					placeholder='Event type'
-					value={typeID}
-					onChange={(e: any) => {
-						console.log(e);
-						setTypeID(+e.target.value);
-					}}>
-					{eventTypes?.map((eventType: any) => (
-						<option value={eventType?.eventtype_id}>{eventType?.name}</option>
-					))}
-				</Select>
+				<Flex gap='8px'>
+					<Input
+						placeholder='Start date'
+						type='date'
+						value={startDate}
+						onChange={(e: any) => setStartDate(e.target.value)}
+					/>
+					<Input
+						placeholder='End date'
+						type='date'
+						value={endDate}
+						onChange={(e: any) => setEndDate(e.target.value)}
+					/>
+				</Flex>
+				<Flex gap='8px'>
+					<Input
+						placeholder='Image url'
+						value={image}
+						onChange={(e: any) => setImage(e.target.value)}
+					/>
+					<Select
+						placeholder='Artist'
+						value={artistID}
+						onChange={(e: any) => setArtistID(+e.target.value)}>
+						{artists?.map((artist: any) => (
+							<option value={artist?.performer_id}>{artist?.name}</option>
+						))}
+					</Select>
+				</Flex>
+				<Flex gap='8px'>
+					<Select
+						placeholder='Organizer'
+						value={organizerID}
+						onChange={(e: any) => setOrganizerID(+e.target.value)}>
+						{organizers?.map((organizer: any) => (
+							<option value={organizer?.company_id}>{organizer?.name}</option>
+						))}
+					</Select>
+					<Select
+						placeholder='Venue'
+						value={venueID}
+						onChange={(e: any) => setVenueID(+e.target.value)}>
+						{venues?.map((venue: any) => (
+							<option value={venue?.spot_id}>{venue?.name}</option>
+						))}
+					</Select>
+				</Flex>
+				<Flex gap='8px'>
+					<Input
+						placeholder='Amount of tickets'
+						type='number'
+						value={ticketsAmount}
+						onChange={(e: any) => setTicketsAmount(+e.target.value)}
+					/>
+					<Input
+						placeholder='Ticket price'
+						type='number'
+						value={ticketPrice}
+						onChange={(e: any) => setTicketPrice(+e.target.value)}
+					/>
+				</Flex>
+				<Button
+					isLoading={submitting}
+					bgColor='primary'
+					_hover={{ bgColor: 'primary', opacity: '0.9' }}
+					color='white'
+					w='100%'
+					onClick={handleSubmit}>
+					Create
+				</Button>
 			</Flex>
-			<Textarea
-				placeholder='Event description'
-				value={description}
-				onChange={(e: any) => setDescription(e.target.value)}
-			/>
-			<Flex gap='8px'>
-				<Input
-					placeholder='Start date'
-					type='date'
-					value={startDate}
-					onChange={(e: any) => setStartDate(e.target.value)}
-				/>
-				<Input
-					placeholder='End date'
-					type='date'
-					value={endDate}
-					onChange={(e: any) => setEndDate(e.target.value)}
-				/>
-			</Flex>
-			<Flex gap='8px'>
-				<Input
-					placeholder='Image url'
-					value={image}
-					onChange={(e: any) => setImage(e.target.value)}
-				/>
-				<Select
-					placeholder='Artist'
-					value={artistID}
-					onChange={(e: any) => setArtistID(+e.target.value)}>
-					{artists?.map((artist: any) => (
-						<option value={artist?.performer_id}>{artist?.name}</option>
-					))}
-				</Select>
-			</Flex>
-			<Flex gap='8px'>
-				<Select
-					placeholder='Organizer'
-					value={organizerID}
-					onChange={(e: any) => setOrganizerID(+e.target.value)}>
-					{organizers?.map((organizer: any) => (
-						<option value={organizer?.company_id}>{organizer?.name}</option>
-					))}
-				</Select>
-				<Select
-					placeholder='Venue'
-					value={venueID}
-					onChange={(e: any) => setVenueID(+e.target.value)}>
-					{venues?.map((venue: any) => (
-						<option value={venue?.spot_id}>{venue?.name}</option>
-					))}
-				</Select>
-			</Flex>
-			<Flex gap='8px'>
-				<Input
-					placeholder='Amount of tickets'
-					type='number'
-					value={ticketsAmount}
-					onChange={(e: any) => setTicketsAmount(+e.target.value)}
-				/>
-				<Input
-					placeholder='Ticket price'
-					type='number'
-					value={ticketPrice}
-					onChange={(e: any) => setTicketPrice(+e.target.value)}
-				/>
-			</Flex>
-			<Button
-				isLoading={submitting}
-				bgColor='primary'
-				_hover={{ bgColor: 'primary', opacity: '0.9' }}
-				color='white'
-				w='100%'
-				onClick={handleSubmit}>
-				Create
-			</Button>
-		</Flex>
-	);
+		);
 };

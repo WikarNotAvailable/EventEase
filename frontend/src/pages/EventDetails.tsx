@@ -85,7 +85,7 @@ export const EventDetails = () => {
 	const handleGoToTickets = async () => {
 		setView(Views.TICKETS);
 		setLoading(true);
-		const res = await ApiService.getTicketsForEvent(id!, 300);
+		const res = await ApiService.getTicketsForEvent(id!);
 
 		if (res.status === 200) {
 			console.log(res.data);
@@ -222,7 +222,7 @@ export const EventDetails = () => {
 	useEffect(() => {
 		getEvent();
 		// eslint-disable-next-line
-	}, []);
+	}, [id]);
 
 	return (
 		<PageContainer>
